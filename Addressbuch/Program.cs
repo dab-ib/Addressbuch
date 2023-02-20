@@ -13,6 +13,7 @@ namespace AddressBook
                 Console.Write("\n \t \t |#############################|");
                 Console.Write("\n \t \t |# N - Neue Adresse eingeben #|  \t");
                 Console.Write("\n \t \t |# A - Datensätze anzeigen   #|  \t");
+                Console.WriteLine("S - Eintrag suchen");
                 Console.Write("\n \t \t |# E - Eintrag bearbeiten    #|  \t");
                 Console.Write("\n \t \t |# L - Eintrag löschen       #|  \t");
                 Console.Write("\n \t \t |# B - Beenden               #|");
@@ -29,6 +30,9 @@ namespace AddressBook
                         break;
                     case "A":
                         ShowAddressBook();
+                        break;
+                    case "S":
+                        SearchEntry();
                         break;
                     case "E":
                         EditEntry();
@@ -192,5 +196,36 @@ namespace AddressBook
 
             Console.WriteLine("Eintrag gelöscht!");
         }
+        static void SearchEntry()
+        {
+            Console.Write("Nach welchem Eintrag möchten Sie suchen? Bitte geben Sie einen Namen oder eine Telefonnummer ein: ");
+            string searchTerm = Console.ReadLine();
+
+            bool foundEntry = false;
+
+            using (StreamReader reader = new StreamReader("addressbook.txt"))
+            {
+                while (!reader.EndOfStream)
+                {
+                    string entry = reader.ReadLine();
+                    string[] fields = entry.Split(',');
+
+                    if (fields[0].Contains(searchTerm) || fields[2].Contains(searchTerm))
+                    {
+                        Console.WriteLine($"Name: {fields[0]}");
+                        Console.WriteLine($"Adresse: {fields[1]}");
+                        Console.WriteLine($"Telefonnummer: {fields[2]}");
+                        Console.WriteLine();
+                        foundEntry = true;
+                    }
+                }
+            }
+
+            if (!foundEntry)
+            {
+                Console.WriteLine("Kein passender Eintrag gefunden.");
+            }
+        }
+
     }
 }
