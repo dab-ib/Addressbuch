@@ -9,12 +9,16 @@ namespace AddressBook
         {
             while (true)
             {
-                Console.WriteLine("Adressebuch:");
-                Console.WriteLine("N - Neuen Eintrag");
-                Console.WriteLine("A - Addressbuch anzeigen");
-                Console.WriteLine("E - Eintrag bearbeiten");
-                Console.WriteLine("L - Eintrag löschen");
-                Console.WriteLine("B - Beenden");
+                Console.WriteLine("\n\n\t \t      Was möchtest du tun? \n\n \t \t -----------------------------");
+                Console.Write("\n \t \t |#############################|");
+                Console.Write("\n \t \t |# N - Neue Adresse eingeben #|  \t");
+                Console.Write("\n \t \t |# A - Datensätze anzeigen   #|  \t");
+                Console.Write("\n \t \t |# E - Eintrag bearbeiten    #|  \t");
+                Console.Write("\n \t \t |# L - Eintrag löschen       #|  \t");
+                Console.Write("\n \t \t |# B - Beenden               #|");
+                Console.Write("\n \t \t |#############################|");
+                Console.WriteLine("\n \t \t -----------------------------");
+
 
                 string input = Console.ReadLine();
 
