@@ -259,21 +259,18 @@ namespace AddressBook
         // Diese erweiterte Version ermöglicht es dem Benutzer, nach Einträgen zu suchen, die bestimmte Kriterien erfüllen, wie z.B. den Geburtstag, die Postleitzahl, die Stadt, die E-Mail-Adresse oder die Firma. Es werden nur die Einträge angezeigt, die alle Kriterien erfüllen, die der Benutzer eingegeben hat.
         static void SearchEntry()
         {
-            Console.WriteLine("Nach welchem Eintrag möchten Sie suchen?");
+            Console.WriteLine("Nach welchen Kriterien möchten Sie suchen?");
 
             Console.Write("Name: ");
             string name = Console.ReadLine();
 
-            Console.Write("Geburtstag (Format: TT.MM.JJJJ): ");
-            string birthday = Console.ReadLine();
+            Console.Write("Adresse: ");
+            string address = Console.ReadLine();
 
-            Console.Write("Postleitzahl: ");
-            string zipCode = Console.ReadLine();
+            Console.Write("Telefonnummer: ");
+            string phone = Console.ReadLine();
 
-            Console.Write("Stadt: ");
-            string city = Console.ReadLine();
-
-            Console.Write("E-Mail-Adresse: ");
+            Console.Write("Email: ");
             string email = Console.ReadLine();
 
             Console.Write("Firma: ");
@@ -288,21 +285,17 @@ namespace AddressBook
                     string entry = reader.ReadLine();
                     string[] fields = entry.Split(',');
 
-                    if ((name == "" || fields[0].Contains(name))
-                        && (birthday == "" || fields.Length > 3 && fields[3].Contains(birthday))
-                        && (zipCode == "" || fields.Length > 4 && fields[4].Contains(zipCode))
-                        && (city == "" || fields.Length > 5 && fields[5].Contains(city))
-                        && (email == "" || fields.Length > 6 && fields[6].Contains(email))
-                        && (company == "" || fields.Length > 7 && fields[7].Contains(company)))
+                    if ((name == "" || fields[0].Contains(name)) &&
+                        (address == "" || fields[1].Contains(address)) &&
+                        (phone == "" || fields[2].Contains(phone)) &&
+                        (email == "" || fields[3].Contains(email)) &&
+                        (company == "" || fields[4].Contains(company)))
                     {
                         Console.WriteLine($"Name: {fields[0]}");
                         Console.WriteLine($"Adresse: {fields[1]}");
                         Console.WriteLine($"Telefonnummer: {fields[2]}");
-                        if (fields.Length > 3) Console.WriteLine($"Geburtstag: {fields[3]}");
-                        if (fields.Length > 4) Console.WriteLine($"Postleitzahl: {fields[4]}");
-                        if (fields.Length > 5) Console.WriteLine($"Stadt: {fields[5]}");
-                        if (fields.Length > 6) Console.WriteLine($"E-Mail: {fields[6]}");
-                        if (fields.Length > 7) Console.WriteLine($"Firma: {fields[7]}");
+                        Console.WriteLine($"Email: {fields[3]}");
+                        Console.WriteLine($"Firma: {fields[4]}");
                         Console.WriteLine();
                         foundEntry = true;
                     }
@@ -314,6 +307,7 @@ namespace AddressBook
                 Console.WriteLine("Kein passender Eintrag gefunden.");
             }
         }
+
 
 
     }
