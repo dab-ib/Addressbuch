@@ -1,74 +1,192 @@
-﻿namespace Addressbuch
+﻿using System;
+using System.IO;
+
+namespace AddressBook
 {
     class Program
     {
         static void Main(string[] args)
         {
-            Menue();
-        }
-        static void WriteFile()
-        {
-            StreamWriter schreiben = new StreamWriter(@"test.txt", true);
-            schreiben.Write(Console.ReadLine());
-            schreiben.Close();
-        }
-        static void ReadFile()
-        {
-            StreamReader lesen = new StreamReader("test.txt");
-            while (!lesen.EndOfStream)
+            while (true)
             {
-                Console.WriteLine(lesen.ReadLine());
-            }
-            lesen.Close();
-            Console.ReadLine();
-        }
-        static void Menue()
-        {
-            bool Ende = true;
-            string[] neueAdresse = new string[7];
-            neueAdresse[0] = "Name";
-            neueAdresse[1] = "Vorname";
-            neueAdresse[2] = "Strasse";
-            neueAdresse[3] = "Plz";
-            neueAdresse[4] = "Ort";
-            neueAdresse[5] = "Telefonnr.";
-            neueAdresse[6] = "Geburtstag";
-            string eingabe;
-            Console.WriteLine("\n\n\t \t      Was möchtest du tun? \n\n \t \t -----------------------------");
-            Console.Write("\n \t \t |#############################|");
-            Console.Write("\n \t \t |# N - Neue Adresse eingeben #| \n \t");
-            Console.Write("\t |# A - Datensätze anzeigen   #| \n \t \t |# B - Beenden               #|");
-            Console.Write("\n \t \t |#############################|");
-            Console.WriteLine("\n \t \t -----------------------------");
+                Console.WriteLine("Adressebuch:");
+                Console.WriteLine("N - Neuen Eintrag");
+                Console.WriteLine("A - Addressbuch anzeigen");
+                Console.WriteLine("E - Eintrag bearbeiten");
+                Console.WriteLine("L - Eintrag löschen");
+                Console.WriteLine("B - Beenden");
 
-            do
-            {
-                switch (eingabe = Console.ReadLine().ToUpper())
+                string input = Console.ReadLine();
+
+                switch (input.ToUpper())
                 {
                     case "N":
-                        foreach (string adressen in neueAdresse)
-                        {
-                            Console.Write("{0}: ", adressen);
-                            WriteFile();
-                        }
-                        Menue();
+                        AddEntry();
                         break;
-
                     case "A":
-                        ReadFile();
-                        Menue();
+                        ShowAddressBook();
                         break;
-
+                    case "E":
+                        EditEntry();
+                        break;
+                    case "L":
+                        DeleteEntry();
+                        break;
                     case "B":
-                        Ende = true;
+                        Environment.Exit(0);
                         break;
                     default:
-                        Console.WriteLine("Fehlerhafte Eingabe!");
-                        Menue();
+                        Console.WriteLine("Ungültige Eingabe!");
                         break;
                 }
-            } while (!Ende);
+            }
         }
 
+        static void AddEntry()
+        {
+            Console.WriteLine("Neuer Eintrag:");
+            Console.Write("Name: ");
+            string name = Console.ReadLine();
+            Console.Write("Adresse: ");
+            string address = Console.ReadLine();
+            Console.Write("Telefonnummer: ");
+            string phone = Console.ReadLine();
+
+            string entry = $"{name},{address},{phone}";
+
+            using (StreamWriter writer = File.AppendText("addressbook.txt"))
+            {
+                writer.WriteLine(entry);
+            }
+
+            Console.WriteLine("Eintrag hinzugefügt!");
+        }
+
+        static void ShowAddressBook()
+        {
+            if (!File.Exists("addressbook.txt"))
+            {
+                Console.WriteLine("Das Adressbuch ist leer!");
+                return;
+            }
+
+            Console.WriteLine("Addressbuch:");
+
+            using (StreamReader reader = new StreamReader("addressbook.txt"))
+            {
+                while (!reader.EndOfStream)
+                {
+                    string entry = reader.ReadLine();
+                    string[] fields = entry.Split(',');
+
+                    Console.WriteLine($"Name: {fields[0]}");
+                    Console.WriteLine($"Adresse: {fields[1]}");
+                    Console.WriteLine($"Telefonnummer: {fields[2]}");
+                    Console.WriteLine();
+                }
+            }
+        }
+
+        static void EditEntry()
+        {
+            Console.Write("Welchen Eintrag möchten Sie bearbeiten? Bitte geben Sie den Namen an: ");
+            string name = Console.ReadLine();
+
+            string tempFile = Path.GetTempFileName();
+            using (StreamReader reader = new StreamReader("addressbook.txt"))
+            using (StreamWriter writer = new StreamWriter(tempFile))
+            {
+                bool entryFound = false;
+
+                while (!reader.EndOfStream)
+                {
+                    string entry = reader.ReadLine();
+                    string[] fields = entry.Split(',');
+
+                    if (fields[0] == name)
+                    {
+                        entryFound = true;
+
+                        Console.WriteLine($"Aktueller Eintrag:");
+                        Console.WriteLine($"Name: {fields[0]}");
+                        Console.WriteLine($"Adresse: {fields[1]}");
+                        Console.WriteLine($"Telefonnummer: {fields[2]}");
+
+                        Console.Write("Neuer Name (leer lassen, um unverändert zu lassen): ");
+                        string newName = Console.ReadLine();
+                        if (newName == "")
+                        {
+                            newName = fields[0];
+                        }
+
+                        Console.Write("Neue Adresse (leer lassen, um unverändert zu lassen): ");
+                        string newAddress = Console.ReadLine();
+                        if (newAddress == "")
+                        {
+                            newAddress = fields[1];
+                        }
+
+                        Console.Write("Neue Telefonnummer (leer lassen, um unverändert zu lassen): ");
+                        string newPhone = Console.ReadLine();
+                        if (newPhone == "")
+                        {
+                            newPhone = fields[2];
+                        }
+
+                        entry = $"{newName},{newAddress},{newPhone}";
+                    }
+
+                    writer.WriteLine(entry);
+                }
+
+                if (!entryFound)
+                {
+                    Console.WriteLine("Eintrag nicht gefunden!");
+                }
+            }
+
+            File.Delete("addressbook.txt");
+            File.Move(tempFile, "addressbook.txt");
+
+            Console.WriteLine("Eintrag bearbeitet!");
+        }
+
+        static void DeleteEntry()
+        {
+            Console.Write("Welchen Eintrag möchten Sie löschen? Bitte geben Sie den Namen an: ");
+            string name = Console.ReadLine();
+
+            string tempFile = Path.GetTempFileName();
+            using (StreamReader reader = new StreamReader("addressbook.txt"))
+            using (StreamWriter writer = new StreamWriter(tempFile))
+            {
+                bool entryFound = false;
+
+                while (!reader.EndOfStream)
+                {
+                    string entry = reader.ReadLine();
+                    string[] fields = entry.Split(',');
+
+                    if (fields[0] == name)
+                    {
+                        entryFound = true;
+                    }
+                    else
+                    {
+                        writer.WriteLine(entry);
+                    }
+                }
+
+                if (!entryFound)
+                {
+                    Console.WriteLine("Eintrag nicht gefunden!");
+                }
+            }
+
+            File.Delete("addressbook.txt");
+            File.Move(tempFile, "addressbook.txt");
+
+            Console.WriteLine("Eintrag gelöscht!");
+        }
     }
 }
