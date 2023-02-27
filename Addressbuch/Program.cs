@@ -15,7 +15,7 @@ namespace AddressBook
                 Console.Write("\n \t \t |#############################|");
                 Console.Write("\n \t \t |# N - Neue Adresse eingeben #|  \t");
                 Console.Write("\n \t \t |# A - Datensätze anzeigen   #|  \t");
-                Console.WriteLine("S - Eintrag suchen");
+                Console.Write("\n \t \t |# S - Eintrag suchen        #|  \t");
                 Console.Write("\n \t \t |# M - Einträge verwalten    #|  \t");
                 Console.Write("\n \t \t |# B - Beenden               #|");
                 Console.Write("\n \t \t |#############################|");
@@ -37,12 +37,6 @@ namespace AddressBook
                         break;
                     case "M":
                         ShowSubMenu();
-                        break;
-                    case "E":
-                        EditEntry();
-                        break;
-                    case "L":
-                        DeleteEntry();
                         break;
                     case "B":
                         Environment.Exit(0);
@@ -95,7 +89,7 @@ namespace AddressBook
             Console.WriteLine("Neuer Eintrag:");
             Console.Write("Name: ");
             string name = Console.ReadLine();
-            Console.WriteLine("Nachname: ");
+            Console.Write("Nachname: ");
             string nachname = Console.ReadLine();
             Console.Write("Adresse: ");
             string address = Console.ReadLine();
