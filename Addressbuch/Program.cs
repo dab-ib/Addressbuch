@@ -16,8 +16,7 @@ namespace AddressBook
                 Console.Write("\n \t \t |# N - Neue Adresse eingeben #|  \t");
                 Console.Write("\n \t \t |# A - Datensätze anzeigen   #|  \t");
                 Console.WriteLine("S - Eintrag suchen");
-                Console.Write("\n \t \t |# E - Eintrag bearbeiten    #|  \t");
-                Console.Write("\n \t \t |# L - Eintrag löschen       #|  \t");
+                Console.Write("\n \t \t |# M - Einträge verwalten    #|  \t");
                 Console.Write("\n \t \t |# B - Beenden               #|");
                 Console.Write("\n \t \t |#############################|");
                 Console.WriteLine("\n \t \t -----------------------------");
@@ -36,6 +35,9 @@ namespace AddressBook
                     case "S":
                         SearchEntry();
                         break;
+                    case "M":
+                        ShowSubMenu();
+                        break;
                     case "E":
                         EditEntry();
                         break;
@@ -51,6 +53,42 @@ namespace AddressBook
                 }
             }
         }
+
+        static void ShowSubMenu()
+        {
+            while (true)
+            {
+                Console.WriteLine("\n\n\t \t      Was möchtest du tun? \n\n \t \t -----------------------------");
+                Console.Write("\n \t \t |#############################|");
+                Console.Write("\n \t \t |# B - Eintrag bearbeiten   #|  \t");
+                Console.Write("\n \t \t |# L - Eintrag löschen      #|  \t");
+                Console.Write("\n \t \t |# D - Duplikate entfernen  #|  \t");
+                Console.Write("\n \t \t |# Z - Zurück zum Hauptmenü #|");
+                Console.Write("\n \t \t |#############################|");
+                Console.WriteLine("\n \t \t -----------------------------");
+
+                string input = Console.ReadLine();
+
+                switch (input.ToUpper())
+                {
+                    case "B":
+                        EditEntry();
+                        break;
+                    case "L":
+                        DeleteEntry();
+                        break;
+                    case "D":
+                        RemoveDuplicates();
+                        break;
+                    case "Z":
+                        return;
+                    default:
+                        Console.WriteLine("Ungültige Eingabe!");
+                        break;
+                }
+            }
+        }
+
 
         static void AddEntry()
         {
@@ -371,6 +409,72 @@ namespace AddressBook
             }
         }
 
+        static void RemoveDuplicates()
+        {
+            List<string> uniqueEntries = new List<string>();
+            List<string> duplicateEntries = new List<string>();
+
+            // read all entries from file
+            using (StreamReader reader = new StreamReader("addressbook.txt"))
+            {
+                while (!reader.EndOfStream)
+                {
+                    string entry = reader.ReadLine();
+
+                    if (uniqueEntries.Contains(entry))
+                    {
+                        // entry is already in list, so it's a duplicate
+                        duplicateEntries.Add(entry);
+                    }
+                    else
+                    {
+                        // entry is not in list, so add it to uniqueEntries
+                        uniqueEntries.Add(entry);
+                    }
+                }
+            }
+
+            if (duplicateEntries.Count == 0)
+            {
+                Console.WriteLine("Keine Duplikate gefunden.");
+                return;
+            }
+
+            Console.WriteLine($"Es wurden {duplicateEntries.Count} Duplikate gefunden:");
+
+            for (int i = 0; i < duplicateEntries.Count; i++)
+            {
+                Console.WriteLine($"[{i}] {duplicateEntries[i]}");
+            }
+
+            Console.Write("Welches Duplikat möchten Sie entfernen? (Geben Sie eine Zahl ein): ");
+            string input = Console.ReadLine();
+
+            if (!int.TryParse(input, out int index) || index < 0 || index >= duplicateEntries.Count)
+            {
+                Console.WriteLine("Ungültige Eingabe.");
+                return;
+            }
+
+            // remove selected duplicate from list
+            duplicateEntries.RemoveAt(index);
+
+            // overwrite file with unique entries and remaining duplicates
+            using (StreamWriter writer = new StreamWriter("addressbook.txt"))
+            {
+                foreach (string entry in uniqueEntries)
+                {
+                    writer.WriteLine(entry);
+                }
+
+                foreach (string duplicate in duplicateEntries)
+                {
+                    writer.WriteLine(duplicate);
+                }
+            }
+
+            Console.WriteLine("Duplikat entfernt.");
+        }
 
 
 
