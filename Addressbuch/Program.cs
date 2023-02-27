@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Net;
+using System.Numerics;
 
 
 namespace AddressBook
@@ -55,6 +57,8 @@ namespace AddressBook
             Console.WriteLine("Neuer Eintrag:");
             Console.Write("Name: ");
             string name = Console.ReadLine();
+            Console.WriteLine("Nachname: ");
+            string nachname = Console.ReadLine();
             Console.Write("Adresse: ");
             string address = Console.ReadLine();
             Console.Write("Postleitzahl: ");
@@ -63,14 +67,52 @@ namespace AddressBook
             string city = Console.ReadLine();
             Console.Write("Telefonnummer: ");
             string phone = Console.ReadLine();
-            Console.Write("Geburtstag (Format: DD.MM.YYYY): ");
+            Console.Write("Geburtstag (Format: TT.MM.JJJJ): ");
             string birthday = Console.ReadLine();
             Console.Write("Email: ");
             string email = Console.ReadLine();
             Console.Write("Firma: ");
             string company = Console.ReadLine();
 
-            string entry = $"{name},{address},{zip},{city},{phone},{birthday},{email},{company}";
+            // Verwende Standardwerte für fehlende Felder
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                name = "-";
+            }
+            if (string.IsNullOrWhiteSpace(nachname))
+            {
+                nachname = "-";
+            }
+            if (string.IsNullOrWhiteSpace(address))
+            {
+                address = "-";
+            }
+            if (string.IsNullOrWhiteSpace(zip))
+            {
+                zip = "-";
+            }
+            if (string.IsNullOrWhiteSpace(city))
+            {
+                city = "-";
+            }
+            if (string.IsNullOrWhiteSpace(phone))
+            {
+                phone = "-";
+            }
+            if (string.IsNullOrWhiteSpace(birthday))
+            {
+                birthday = "-";
+            }
+            if (string.IsNullOrWhiteSpace(email))
+            {
+                email = "-";
+            }
+            if (string.IsNullOrWhiteSpace(company))
+            {
+                company = "-";
+            }
+
+            string entry = $"{name},{nachname},{address},{zip},{city},{phone},{birthday},{email},{company}";
 
             using (StreamWriter writer = File.AppendText("addressbook.txt"))
             {
@@ -79,6 +121,7 @@ namespace AddressBook
 
             Console.WriteLine("Eintrag hinzugefügt!");
         }
+
 
         static void ShowAddressBook()
         {
@@ -90,22 +133,35 @@ namespace AddressBook
 
             Console.WriteLine("Addressbuch:");
 
-            using (StreamReader reader = new StreamReader("addressbook.txt"))
+            if (!File.Exists("addressbook.txt"))
             {
-                while (!reader.EndOfStream)
+                Console.WriteLine("Das Adressbuch ist leer!");
+                return;
+            }
+            else
+            {
+                using (StreamReader reader = new StreamReader("addressbook.txt"))
                 {
-                    string entry = reader.ReadLine();
-                    string[] fields = entry.Split(',');
+                    while (!reader.EndOfStream)
+                    {
+                        string entry = reader.ReadLine();
+                        string[] fields = entry.Split(',');
 
-                    Console.WriteLine($"Name: {fields[0]}");
-                    Console.WriteLine($"Adresse: {fields[1]}");
-                    Console.WriteLine($"Postleitzahl: {fields[2]}");
-                    Console.WriteLine($"Stadt: {fields[3]}");
-                    Console.WriteLine($"Telefonnummer: {fields[4]}");
-                    Console.WriteLine($"Geburtstag: {fields[5]}");
-                    Console.WriteLine($"Email: {fields[6]}");
-                    Console.WriteLine($"Firma: {fields[7]}");
-                    Console.WriteLine();
+                        if (fields.Length == 9)
+                        {
+                            Console.WriteLine($"Name: {fields[0]}");
+                            Console.WriteLine($"Nachname: {fields[1]}");
+                            Console.WriteLine($"Adresse: {fields[2]}");
+                            Console.WriteLine($"Postleitzahl: {fields[3]}");
+                            Console.WriteLine($"Stadt: {fields[4]}");
+                            Console.WriteLine($"Telefonnummer: {fields[5]}");
+                            Console.WriteLine($"Geburtstag: {fields[6]}");
+                            Console.WriteLine($"Email: {fields[7]}");
+                            Console.WriteLine($"Firma: {fields[8]}");
+                            Console.WriteLine();
+                        }
+                    }
+
                 }
             }
         }
@@ -132,73 +188,79 @@ namespace AddressBook
                         entryFound = true;
 
                         Console.WriteLine($"Aktueller Eintrag:");
-                        Console.WriteLine($"Name: {fields[0]}");
-                        Console.WriteLine($"Adresse: {fields[1]}");
-                        Console.WriteLine($"Telefonnummer: {fields[2]}");
-                        Console.WriteLine($"Geburtsdatum: {fields[3]}");
-                        Console.WriteLine($"Postleitzahl: {fields[4]}");
-                        Console.WriteLine($"Stadt: {fields[5]}");
-                        Console.WriteLine($"E-Mail: {fields[6]}");
-                        Console.WriteLine($"Firma: {fields[7]}");
+                        Console.WriteLine($"Name: {fields[0]} {fields[1]}");
+                        Console.WriteLine($"Adresse: {fields[2]}");
+                        Console.WriteLine($"Postleitzahl: {fields[3]}");
+                        Console.WriteLine($"Stadt: {fields[4]}");
+                        Console.WriteLine($"Telefonnummer: {fields[5]}");
+                        Console.WriteLine($"Geburtstag: {fields[6]}");
+                        Console.WriteLine($"Email: {fields[7]}");
+                        Console.WriteLine($"Firma: {fields[8]}");
 
-                        Console.Write("Neuer Name (leer lassen, um unverändert zu lassen): ");
+                        Console.Write("Neuer Vorname (leer lassen, um unverändert zu lassen): ");
                         string newName = Console.ReadLine();
                         if (newName == "")
                         {
                             newName = fields[0];
                         }
 
+                        Console.Write("Neuer Nachname (leer lassen, um unverändert zu lassen): ");
+                        string newNachname = Console.ReadLine();
+                        if (newNachname == "")
+                        {
+                            newNachname = fields[1];
+                        }
+
                         Console.Write("Neue Adresse (leer lassen, um unverändert zu lassen): ");
                         string newAddress = Console.ReadLine();
                         if (newAddress == "")
                         {
-                            newAddress = fields[1];
-                        }
-
-                        Console.Write("Neue Telefonnummer (leer lassen, um unverändert zu lassen): ");
-                        string newPhone = Console.ReadLine();
-                        if (newPhone == "")
-                        {
-                            newPhone = fields[2];
-                        }
-
-                        Console.Write("Neues Geburtsdatum (leer lassen, um unverändert zu lassen): ");
-                        string newBirthday = Console.ReadLine();
-                        if (newBirthday == "")
-                        {
-                            newBirthday = fields[3];
+                            newAddress = fields[2];
                         }
 
                         Console.Write("Neue Postleitzahl (leer lassen, um unverändert zu lassen): ");
-                        string newZipCode = Console.ReadLine();
-                        if (newZipCode == "")
+                        string newZip = Console.ReadLine();
+                        if (newZip == "")
                         {
-                            newZipCode = fields[4];
+                            newZip = fields[3];
                         }
 
                         Console.Write("Neue Stadt (leer lassen, um unverändert zu lassen): ");
                         string newCity = Console.ReadLine();
                         if (newCity == "")
                         {
-                            newCity = fields[5];
+                            newCity = fields[4];
+                        }
+
+                        Console.Write("Neue Telefonnummer (leer lassen, um unverändert zu lassen): ");
+                        string newPhone = Console.ReadLine();
+                        if (newPhone == "")
+                        {
+                            newPhone = fields[5];
+                        }
+
+                        Console.Write("Neuer Geburtstag TT.MM.JJJJ (leer lassen, um unverändert zu lassen): ");
+                        string newBirthday= Console.ReadLine();
+                        if (newBirthday == "")
+                        {
+                            newBirthday = fields[6];
                         }
 
                         Console.Write("Neue E-Mail-Adresse (leer lassen, um unverändert zu lassen): ");
                         string newEmail = Console.ReadLine();
                         if (newEmail == "")
                         {
-                            newEmail = fields[6];
+                            newEmail = fields[7];
                         }
 
                         Console.Write("Neue Firma (leer lassen, um unverändert zu lassen): ");
                         string newCompany = Console.ReadLine();
                         if (newCompany == "")
                         {
-                            newCompany = fields[7];
+                            newCompany = fields[8];
                         }
-
                         entry =
-                            $"{newName},{newAddress},{newPhone},{newBirthday},{newZipCode},{newCity},{newEmail},{newCompany}";
+                        $"{newName},{newNachname},{newAddress},{newZip},{newCity},{newPhone},{newBirthday},{newEmail},{newCompany}";
                     }
 
                     writer.WriteLine(entry);
@@ -220,7 +282,7 @@ namespace AddressBook
 
         static void DeleteEntry()
         {
-            Console.Write("Welchen Eintrag möchten Sie löschen? Bitte geben Sie den Namen an: ");
+            Console.Write("Welchen Eintrag möchten Sie löschen? Bitte geben Sie den Nachnamen an: ");
             string name = Console.ReadLine();
 
             string tempFile = Path.GetTempFileName();
@@ -234,7 +296,7 @@ namespace AddressBook
                     string entry = reader.ReadLine();
                     string[] fields = entry.Split(',');
 
-                    if (fields[0] == name)
+                    if (fields[1] == name)
                     {
                         entryFound = true;
                     }
@@ -255,58 +317,61 @@ namespace AddressBook
 
             Console.WriteLine("Eintrag gelöscht!");
         }
-
-        // Diese erweiterte Version ermöglicht es dem Benutzer, nach Einträgen zu suchen, die bestimmte Kriterien erfüllen, wie z.B. den Geburtstag, die Postleitzahl, die Stadt, die E-Mail-Adresse oder die Firma. Es werden nur die Einträge angezeigt, die alle Kriterien erfüllen, die der Benutzer eingegeben hat.
         static void SearchEntry()
         {
-            Console.WriteLine("Nach welchen Kriterien möchten Sie suchen?");
+            Console.Write("Nach welchem Eintrag möchten Sie suchen? Bitte geben Sie einen Namen oder eine Telefonnummer ein: ");
+            string searchQuery = Console.ReadLine().ToLower();
 
-            Console.Write("Name: ");
-            string name = Console.ReadLine();
-
-            Console.Write("Adresse: ");
-            string address = Console.ReadLine();
-
-            Console.Write("Telefonnummer: ");
-            string phone = Console.ReadLine();
-
-            Console.Write("Email: ");
-            string email = Console.ReadLine();
-
-            Console.Write("Firma: ");
-            string company = Console.ReadLine();
-
-            bool foundEntry = false;
-
-            using (StreamReader reader = new StreamReader("addressbook.txt"))
+            if (string.IsNullOrWhiteSpace(searchQuery))
             {
-                while (!reader.EndOfStream)
-                {
-                    string entry = reader.ReadLine();
-                    string[] fields = entry.Split(',');
+                Console.WriteLine("Ungültige Eingabe! Bitte geben Sie einen Namen oder eine Telefonnummer ein.");
+                return;
+            }
 
-                    if ((name == "" || fields[0].Contains(name)) &&
-                        (address == "" || fields[1].Contains(address)) &&
-                        (phone == "" || fields[2].Contains(phone)) &&
-                        (email == "" || fields[3].Contains(email)) &&
-                        (company == "" || fields[4].Contains(company)))
+            bool found = false;
+
+            try
+            {
+                using (StreamReader reader = new StreamReader("addressbook.txt"))
+                {
+                    while (!reader.EndOfStream)
                     {
-                        Console.WriteLine($"Name: {fields[0]}");
-                        Console.WriteLine($"Adresse: {fields[1]}");
-                        Console.WriteLine($"Telefonnummer: {fields[2]}");
-                        Console.WriteLine($"Email: {fields[3]}");
-                        Console.WriteLine($"Firma: {fields[4]}");
-                        Console.WriteLine();
-                        foundEntry = true;
+                        string entry = reader.ReadLine();
+                        string[] fields = entry.Split(',');
+
+                        if (fields[0].ToLower().Contains(searchQuery) || fields[1].ToLower().Contains(searchQuery))
+                        {
+                            Console.WriteLine($"Name: {fields[0]} {fields[1]}");
+                            Console.WriteLine($"Adresse: {fields[2]}");
+                            Console.WriteLine($"Postleitzahl: {fields[3]}");
+                            Console.WriteLine($"Stadt: {fields[4]}");
+                            Console.WriteLine($"Telefonnummer: {fields[5]}");
+                            Console.WriteLine($"Geburtstag: {fields[6]}");
+                            Console.WriteLine($"Email: {fields[7]}");
+                            Console.WriteLine($"Firma: {fields[8]}");
+                            Console.WriteLine();
+
+                            found = true;
+                        }
                     }
                 }
-            }
 
-            if (!foundEntry)
+                if (!found)
+                {
+                    Console.WriteLine("Kein passender Eintrag gefunden.");
+                }
+            }
+            catch (FileNotFoundException)
             {
-                Console.WriteLine("Kein passender Eintrag gefunden.");
+                Console.WriteLine("Die Adressbuch-Datei wurde nicht gefunden!");
+            }
+            catch (IOException e)
+            {
+                Console.WriteLine($"Ein Fehler ist aufgetreten: {e.Message}");
             }
         }
+
+
 
 
 
