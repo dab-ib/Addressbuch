@@ -1,90 +1,89 @@
 ﻿using System;
 using System.Net;
 using System.Numerics;
+using AddressBook;
+
+while (true)
+{
+    Console.WriteLine("\n\n\t \t      Was möchtest du tun? \n\n \t \t -----------------------------");
+    Console.Write("\n \t \t |#############################|");
+    Console.Write("\n \t \t |# N - Neue Adresse eingeben #|  \t");
+    Console.Write("\n \t \t |# A - Datensätze anzeigen   #|  \t");
+    Console.Write("\n \t \t |# S - Eintrag suchen        #|  \t");
+    Console.Write("\n \t \t |# M - Einträge verwalten    #|  \t");
+    Console.Write("\n \t \t |# B - Beenden               #|");
+    Console.Write("\n \t \t |#############################|");
+    Console.WriteLine("\n \t \t -----------------------------");
+
+
+    string input = Console.ReadLine();
+
+    switch (input.ToUpper())
+    {
+        case "N":
+            Addressbook.AddEntry();
+            break;
+        case "A":
+            Addressbook.ShowAddressBook();
+            break;
+        case "S":
+            Addressbook.SearchEntry();
+            break;
+        case "M":
+            ShowSubMenu();
+            break;
+        case "B":
+            Environment.Exit(0);
+            break;
+        default:
+            Console.WriteLine("Ungültige Eingabe!");
+            break;
+    }
+}
+
+void ShowSubMenu()
+{
+    while (true)
+    {
+        Console.WriteLine("\n\n\t \t      Was möchtest du tun? \n\n \t \t -----------------------------");
+        Console.Write("\n \t \t |#############################|");
+        Console.Write("\n \t \t |# B - Eintrag bearbeiten   #|  \t");
+        Console.Write("\n \t \t |# L - Eintrag löschen      #|  \t");
+        Console.Write("\n \t \t |# D - Duplikate entfernen  #|  \t");
+        Console.Write("\n \t \t |# Z - Zurück zum Hauptmenü #|");
+        Console.Write("\n \t \t |#############################|");
+        Console.WriteLine("\n \t \t -----------------------------");
+
+        string input = Console.ReadLine();
+
+        switch (input.ToUpper())
+        {
+            case "B":
+                Addressbook.EditEntry();
+                break;
+            case "L":
+                Addressbook.DeleteEntry();
+                break;
+            case "D":
+                Addressbook.RemoveDuplicates();
+                break;
+            case "Z":
+                return;
+            default:
+                Console.WriteLine("Ungültige Eingabe!");
+                break;
+        }
+    }
+}
 
 
 namespace AddressBook
 {
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            while (true)
-            {
-                Console.WriteLine("\n\n\t \t      Was möchtest du tun? \n\n \t \t -----------------------------");
-                Console.Write("\n \t \t |#############################|");
-                Console.Write("\n \t \t |# N - Neue Adresse eingeben #|  \t");
-                Console.Write("\n \t \t |# A - Datensätze anzeigen   #|  \t");
-                Console.Write("\n \t \t |# S - Eintrag suchen        #|  \t");
-                Console.Write("\n \t \t |# M - Einträge verwalten    #|  \t");
-                Console.Write("\n \t \t |# B - Beenden               #|");
-                Console.Write("\n \t \t |#############################|");
-                Console.WriteLine("\n \t \t -----------------------------");
+    using AddressBook;
 
+    static class Addressbook{
 
-                string input = Console.ReadLine();
-
-                switch (input.ToUpper())
-                {
-                    case "N":
-                        AddEntry();
-                        break;
-                    case "A":
-                        ShowAddressBook();
-                        break;
-                    case "S":
-                        SearchEntry();
-                        break;
-                    case "M":
-                        ShowSubMenu();
-                        break;
-                    case "B":
-                        Environment.Exit(0);
-                        break;
-                    default:
-                        Console.WriteLine("Ungültige Eingabe!");
-                        break;
-                }
-            }
-        }
-
-        static void ShowSubMenu()
-        {
-            while (true)
-            {
-                Console.WriteLine("\n\n\t \t      Was möchtest du tun? \n\n \t \t -----------------------------");
-                Console.Write("\n \t \t |#############################|");
-                Console.Write("\n \t \t |# B - Eintrag bearbeiten   #|  \t");
-                Console.Write("\n \t \t |# L - Eintrag löschen      #|  \t");
-                Console.Write("\n \t \t |# D - Duplikate entfernen  #|  \t");
-                Console.Write("\n \t \t |# Z - Zurück zum Hauptmenü #|");
-                Console.Write("\n \t \t |#############################|");
-                Console.WriteLine("\n \t \t -----------------------------");
-
-                string input = Console.ReadLine();
-
-                switch (input.ToUpper())
-                {
-                    case "B":
-                        EditEntry();
-                        break;
-                    case "L":
-                        DeleteEntry();
-                        break;
-                    case "D":
-                        RemoveDuplicates();
-                        break;
-                    case "Z":
-                        return;
-                    default:
-                        Console.WriteLine("Ungültige Eingabe!");
-                        break;
-                }
-            }
-        }
-
-
-        static void AddEntry()
+    static public void AddEntry()
         {
             Console.WriteLine("Neuer Eintrag:");
             Console.Write("Name: ");
@@ -155,7 +154,7 @@ namespace AddressBook
         }
 
 
-        static void ShowAddressBook()
+        static public void ShowAddressBook()
         {
             if (!File.Exists("addressbook.txt"))
             {
@@ -199,7 +198,7 @@ namespace AddressBook
         }
 
 
-        static void EditEntry()
+        static public void EditEntry()
         {
             Console.Write("Welchen Eintrag möchten Sie bearbeiten? Bitte geben Sie den Namen an: ");
             string name = Console.ReadLine();
@@ -312,7 +311,7 @@ namespace AddressBook
 
 
 
-        static void DeleteEntry()
+        static public void DeleteEntry()
         {
             Console.Write("Welchen Eintrag möchten Sie löschen? Bitte geben Sie den Nachnamen an: ");
             string name = Console.ReadLine();
@@ -349,7 +348,7 @@ namespace AddressBook
 
             Console.WriteLine("Eintrag gelöscht!");
         }
-        static void SearchEntry()
+        static public void SearchEntry()
         {
             Console.Write("Nach welchem Eintrag möchten Sie suchen? Bitte geben Sie einen Namen oder eine Telefonnummer ein: ");
             string searchQuery = Console.ReadLine().ToLower();
@@ -403,7 +402,7 @@ namespace AddressBook
             }
         }
 
-        static void RemoveDuplicates()
+        static public void RemoveDuplicates()
         {
             List<string> uniqueEntries = new List<string>();
             List<string> duplicateEntries = new List<string>();
