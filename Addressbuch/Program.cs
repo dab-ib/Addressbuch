@@ -9,6 +9,7 @@ while (true)
     Console.Write("\n \t \t |#############################|");
     Console.Write("\n \t \t |# N - Neue Adresse eingeben #|  \t");
     Console.Write("\n \t \t |# A - Datensätze anzeigen   #|  \t");
+    Console.Write("\n \t \t |# G - heutige Geburtstage   #|  \t");
     Console.Write("\n \t \t |# S - Eintrag suchen        #|  \t");
     Console.Write("\n \t \t |# M - Einträge verwalten    #|  \t");
     Console.Write("\n \t \t |# B - Beenden               #|");
@@ -34,6 +35,9 @@ while (true)
             break;
         case "B":
             Environment.Exit(0);
+            break;
+        case "G":
+            Birthday.BirthdayToday();
             break;
         default:
             Console.WriteLine("Ungültige Eingabe!");
@@ -154,7 +158,7 @@ namespace AddressBook
         }
 
 
-        static public void ShowAddressBook()
+    static public void ShowAddressBook()
         {
             if (!File.Exists("addressbook.txt"))
             {
@@ -473,4 +477,48 @@ namespace AddressBook
 
 
     }
+
+    // Class to give out todays Birthday of Adressbook.txt with age
+    class Birthday
+    {
+        public static void BirthdayToday()
+        {
+            string[] lines = File.ReadAllLines("addressbook.txt");
+            string[] fields = new string[9];
+            string[] birthday = new string[3];
+            string[] today = new string[3];
+            int age = 0;
+            int todayDay = DateTime.Now.Day;
+            int todayMonth = DateTime.Now.Month;
+            int todayYear = DateTime.Now.Year;
+            int birthdayDay = 0;
+            int birthdayMonth = 0;
+            int birthdayYear = 0;
+            bool found = false;
+
+            foreach (string line in lines)
+            {
+                fields = line.Split(',');
+                birthday = fields[6].Split('.');
+                birthdayDay = Convert.ToInt32(birthday[0]);
+                birthdayMonth = Convert.ToInt32(birthday[1]);
+                birthdayYear = Convert.ToInt32(birthday[2]);
+
+                if (todayDay == birthdayDay && todayMonth == birthdayMonth)
+                {
+                    age = todayYear - birthdayYear;
+                    Console.WriteLine($"Heute hat {fields[0]} {fields[1]} Geburtstag und wird {age} Jahre alt.");
+                    found = true;
+                }
+            }
+
+            if (!found)
+            {
+                Console.WriteLine("Heute hat niemand Geburtstag.");
+            }
+        }
+    }
+
+
+
 }
