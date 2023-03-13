@@ -28,7 +28,7 @@ while (true)
             Addressbook.ShowAddressBook();
             break;
         case "S":
-            Addressbook.SearchEntry();
+            Search.SearchEntry();
             break;
         case "M":
             ShowSubMenu();
@@ -53,6 +53,7 @@ void ShowSubMenu()
         Console.Write("\n \t \t |#############################|");
         Console.Write("\n \t \t |# B - Eintrag bearbeiten   #|  \t");
         Console.Write("\n \t \t |# L - Eintrag löschen      #|  \t");
+        Console.Write("\n \t \t |# F - Duplikate anzeigen   #|  \t");
         Console.Write("\n \t \t |# D - Duplikate entfernen  #|  \t");
         Console.Write("\n \t \t |# Z - Zurück zum Hauptmenü #|");
         Console.Write("\n \t \t |#############################|");
@@ -69,7 +70,10 @@ void ShowSubMenu()
                 Addressbook.DeleteEntry();
                 break;
             case "D":
-                Addressbook.RemoveDuplicates();
+                Duplicates.RemoveDuplicates();
+                break;
+            case "F":
+                Duplicates.ShowDuplicates();
                 break;
             case "Z":
                 return;
@@ -83,11 +87,15 @@ void ShowSubMenu()
 
 namespace AddressBook
 {
+    using System.Reflection.Metadata;
+    using System.Text;
     using AddressBook;
 
-    static class Addressbook{
+    static class Addressbook
+    {
 
-    static public void AddEntry()
+        // Fügt einen neuen Eintrag hinzu
+        static public void AddEntry()
         {
             Console.WriteLine("Neuer Eintrag:");
             Console.Write("Name: ");
@@ -114,34 +122,42 @@ namespace AddressBook
             {
                 name = "-";
             }
+
             if (string.IsNullOrWhiteSpace(nachname))
             {
                 nachname = "-";
             }
+
             if (string.IsNullOrWhiteSpace(address))
             {
                 address = "-";
             }
+
             if (string.IsNullOrWhiteSpace(zip))
             {
                 zip = "-";
             }
+
             if (string.IsNullOrWhiteSpace(city))
             {
                 city = "-";
             }
+
             if (string.IsNullOrWhiteSpace(phone))
             {
                 phone = "-";
             }
+
             if (string.IsNullOrWhiteSpace(birthday))
             {
                 birthday = "-";
             }
+
             if (string.IsNullOrWhiteSpace(email))
             {
                 email = "-";
             }
+
             if (string.IsNullOrWhiteSpace(company))
             {
                 company = "-";
@@ -157,8 +173,8 @@ namespace AddressBook
             Console.WriteLine("Eintrag hinzugefügt!");
         }
 
-
-    static public void ShowAddressBook()
+        // Zeigt das Adressbuch an
+        static public void ShowAddressBook()
         {
             if (!File.Exists("addressbook.txt"))
             {
@@ -201,7 +217,7 @@ namespace AddressBook
             }
         }
 
-
+        // Methode um Einträge zu editieren.
         static public void EditEntry()
         {
             Console.Write("Welchen Eintrag möchten Sie bearbeiten? Bitte geben Sie den Namen an: ");
@@ -275,7 +291,7 @@ namespace AddressBook
                         }
 
                         Console.Write("Neuer Geburtstag TT.MM.JJJJ (leer lassen, um unverändert zu lassen): ");
-                        string newBirthday= Console.ReadLine();
+                        string newBirthday = Console.ReadLine();
                         if (newBirthday == "")
                         {
                             newBirthday = fields[6];
@@ -294,8 +310,9 @@ namespace AddressBook
                         {
                             newCompany = fields[8];
                         }
+
                         entry =
-                        $"{newName},{newNachname},{newAddress},{newZip},{newCity},{newPhone},{newBirthday},{newEmail},{newCompany}";
+                            $"{newName},{newNachname},{newAddress},{newZip},{newCity},{newPhone},{newBirthday},{newEmail},{newCompany}";
                     }
 
                     writer.WriteLine(entry);
@@ -314,7 +331,7 @@ namespace AddressBook
         }
 
 
-
+        // Eintrag löschen
         static public void DeleteEntry()
         {
             Console.Write("Welchen Eintrag möchten Sie löschen? Bitte geben Sie den Nachnamen an: ");
@@ -352,9 +369,15 @@ namespace AddressBook
 
             Console.WriteLine("Eintrag gelöscht!");
         }
+    }
+
+    // Diese Klasse enthält die Methoden, die für die Suche nach Einträgen zuständig sind.
+    class Search
+    {
         static public void SearchEntry()
         {
-            Console.Write("Nach welchem Eintrag möchten Sie suchen? Bitte geben Sie einen Namen oder eine Telefonnummer ein: ");
+            Console.Write(
+                "Nach welchem Eintrag möchten Sie suchen? Bitte geben Sie einen Namen oder eine Telefonnummer ein: ");
             string searchQuery = Console.ReadLine().ToLower();
 
             if (string.IsNullOrWhiteSpace(searchQuery))
@@ -403,6 +426,49 @@ namespace AddressBook
             catch (IOException e)
             {
                 Console.WriteLine($"Ein Fehler ist aufgetreten: {e.Message}");
+            }
+        }
+    }
+
+    // Diese Klasse kümmert sich um Duplicate.
+    class Duplicates
+    {
+        static public void ShowDuplicates()
+        {
+            List<string> uniqueEntries = new List<string>();
+            List<string> duplicateEntries = new List<string>();
+
+            // read all entries from file
+            using (StreamReader reader = new StreamReader("addressbook.txt"))
+            {
+                while (!reader.EndOfStream)
+                {
+                    string entry = reader.ReadLine();
+
+                    if (uniqueEntries.Contains(entry))
+                    {
+                        // entry is already in list, so it's a duplicate
+                        duplicateEntries.Add(entry);
+                    }
+                    else
+                    {
+                        // entry is not in list, so add it to uniqueEntries
+                        uniqueEntries.Add(entry);
+                    }
+                }
+            }
+
+            if (duplicateEntries.Count == 0)
+            {
+                Console.WriteLine("Keine Duplikate gefunden.");
+                return;
+            }
+
+            Console.WriteLine($"Es wurden {duplicateEntries.Count} Duplikate gefunden:");
+
+            for (int i = 0; i < duplicateEntries.Count; i++)
+            {
+                Console.WriteLine($"[{i}] {duplicateEntries[i]}");
             }
         }
 
@@ -472,10 +538,6 @@ namespace AddressBook
 
             Console.WriteLine("Duplikat entfernt.");
         }
-
-
-
-
     }
 
     // Class to give out todays Birthday of Adressbook.txt with age
