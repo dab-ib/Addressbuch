@@ -1,6 +1,4 @@
-﻿using System;
-using System.Net;
-using System.Numerics;
+﻿using System.Text;
 using AddressBook;
 
 while (true)
@@ -12,6 +10,7 @@ while (true)
     Console.Write("\n \t \t |# G - heutige Geburtstage   #|  \t");
     Console.Write("\n \t \t |# S - Eintrag suchen        #|  \t");
     Console.Write("\n \t \t |# M - Einträge verwalten    #|  \t");
+    Console.Write("\n \t \t |# E - Export-Menü anzeigen  #|  \t");
     Console.Write("\n \t \t |# B - Beenden               #|");
     Console.Write("\n \t \t |#############################|");
     Console.WriteLine("\n \t \t -----------------------------");
@@ -39,9 +38,47 @@ while (true)
         case "G":
             Birthday.BirthdayToday();
             break;
+        case "E":
+            ShowExportMenu();
+            break;
         default:
             Console.WriteLine("Ungültige Eingabe!");
             break;
+    }
+}
+
+void ShowExportMenu()
+{
+    while (true)
+    {
+        Console.WriteLine("\n\n\t \t      Was möchtest du tun? \n\n \t \t -----------------------------");
+        Console.Write("\n \t \t |#############################|");
+        Console.Write("\n \t \t |# P - Als PDF exportieren   #|  \t");
+        Console.Write("\n \t \t |# Z - Zurück zum Hauptmenü  #|");
+        Console.Write("\n \t \t |#############################|");
+        Console.WriteLine("\n \t \t -----------------------------");
+
+        string input = Console.ReadLine();
+
+        switch (input.ToUpper())
+        {
+            case "P":
+                var pdfExport = new PDF_Export("addressbook.txt");
+                if (pdfExport.Export())
+                {
+                    Console.WriteLine("PDF successfully exported.");
+                }
+                else
+                {
+                    Console.WriteLine("PDF export failed.");
+                }
+                break;
+            case "Z":
+                return;
+            default:
+                Console.WriteLine("Ungültige Eingabe!");
+                break;
+        }
     }
 }
 
@@ -87,10 +124,6 @@ void ShowSubMenu()
 
 namespace AddressBook
 {
-    using System.Reflection.Metadata;
-    using System.Text;
-    using AddressBook;
-
     static class Addressbook
     {
 
@@ -581,6 +614,152 @@ namespace AddressBook
         }
     }
 
+    public class PDF_Export
+    {
+        private const int PageWidth = 595; // A4 size in points
+        private const int PageHeight = 842;
 
+        private const int MarginLeft = 50;
+        private const int MarginRight = 50;
+        private const int MarginTop = 50;
+        private const int MarginBottom = 50;
 
+        private const int LineSpacing = 15;
+
+        private readonly string _fileName;
+
+        public PDF_Export(string fileName)
+        {
+            _fileName = fileName;
+        }
+
+        public bool Export()
+        {
+            if (!File.Exists(_fileName))
+            {
+                Console.WriteLine($"File '{_fileName}' does not exist.");
+                return false;
+            }
+
+            try
+            {
+                var lines = File.ReadAllLines(_fileName);
+
+                var sb = new StringBuilder();
+
+                // Generate the PDF header
+                sb.AppendLine("%PDF-1.7");
+
+                // Generate the font dictionary
+                sb.AppendLine("1 0 obj");
+                sb.AppendLine("<< /Type /Font");
+                sb.AppendLine("/Subtype /Type1");
+                sb.AppendLine("/BaseFont /Helvetica");
+                sb.AppendLine(">>");
+                sb.AppendLine("endobj");
+
+                // Generate the content stream
+                sb.AppendLine("2 0 obj");
+                sb.AppendLine("<< /Length 3 0 R >>");
+                sb.AppendLine("stream");
+                sb.AppendLine("BT");
+                sb.AppendLine("/F1 12 Tf");
+
+                var y = PageHeight - MarginTop;
+
+                foreach (var line in lines)
+                {
+                    var fields = line.Split(',');
+
+                    sb.AppendFormat("{0} {1} Td", MarginLeft, y);
+                    sb.AppendFormat("({0} {1}) Tj", fields[0], fields[1]);
+                    sb.AppendLine();
+
+                    y -= LineSpacing;
+
+                    sb.AppendFormat("{0} {1} Td", MarginLeft, y);
+                    sb.AppendFormat("({0}) Tj", fields[2]);
+                    sb.AppendLine();
+
+                    y -= LineSpacing;
+
+                    sb.AppendFormat("{0} {1} Td", MarginLeft, y);
+                    sb.AppendFormat("({0} {1}) Tj", fields[3], fields[4]);
+                    sb.AppendLine();
+
+                    y -= LineSpacing;
+
+                    sb.AppendFormat("{0} {1} Td", MarginLeft, y);
+                    sb.AppendFormat("({0}) Tj", fields[5]);
+                    sb.AppendLine();
+
+                    y -= LineSpacing;
+
+                    sb.AppendFormat("{0} {1} Td", MarginLeft, y);
+                    sb.AppendFormat("({0}) Tj", fields[6]);
+                    sb.AppendLine();
+
+                    y -= LineSpacing;
+
+                    sb.AppendFormat("{0} {1} Td", MarginLeft, y);
+                    sb.AppendFormat("({0}) Tj", fields[7]);
+                    sb.AppendLine();
+
+                    y -= LineSpacing;
+
+                    sb.AppendFormat("{0} {1} Td", MarginLeft, y);
+                    sb.AppendFormat("({0}) Tj", fields[8]);
+                    sb.AppendLine();
+
+                    y -= LineSpacing * 2;
+                }
+
+                sb.AppendLine("ET");
+                sb.AppendLine("endstream");
+                sb.AppendLine("endobj");
+
+                // Generate the pages object
+                sb.AppendLine("4 0 obj");
+                sb.AppendLine("<< /Type /Pages");
+                sb.AppendLine("/Kids [3 0 R]");
+                sb.AppendLine("/Count 1 >>");
+                sb.AppendLine("endobj");
+
+                // Generate the catalog object
+                sb.AppendLine("5 0 obj");
+                sb.AppendLine("<< /Type /Catalog");
+                sb.AppendLine("/Pages 4 0 R >>");
+                sb.AppendLine("endobj");
+
+                // Generate the cross-reference table
+                sb.AppendFormat("xref\n0 {0}\n0000000000 65535 f \n", 6 + lines.Length * 2);
+                sb.AppendLine("0000000010 00000 n ");
+                sb.AppendLine("0000000065 00000 n ");
+                sb.AppendLine("0000000116 00000 n ");
+                sb.AppendLine("0000000355 00000 n ");
+                sb.AppendLine("0000000454 00000 n ");
+                sb.AppendFormat("{0:0000000000} {1:00000} n \n", sb.Length, 0);
+                sb.AppendFormat("{0:0000000010} {1:00000} n \n", sb.Length, 0);
+
+                // Generate the trailer
+                sb.AppendLine("trailer");
+                sb.AppendLine("<< /Size 6");
+                sb.AppendLine("/Root 5 0 R >>");
+                sb.AppendLine("startxref");
+                sb.AppendLine(sb.Length.ToString());
+                sb.AppendLine("%%EOF");
+
+                // Save the PDF to disk
+                var pdfFile = Path.GetFileNameWithoutExtension(_fileName) + ".pdf";
+                File.WriteAllText(pdfFile, sb.ToString());
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error exporting PDF: {ex.Message}");
+                return false;
+            }
+        }
+    }
 }
