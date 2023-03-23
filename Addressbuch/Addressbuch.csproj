@@ -7,4 +7,12 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="PLZ_2021.csv" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="PLZ_2021.csv" />
+  </ItemGroup>
+
 </Project>
