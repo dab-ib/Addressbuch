@@ -1,16 +1,21 @@
 ﻿using System.Text;
 using System.IO;
 using System.Reflection;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using AddressBook;
+using System.Reflection.Emit;
 
 class Program
 {
     static void Main(string[] args)
     {
-        //AddressBook.Menu.Hauptmenu();
-        PLZHelper.ReadLine();
+        AddressBook.Menu.Hauptmenu();
     }
 }
+
 
 namespace AddressBook
 {
@@ -29,6 +34,7 @@ namespace AddressBook
                 Console.Write("\n \t \t |# S - Eintrag suchen        #|  \t");
                 Console.Write("\n \t \t |# M - Einträge verwalten    #|  \t");
                 Console.Write("\n \t \t |# E - Export-Menü anzeigen  #|  \t");
+                Console.Write("\n \t \t |# I - Import-Menü anzeigen  #|  \t");
                 Console.Write("\n \t \t |# B - Beenden               #|");
                 Console.Write("\n \t \t |#############################|");
                 Console.WriteLine("\n \t \t -----------------------------");
@@ -59,6 +65,9 @@ namespace AddressBook
                     case "E":
                         SubMenu.ShowExportMenu();
                         break;
+                    case "I":
+                        SubMenu.ShowImportMenu();
+                        break;
                     default:
                         Console.WriteLine("Ungültige Eingabe!");
                         break;
@@ -74,18 +83,25 @@ namespace AddressBook
             while (true)
             {
                 Console.WriteLine("\n\n\t \t      Was möchtest du tun? \n\n \t \t -----------------------------");
-                Console.Write("\n \t \t |#############################|");
-                Console.Write("\n \t \t |# P - Als PDF exportieren   #|  \t");
-                Console.Write("\n \t \t |# Z - Zurück zum Hauptmenü  #|");
-                Console.Write("\n \t \t |#############################|");
+                Console.Write("\n \t \t |#########################################|");
+                Console.Write("\n \t \t |# C - Ein Kontakt als CSV exportieren   #|  \t");
+                Console.Write("\n \t \t |# A - Gesamtes Adressbuch exportieren   #|  \t");
+                Console.Write("\n \t \t |# Z - Zurück zum Hauptmenü              #|");
+                Console.Write("\n \t \t |#########################################|");
                 Console.WriteLine("\n \t \t -----------------------------");
 
                 string input = Console.ReadLine();
 
                 switch (input.ToUpper())
                 {
-                    case "P":
-                        PDF_Export.WriteAddressBookToPDF("addressbook.txt", "addressbook.pdf");
+                    case "C":
+                        Console.WriteLine("Name des zu exportierenden Kontakts:");
+                        string input1 = Console.ReadLine();
+                        CsvExporter.ExportToCsv(input1, "addressbook.txt", "Kontakt_" +input1+ ".csv");
+                        break;
+                    case "A":
+                        Console.WriteLine();
+                        AllcsvExporter.ExportContactsToCsv("AlleKontakte.csv");
                         break;
                     case "Z":
                         return;
@@ -106,6 +122,7 @@ namespace AddressBook
                 Console.Write("\n \t \t |# L - Eintrag löschen      #|  \t");
                 Console.Write("\n \t \t |# F - Duplikate anzeigen   #|  \t");
                 Console.Write("\n \t \t |# D - Duplikate entfernen  #|  \t");
+                Console.Write("\n \t \t |# X - Alles Löschen        #|  \t");
                 Console.Write("\n \t \t |# Z - Zurück zum Hauptmenü #|");
                 Console.Write("\n \t \t |#############################|");
                 Console.WriteLine("\n \t \t -----------------------------");
@@ -125,6 +142,40 @@ namespace AddressBook
                         break;
                     case "F":
                         Duplicates.ShowDuplicates();
+                        break;
+                    case "X":
+                        DeleteAll.DeleteFile();
+                        break;
+                    case "Z":
+                        return;
+                    default:
+                        Console.WriteLine("Ungültige Eingabe!");
+                        break;
+                }
+            }
+        }
+
+        static public void ShowImportMenu()
+        {
+            while (true)
+            {
+                Console.WriteLine("\n\n\t \t      Was möchtest du tun? \n\n \t \t -----------------------------");
+                Console.Write("\n \t \t |#########################################|");
+                Console.Write("\n \t \t |# I - Aus einer CSV Datei Importieren   #|  \t");
+                Console.Write("\n \t \t |# Z - Zurück zum Hauptmenü              #|");
+                Console.Write("\n \t \t |#########################################|");
+                Console.WriteLine("\n \t \t -----------------------------");
+
+                string input = Console.ReadLine();
+
+                switch (input.ToUpper())
+                {
+                    case "I":
+                        Console.WriteLine("Die CSV Datei muss wie folgt aufgebaut sein, damit diese erfolgreich importiert werden kann:");
+                        Console.WriteLine("Vorname, Nachname, Strasse privat, Postleitzahl privat, Ort privat, Telefon (privat), Geburtstag, E-mail-Adresse, Firma");
+                        Console.WriteLine("Dateipfad der zu importierenden CSV-Datei:");
+                        string input1 = Console.ReadLine();
+                        CsvToAddressbookConverter.ConvertCsvToAddressbook(input1);
                         break;
                     case "Z":
                         return;
@@ -626,168 +677,168 @@ namespace AddressBook
         }
     }
 
-    public class PDF_Export
+    public static class DeleteAll
     {
-
-        static public void WriteAddressBookToPDF(string inputFilename, string outputFilename)
+        public static void DeleteFile()
         {
-            string[] lines = File.ReadAllLines(inputFilename);
-            StringBuilder pdfContent = new StringBuilder();
-
-            pdfContent.AppendLine("%PDF-1.5");
-            pdfContent.AppendLine("1 0 obj");
-            pdfContent.AppendLine("<<");
-            pdfContent.AppendLine("/Type /Catalog");
-            pdfContent.AppendLine("/Outlines 2 0 R");
-            pdfContent.AppendLine("/Pages 3 0 R");
-            pdfContent.AppendLine(">>");
-            pdfContent.AppendLine("endobj");
-
-            pdfContent.AppendLine("2 0 obj");
-            pdfContent.AppendLine("<<");
-            pdfContent.AppendLine("/Type /Outlines");
-            pdfContent.AppendLine("/Count 0");
-            pdfContent.AppendLine(">>");
-            pdfContent.AppendLine("endobj");
-
-            pdfContent.AppendLine("3 0 obj");
-            pdfContent.AppendLine("<<");
-            pdfContent.AppendLine("/Type /Pages");
-            pdfContent.AppendLine("/Kids [4 0 R]");
-            pdfContent.AppendLine("/Count 1");
-            pdfContent.AppendLine(">>");
-            pdfContent.AppendLine("endobj");
-
-            pdfContent.AppendLine("4 0 obj");
-            pdfContent.AppendLine("<<");
-            pdfContent.AppendLine("/Type /Page");
-            pdfContent.AppendLine("/Parent 3 0 R");
-            pdfContent.AppendLine("/MediaBox [0 0 612 792]");
-            pdfContent.AppendLine("/Contents 5 0 R");
-            pdfContent.AppendLine("/Resources <<");
-            pdfContent.AppendLine("/Font <<");
-            pdfContent.AppendLine("/F1 6 0 R");
-            pdfContent.AppendLine(">>");
-            pdfContent.AppendLine(">>");
-            pdfContent.AppendLine(">>");
-            pdfContent.AppendLine("endobj");
-
-            StringBuilder textContent = new StringBuilder();
-            foreach (string line in lines)
+            Console.WriteLine("Sind Sie sich sicher alle Kontakte zu löschen? Antworten Sie mit 'Ja' oder 'Nein'.");
+            string input = Console.ReadLine();
+            if (input == "Ja")
             {
-                textContent.AppendLine("BT");
-                textContent.AppendFormat("/F1 12 Tf 0 0 0 rg 50 {0} Td", 750 - 15 * Array.IndexOf(lines, line));
-                textContent.AppendFormat("({0}) Tj", line);
-                textContent.AppendLine("ET");
+                Console.WriteLine("Alle Kontakte werden nun gelöscht. Und das Programm wird geschlossen.");
+                File.Delete("addressbook.txt");
+                Environment.Exit(0);
             }
-
-            pdfContent.AppendLine("5 0 obj");
-            pdfContent.AppendLine("<<");
-            pdfContent.AppendLine("/Length " + textContent.Length);
-            pdfContent.AppendLine(">>");
-            pdfContent.AppendLine("stream");
-            pdfContent.Append(textContent);
-            pdfContent.AppendLine("endstream");
-            pdfContent.AppendLine("endobj");
-
-            pdfContent.AppendLine("6 0 obj");
-            pdfContent.AppendLine("<<");
-            pdfContent.AppendLine("/Type /Font");
-            pdfContent.AppendLine("/Subtype /Type1");
-            pdfContent.AppendLine("/Name /F1");
-            pdfContent.AppendLine("/BaseFont /Helvetica");
-            pdfContent.AppendLine("/Encoding /WinAnsiEncoding");
-            pdfContent.AppendLine(">>");
-            pdfContent.AppendLine("endobj");
-
-            pdfContent.AppendLine("xref");
-            pdfContent.AppendLine("0 7");
-            pdfContent.AppendLine("0000000000 65535 f");
-            pdfContent.AppendLine("0000000010 00000 n");
-            pdfContent.AppendLine("0000000079 00000 n");
-            pdfContent.AppendLine("0000000173 00000 n");
-            pdfContent.AppendLine("0000000301 00000 n");
-            pdfContent.AppendLine("0000000419 00000 n");
-            pdfContent.AppendLine("0000000543 00000 n");
-
-            pdfContent.AppendLine("trailer");
-            pdfContent.AppendLine("<<");
-            pdfContent.AppendLine("/Size 7");
-            pdfContent.AppendLine("/Root 1 0 R");
-            pdfContent.AppendLine(">>");
-            pdfContent.AppendLine("startxref");
-            pdfContent.AppendLine("0000000631");
-            pdfContent.AppendLine("%%EOF");
-
-            File.WriteAllText(outputFilename, pdfContent.ToString());
+            else if(input == "Nein")
+            {
+                Console.WriteLine("Die Kontakte werden nicht gelöscht.");
+            }
+            else
+            {
+                Console.WriteLine("Falsche Eingabe.");
+            }
         }
     }
 
-    class PLZHelper
+    public static class AllcsvExporter
     {
-        private void ReadLine()
-        {
-            static void Main(string[] args)
-            {
-                List<MyData> data = ReadEmbeddedCsvFile("PLZ_2021");
 
-                foreach (MyData item in data)
+        static public void ExportContactsToCsv(string filePath)
+        {
+            // Lese die Daten aus der Textdatei in eine Liste
+            List<string> lines = File.ReadAllLines("addressbook.txt").ToList();
+
+            // Erstelle eine leere Liste, um alle Kontakte zu speichern
+            List<string[]> contacts = new List<string[]>();
+
+            // Gehe durch jede Zeile und teile sie in Felder auf
+            foreach (string line in lines)
+            {
+                string[] fields = line.Split(',');
+
+                // Überprüfe, ob alle Felder vorhanden sind
+                if (fields.Length == 9)
                 {
-                    Console.WriteLine("PLZ: {0}, Ort: {1}, Ortsteil: {2}", item.PLZ, item.Ort, item.Ortsteil);
+                    // Füge den Kontakt zur Liste der Kontakte hinzu
+                    contacts.Add(fields);
+                }
+                else
+                {
+                    Console.WriteLine("Ungültige Zeile: {0}", line);
                 }
             }
 
-            static List<MyData> ReadEmbeddedCsvFile(string resourceName)
+            // Erstelle eine CSV-Datei und schreibe die Kontakte
+            using (StreamWriter writer = new StreamWriter(filePath))
             {
-                List<MyData> data = new List<MyData>();
+                // Schreibe die Spaltenüberschriften
+                writer.WriteLine("Vorname,Nachname,Strasse privat ,Postleitzahl privat,Ort privat,Telefon (privat), Geburtstag, E-mail-Adresse, Firma");
 
-                // Die Assembly laden, die die Ressource enthält
-                Assembly asm = Assembly.GetExecutingAssembly();
-
-                // Den Ressourcenpfad ermitteln
-                string resourcePath = asm.GetName().Name + "." + resourceName + ".csv";
-
-                // Die Ressource als Stream öffnen
-                using (Stream stream = asm.GetManifestResourceStream(resourcePath))
+                // Schreibe jeden Kontakt in eine neue Zeile
+                foreach (string[] contact in contacts)
                 {
-                    // Den Stream als CSV-Datei lesen
-                    using (StreamReader reader = new StreamReader(stream))
+                    writer.WriteLine("{0},{1},{2},{3},{4},{5},{6},{7},{8}",
+                        contact[0], contact[1], contact[2], contact[3], contact[4],
+                        contact[5], contact[6], contact[7], contact[8]);
+                }
+            }
+        }
+
+    }
+
+    public static class CsvExporter
+    {
+        public static void ExportToCsv(string name, string pathToAddressBook, string pathToExportCsv)
+        {
+            // Die addressbuch.txt-Datei auslesen und alle Zeilen in ein Array laden
+            string[] lines = File.ReadAllLines(pathToAddressBook);
+
+            // Alle Kontakte aus der addressbuch.txt-Datei filtern, die den angegebenen Namen haben
+            var contacts = from line in lines
+                           let fields = line.Split(',')
+                           where fields[0].Equals(name, StringComparison.OrdinalIgnoreCase)
+                           select new
+                           {
+                               Name = fields[0],
+                               Nachname = fields[1],
+                               Address = fields[2],
+                               Zip = fields[3],
+                               City = fields[4],
+                               Phone = fields[5],
+                               Birthday = fields[6],
+                               Email = fields[7],
+                               Company = fields[8]
+                           };
+
+            if (contacts.Any())
+            {
+                // Die CSV-Datei erstellen
+                using (var writer = new StreamWriter(pathToExportCsv))
+                {
+                    // Header schreiben
+                    writer.WriteLine("Vorname,Nachname,E-mail-Adresse,Telefon (privat),Strasse privat,Postleitzahl privat, Ort privat, Geburtstag, Firma");
+
+                    foreach (var contact in contacts)
                     {
-                        string line;
-                        while ((line = reader.ReadLine()) != null)
-                        {
-                            string[] fields = line.Split(',');
-
-                            if (fields.Length == 3)
-                            {
-                                // Neue Instanz von MyData erstellen
-                                MyData item = new MyData();
-
-                                // Die Felder der Instanz zuweisen
-                                item.PLZ = fields[0];
-                                item.Ort = fields[1];
-                                item.Ortsteil = fields[2];
-
-                                // Die Instanz zur Liste hinzufügen
-                                data.Add(item);
-                            }
-                            else
-                            {
-                                Console.WriteLine("Ungültige Zeile: {0}", line);
-                            }
-                        }
+                        // Jeden Kontakt in das CSV-Format konvertieren und in die Datei schreiben
+                        string csvLine = $"\"{contact.Name}\",\"{contact.Nachname}\",\"{contact.Email}\",\"{contact.Phone}\",\"{contact.Address}, {contact.Zip} {contact.City}\",\"{contact.Birthday} {contact.Company}\"";
+                        writer.WriteLine(csvLine);
                     }
                 }
 
-                return data;
+                Console.WriteLine($"CSV-Datei wurde erfolgreich unter {pathToExportCsv} erstellt.");
+            }
+            else
+            {
+                Console.WriteLine($"Keine Kontakte gefunden, die den Namen \"{name}\" enthalten.");
             }
         }
+    }
 
-        class MyData
+    class CsvToAddressbookConverter
+    {
+        public static void ConvertCsvToAddressbook(string filePath)
         {
-            public string PLZ { get; set; }
-            public string Ort { get; set; }
-            public string Ortsteil { get; set; }
+            // Die CSV-Datei als Stream öffnen
+            using (StreamReader reader = new StreamReader(filePath))
+            {
+                // Die erste Zeile, welche den Header enthält, einlesen und ignorieren
+                string header = reader.ReadLine();
+
+                // Die Kontaktdaten einlesen und in die addressbook.txt schreiben
+                while (!reader.EndOfStream)
+                {
+                    string line = reader.ReadLine();
+                    string[] fields = line.Split(',');
+
+                    if (fields.Length == 9)
+                    {
+                        string name = fields[0];
+                        string nachname = fields[1];
+                        string address = fields[2];
+                        string zip = fields[3];
+                        string city = fields[4];
+                        string phone = fields[5];
+                        string birthday = fields[6];
+                        string email = fields[7];
+                        string company = fields[8];
+
+                        // Den Kontakt in die addressbook.txt schreiben
+                        using (StreamWriter writer = new StreamWriter("addressbook.txt", true))
+                        {
+                            writer.WriteLine("{0},{1},{2},{3},{4},{5},{6},{7},{8}", name, nachname, address, zip, city, phone, birthday, email, company);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Ungültige Zeile: {0}", line);
+                    }
+                }
+            }
+
+            Console.WriteLine("CSV-Datei wurde erfolgreich in das Adressbuch importiert.");
         }
     }
+
+
 }
