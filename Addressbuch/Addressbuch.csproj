@@ -8,11 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="PLZ_2021.csv" />
+    <None Remove="plz_de.csv" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="PLZ_2021.csv" />
+    <EmbeddedResource Include="plz_de.csv" />
   </ItemGroup>
 
 </Project>
