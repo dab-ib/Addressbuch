@@ -26,18 +26,18 @@ namespace AddressBook
         {
             while (true)
             {
-                Console.WriteLine("\n\n\t \t      Was möchtest du tun? \n\n \t \t -----------------------------");
-                Console.Write("\n \t \t |#############################|");
-                Console.Write("\n \t \t |# N - Neue Adresse eingeben #|  \t");
-                Console.Write("\n \t \t |# A - Datensätze anzeigen   #|  \t");
-                Console.Write("\n \t \t |# G - heutige Geburtstage   #|  \t");
-                Console.Write("\n \t \t |# S - Eintrag suchen        #|  \t");
-                Console.Write("\n \t \t |# M - Einträge verwalten    #|  \t");
-                Console.Write("\n \t \t |# E - Export-Menü anzeigen  #|  \t");
-                Console.Write("\n \t \t |# I - Import-Menü anzeigen  #|  \t");
-                Console.Write("\n \t \t |# B - Beenden               #|");
-                Console.Write("\n \t \t |#############################|");
-                Console.WriteLine("\n \t \t -----------------------------");
+                Console.WriteLine("\n\n\t \t      Was möchtest du tun? \n\n \t \t ----------------------------------------");
+                Console.Write("\n \t \t |######################################|");
+                Console.Write("\n \t \t |# N - Neuer Eintrag anlegen          #|  \t");
+                Console.Write("\n \t \t |# A - Gesamtes Adressbuch anzeigen   #|  \t");
+                Console.Write("\n \t \t |# G - heutige Geburtstage            #|  \t");
+                Console.Write("\n \t \t |# M - Einträge verwalten             #|  \t");
+                Console.Write("\n \t \t |# S - Such-Menü anzeigen             #|  \t");
+                Console.Write("\n \t \t |# E - Export-Menü anzeigen           #|  \t");
+                Console.Write("\n \t \t |# I - Import-Menü anzeigen           #|  \t");
+                Console.Write("\n \t \t |# B - Programm Beenden               #|");
+                Console.Write("\n \t \t |######################################|");
+                Console.WriteLine("\n \t \t ----------------------------------------");
 
 
                 string input = Console.ReadLine();
