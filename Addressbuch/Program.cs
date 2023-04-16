@@ -25,7 +25,6 @@ namespace AddressBook
         {
             while (true)
             {
-
                 Console.WriteLine("\n\n\t \t      Was möchtest du tun? \n\n \t \t -----------------------------");
                 Console.Write("\n \t \t |#############################|");
                 Console.Write("\n \t \t |# N - Neue Adresse eingeben #|  \t");
@@ -45,30 +44,41 @@ namespace AddressBook
                 switch (input.ToUpper())
                 {
                     case "N":
+                        Console.Clear();
                         Addressbook.AddEntry();
                         break;
                     case "A":
+                        Console.Clear();
                         Addressbook.ShowAddressBook();
+                        Console.WriteLine("");
+                        Console.WriteLine("Warte auf Eingabe um fortzufahren...");
+                        Console.ReadLine();
                         break;
                     case "S":
-                        Search.SearchEntry();
+                        Console.Clear();
+                        SearchMenu.ShowSearchMenu();
                         break;
                     case "M":
+                        Console.Clear();
                         SubMenu.ShowSubMenu();
                         break;
                     case "B":
                         Environment.Exit(0);
                         break;
                     case "G":
+                        Console.Clear();
                         Birthday.BirthdayToday();
                         break;
                     case "E":
-                        SubMenu.ShowExportMenu();
+                        Console.Clear();
+                        ExportMenu.ShowExportMenu();
                         break;
                     case "I":
-                        SubMenu.ShowImportMenu();
+                        Console.Clear();
+                        ImportMenu.ShowImportMenu();
                         break;
                     default:
+                        Console.Clear();
                         Console.WriteLine("Ungültige Eingabe!");
                         break;
                 }
@@ -76,7 +86,7 @@ namespace AddressBook
         }
     }
 
-    class SubMenu
+    class ExportMenu
     {
         static public void ShowExportMenu()
         {
@@ -95,23 +105,29 @@ namespace AddressBook
                 switch (input.ToUpper())
                 {
                     case "C":
+                        Console.Clear();
                         Console.WriteLine("Name des zu exportierenden Kontakts:");
                         string input1 = Console.ReadLine();
-                        CsvExporter.ExportToCsv(input1, "addressbook.txt", "Kontakt_" +input1+ ".csv");
+                        CsvExporter.ExportToCsv(input1, "addressbook.txt", "Kontakt_" + input1 + ".csv");
                         break;
                     case "A":
-                        Console.WriteLine();
+                        Console.Clear();
                         AllcsvExporter.ExportContactsToCsv("AlleKontakte.csv");
                         break;
                     case "Z":
+                        Console.Clear();
                         return;
                     default:
+                        Console.Clear();
                         Console.WriteLine("Ungültige Eingabe!");
                         break;
                 }
             }
         }
+    }
 
+    class SubMenu
+    {
         static public void ShowSubMenu()
         {
             while (true)
@@ -132,18 +148,23 @@ namespace AddressBook
                 switch (input.ToUpper())
                 {
                     case "B":
+                        Console.Clear();
                         Addressbook.EditEntry();
                         break;
                     case "L":
+                        Console.Clear();
                         Addressbook.DeleteEntry();
                         break;
                     case "D":
+                        Console.Clear();
                         Duplicates.RemoveDuplicates();
                         break;
                     case "F":
+                        Console.Clear();
                         Duplicates.ShowDuplicates();
                         break;
                     case "X":
+                        Console.Clear();
                         DeleteAll.DeleteFile();
                         break;
                     case "Z":
@@ -154,7 +175,9 @@ namespace AddressBook
                 }
             }
         }
+    }
 
+    class ImportMenu { 
         static public void ShowImportMenu()
         {
             while (true)
@@ -187,6 +210,74 @@ namespace AddressBook
         }
     }
 
+    class SearchMenu
+    {
+        static public void ShowSearchMenu()
+        {
+            while (true)
+            {
+                Console.WriteLine("\n\n\t \t      Was möchtest du tun? \n\n \t \t -----------------------------");
+                Console.Write("\n \t \t |#########################################|");
+                Console.Write("\n \t \t |# N - Nach Namen suchen                 #|  \t");
+                Console.Write("\n \t \t |# T - Nach Telefonnummer suchen         #|  \t");
+                Console.Write("\n \t \t |# E - Nach E-Mail suchen                #|  \t");
+                Console.Write("\n \t \t |# A - Nach Adresse suchen               #|  \t");
+                Console.Write("\n \t \t |# F - Nach Firma suchen                 #|  \t");
+                Console.Write("\n \t \t |# Z - Zurück zum Hauptmenü              #|");
+                Console.Write("\n \t \t |#########################################|");
+                Console.WriteLine("\n \t \t -----------------------------");
+
+                string input = Console.ReadLine();
+
+                switch (input.ToUpper())
+                {
+                    case "N":
+                        SearchEntryName.Search();
+                        Console.WriteLine("");
+                        Console.WriteLine("Warte auf Eingabe um fortzufahren...");
+                        Console.ReadLine();
+                        Console.Clear();
+                        break;
+                    case "T":
+                        SearchEntryNumber.Search();
+                        Console.WriteLine("");
+                        Console.WriteLine("Warte auf Eingabe um fortzufahren...");
+                        Console.ReadLine();
+                        Console.Clear();
+                        break;
+                    case "E":
+                        SearchEntryEmail.Search();
+                        Console.WriteLine("");
+                        Console.WriteLine("Warte auf Eingabe um fortzufahren...");
+                        Console.ReadLine();
+                        Console.Clear();
+                        break;
+                    case "A":
+                        SearchEntryAdress.Search();
+                        Console.WriteLine("");
+                        Console.WriteLine("Warte auf Eingabe um fortzufahren...");
+                        Console.ReadLine();
+                        Console.Clear();
+                        break;
+                    case "F":
+                        SearchEntryFirma.Search();
+                        Console.WriteLine("");
+                        Console.WriteLine("Warte auf Eingabe um fortzufahren...");
+                        Console.ReadLine();
+                        Console.Clear();
+                        break;
+                    case "Z":
+                        Console.Clear();
+                        return;
+                    default:
+                        Console.Clear();
+                        Console.WriteLine("Ungültige Eingabe!");
+                        break;
+                }
+            }
+        }
+    }
+
     static class Addressbook
     {
 
@@ -194,6 +285,7 @@ namespace AddressBook
         static public void AddEntry()
         {
             Console.WriteLine("Neuer Eintrag:");
+            Console.WriteLine("");
             Console.Write("Name: ");
             string name = Console.ReadLine();
             Console.Write("Nachname: ");
@@ -261,25 +353,28 @@ namespace AddressBook
 
             string entry = $"{name},{nachname},{address},{zip},{city},{phone},{birthday},{email},{company}";
 
-            using (StreamWriter writer = File.AppendText("addressbook.txt"))
-            {
-                writer.WriteLine(entry);
-            }
+            string forbiddenentry = "-,-,-,-,-,-,-,-,-";
 
-            Console.WriteLine("Eintrag hinzugefügt!");
+            if (entry.Equals(forbiddenentry))
+            {
+                Console.WriteLine("Fehler: Alle Felder eingetragenen Felder sind leer!");
+                Console.WriteLine("Kehre zurück ins Hauptmenü!");
+            }
+            else
+            {
+                using (StreamWriter writer = File.AppendText("addressbook.txt"))
+                {
+                    writer.WriteLine(entry);
+                }
+
+                Console.WriteLine("Eintrag hinzugefügt!");
+            }
         }
 
         // Zeigt das Adressbuch an
         static public void ShowAddressBook()
         {
-            if (!File.Exists("addressbook.txt"))
-            {
-                Console.WriteLine("Das Adressbuch ist leer!");
-                return;
-            }
-
-            Console.WriteLine("Addressbuch:");
-
+            int i = 1;
             if (!File.Exists("addressbook.txt"))
             {
                 Console.WriteLine("Das Adressbuch ist leer!");
@@ -287,6 +382,11 @@ namespace AddressBook
             }
             else
             {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("Addressbuch:");
+                Console.ResetColor();
+                Console.WriteLine("");
+
                 using (StreamReader reader = new StreamReader("addressbook.txt"))
                 {
                     while (!reader.EndOfStream)
@@ -296,6 +396,7 @@ namespace AddressBook
 
                         if (fields.Length == 9)
                         {
+                            Console.WriteLine(i + ":");
                             Console.WriteLine($"Name: {fields[0]}");
                             Console.WriteLine($"Nachname: {fields[1]}");
                             Console.WriteLine($"Adresse: {fields[2]}");
@@ -306,6 +407,7 @@ namespace AddressBook
                             Console.WriteLine($"Email: {fields[7]}");
                             Console.WriteLine($"Firma: {fields[8]}");
                             Console.WriteLine();
+                            i++;
                         }
                     }
 
@@ -468,21 +570,89 @@ namespace AddressBook
     }
 
     // Diese Klasse enthält die Methoden, die für die Suche nach Einträgen zuständig sind.
-    class Search
+    class SearchEntryName
     {
-        static public void SearchEntry()
+        static public void Search()
         {
             Console.Write(
-                "Nach welchem Eintrag möchten Sie suchen? Bitte geben Sie einen Namen oder eine Telefonnummer ein: ");
+                "Nach welchem Eintrag möchten Sie suchen? Bitte geben Sie einen Vornamen oder Nachnamen oder beides ein: ");
             string searchQuery = Console.ReadLine().ToLower();
 
             if (string.IsNullOrWhiteSpace(searchQuery))
             {
-                Console.WriteLine("Ungültige Eingabe! Bitte geben Sie einen Namen oder eine Telefonnummer ein.");
+                Console.WriteLine("Ungültige Eingabe! Bitte geben Sie einen Vornamen oder Nachnamen oder beides ein.");
                 return;
             }
 
             bool found = false;
+            int foundnumber = 1;
+
+            try
+            {
+                using (StreamReader reader = new StreamReader("addressbook.txt"))
+                {
+                    while (!reader.EndOfStream)
+                    {
+                        string entry = reader.ReadLine();
+                        string[] fields = entry.Split(',');
+                        string firstname = fields[0];
+                        string lastname = fields[1];
+                        string fullname = firstname + " " + lastname;
+
+                        if (fields[0].ToLower().Contains(searchQuery) || fields[1].ToLower().Contains(searchQuery) || fullname.ToLower().Contains(searchQuery))
+                        {
+                            Console.ForegroundColor = ConsoleColor.Yellow;
+                            Console.WriteLine("Gefundener Eintrag Nr." + foundnumber + ":");
+                            Console.ResetColor();
+                            Console.WriteLine();
+
+                            Console.WriteLine($"Name: {fields[0]} {fields[1]}");
+                            Console.WriteLine($"Adresse: {fields[2]}");
+                            Console.WriteLine($"Postleitzahl: {fields[3]}");
+                            Console.WriteLine($"Stadt: {fields[4]}");
+                            Console.WriteLine($"Telefonnummer: {fields[5]}");
+                            Console.WriteLine($"Geburtstag: {fields[6]}");
+                            Console.WriteLine($"Email: {fields[7]}");
+                            Console.WriteLine($"Firma: {fields[8]}");
+                            Console.WriteLine();
+                            foundnumber++;
+                            found = true;
+                        }
+                    }
+                }
+
+                if (!found)
+                {
+                    Console.WriteLine("Kein passender Eintrag gefunden.");
+                }
+            }
+            catch (FileNotFoundException)
+            {
+                Console.WriteLine("Die Adressbuch-Datei wurde nicht gefunden!");
+            }
+            catch (IOException e)
+            {
+                Console.WriteLine($"Ein Fehler ist aufgetreten: {e.Message}");
+            }
+        }
+    }
+
+    class SearchEntryNumber
+    {
+        static public void Search()
+        {
+            Console.Write(
+                "Nach welchem Eintrag möchten Sie suchen? Bitte geben Sie eine Telefonnummer ein: ");
+            string searchQuery = Console.ReadLine().ToLower();
+
+            if (string.IsNullOrWhiteSpace(searchQuery))
+            {
+                Console.WriteLine("Ungültige Eingabe! Bitte geben Sie eine Telefonnummer ein.");
+                return;
+            }
+
+            bool found = false;
+            int foundnumber = 1;
 
             try
             {
@@ -493,8 +663,12 @@ namespace AddressBook
                         string entry = reader.ReadLine();
                         string[] fields = entry.Split(',');
 
-                        if (fields[0].ToLower().Contains(searchQuery) || fields[1].ToLower().Contains(searchQuery))
+                        if (fields[5].Contains(searchQuery))
                         {
+                            Console.ForegroundColor = ConsoleColor.Yellow;
+                            Console.WriteLine("Gefundener Eintrag Nr." + foundnumber + ":");
+                            Console.ResetColor();
+                            Console.WriteLine();
                             Console.WriteLine($"Name: {fields[0]} {fields[1]}");
                             Console.WriteLine($"Adresse: {fields[2]}");
                             Console.WriteLine($"Postleitzahl: {fields[3]}");
@@ -504,7 +678,196 @@ namespace AddressBook
                             Console.WriteLine($"Email: {fields[7]}");
                             Console.WriteLine($"Firma: {fields[8]}");
                             Console.WriteLine();
+                            foundnumber++;
+                            found = true;
+                        }
+                    }
+                }
 
+                if (!found)
+                {
+                    Console.WriteLine("Kein passender Eintrag gefunden.");
+                }
+            }
+            catch (FileNotFoundException)
+            {
+                Console.WriteLine("Die Adressbuch-Datei wurde nicht gefunden!");
+            }
+            catch (IOException e)
+            {
+                Console.WriteLine($"Ein Fehler ist aufgetreten: {e.Message}");
+            }
+        }
+    }
+
+    class SearchEntryEmail
+    {
+        static public void Search()
+        {
+            Console.Write(
+                "Nach welchem Eintrag möchten Sie suchen? Bitte geben Sie eine E-Mail Adresse ein: ");
+            string searchQuery = Console.ReadLine().ToLower();
+
+            if (string.IsNullOrWhiteSpace(searchQuery))
+            {
+                Console.WriteLine("Ungültige Eingabe! Bitte geben Sie eine E-Mail Adresse ein.");
+                return;
+            }
+
+            bool found = false;
+            int foundnumber = 1;
+
+            try
+            {
+                using (StreamReader reader = new StreamReader("addressbook.txt"))
+                {
+                    while (!reader.EndOfStream)
+                    {
+                        string entry = reader.ReadLine();
+                        string[] fields = entry.Split(',');
+
+                        if (fields[7].ToLower().Contains(searchQuery))
+                        {
+                            Console.ForegroundColor = ConsoleColor.Yellow;
+                            Console.WriteLine("Gefundener Eintrag Nr." + foundnumber + ":");
+                            Console.ResetColor();
+                            Console.WriteLine();
+                            Console.WriteLine($"Name: {fields[0]} {fields[1]}");
+                            Console.WriteLine($"Adresse: {fields[2]}");
+                            Console.WriteLine($"Postleitzahl: {fields[3]}");
+                            Console.WriteLine($"Stadt: {fields[4]}");
+                            Console.WriteLine($"Telefonnummer: {fields[5]}");
+                            Console.WriteLine($"Geburtstag: {fields[6]}");
+                            Console.WriteLine($"Email: {fields[7]}");
+                            Console.WriteLine($"Firma: {fields[8]}");
+                            Console.WriteLine();
+                            foundnumber++;
+                            found = true;
+                        }
+                    }
+                }
+
+                if (!found)
+                {
+                    Console.WriteLine("Kein passender Eintrag gefunden.");
+                }
+            }
+            catch (FileNotFoundException)
+            {
+                Console.WriteLine("Die Adressbuch-Datei wurde nicht gefunden!");
+            }
+            catch (IOException e)
+            {
+                Console.WriteLine($"Ein Fehler ist aufgetreten: {e.Message}");
+            }
+        }
+    }
+
+    class SearchEntryFirma
+    {
+        static public void Search()
+        {
+            Console.Write(
+                "Nach welchem Eintrag möchten Sie suchen? Bitte geben Sie eine Firma ein: ");
+            string searchQuery = Console.ReadLine().ToLower();
+
+            if (string.IsNullOrWhiteSpace(searchQuery))
+            {
+                Console.WriteLine("Ungültige Eingabe! Bitte geben Sie eine Firma ein.");
+                return;
+            }
+
+            bool found = false;
+            int foundnumber = 1;
+
+            try
+            {
+                using (StreamReader reader = new StreamReader("addressbook.txt"))
+                {
+                    while (!reader.EndOfStream)
+                    {
+                        string entry = reader.ReadLine();
+                        string[] fields = entry.Split(',');
+
+                        if (fields[8].ToLower().Contains(searchQuery))
+                        {
+                            Console.ForegroundColor = ConsoleColor.Yellow;
+                            Console.WriteLine("Gefundener Eintrag Nr." + foundnumber + ":");
+                            Console.ResetColor();
+                            Console.WriteLine();
+                            Console.WriteLine($"Name: {fields[0]} {fields[1]}");
+                            Console.WriteLine($"Adresse: {fields[2]}");
+                            Console.WriteLine($"Postleitzahl: {fields[3]}");
+                            Console.WriteLine($"Stadt: {fields[4]}");
+                            Console.WriteLine($"Telefonnummer: {fields[5]}");
+                            Console.WriteLine($"Geburtstag: {fields[6]}");
+                            Console.WriteLine($"Email: {fields[7]}");
+                            Console.WriteLine($"Firma: {fields[8]}");
+                            Console.WriteLine();
+                            foundnumber++;
+                            found = true;
+                        }
+                    }
+                }
+
+                if (!found)
+                {
+                    Console.WriteLine("Kein passender Eintrag gefunden.");
+                }
+            }
+            catch (FileNotFoundException)
+            {
+                Console.WriteLine("Die Adressbuch-Datei wurde nicht gefunden!");
+            }
+            catch (IOException e)
+            {
+                Console.WriteLine($"Ein Fehler ist aufgetreten: {e.Message}");
+            }
+        }
+    }
+
+    class SearchEntryAdress
+    {
+        static public void Search()
+        {
+            Console.Write(
+                "Nach welchem Eintrag möchten Sie suchen? Bitte geben Sie eine Adresse ein: ");
+            string searchQuery = Console.ReadLine().ToLower();
+
+            if (string.IsNullOrWhiteSpace(searchQuery))
+            {
+                Console.WriteLine("Ungültige Eingabe! Bitte geben Sie eine Adresse ein.");
+                return;
+            }
+
+            bool found = false;
+            int foundnumber = 1;
+
+            try
+            {
+                using (StreamReader reader = new StreamReader("addressbook.txt"))
+                {
+                    while (!reader.EndOfStream)
+                    {
+                        string entry = reader.ReadLine();
+                        string[] fields = entry.Split(',');
+
+                        if (fields[2].ToLower().Contains(searchQuery))
+                        {
+                            Console.ForegroundColor = ConsoleColor.Yellow;
+                            Console.WriteLine("Gefundener Eintrag Nr." + foundnumber + ":");
+                            Console.ResetColor();
+                            Console.WriteLine();
+                            Console.WriteLine($"Name: {fields[0]} {fields[1]}");
+                            Console.WriteLine($"Adresse: {fields[2]}");
+                            Console.WriteLine($"Postleitzahl: {fields[3]}");
+                            Console.WriteLine($"Stadt: {fields[4]}");
+                            Console.WriteLine($"Telefonnummer: {fields[5]}");
+                            Console.WriteLine($"Geburtstag: {fields[6]}");
+                            Console.WriteLine($"Email: {fields[7]}");
+                            Console.WriteLine($"Firma: {fields[8]}");
+                            Console.WriteLine();
+                            foundnumber++;
                             found = true;
                         }
                     }
