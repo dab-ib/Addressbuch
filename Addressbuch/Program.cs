@@ -28,17 +28,23 @@ namespace AddressBook
             {
                 Console.WriteLine("\n\n\t \t      Was möchtest du tun? \n\n \t \t ----------------------------------------");
                 Console.Write("\n \t \t |######################################|");
-                Console.Write("\n \t \t |# N - Neuer Eintrag anlegen          #|  \t");
-                Console.Write("\n \t \t |# A - Gesamtes Adressbuch anzeigen   #|  \t");
-                Console.Write("\n \t \t |# G - heutige Geburtstage            #|  \t");
-                Console.Write("\n \t \t |# M - Einträge verwalten             #|  \t");
-                Console.Write("\n \t \t |# S - Such-Menü anzeigen             #|  \t");
-                Console.Write("\n \t \t |# E - Export-Menü anzeigen           #|  \t");
-                Console.Write("\n \t \t |# I - Import-Menü anzeigen           #|  \t");
+                Console.Write("\n \t \t |# N - Neuer Eintrag anlegen          #|");
+                Console.Write("\n \t \t |                                     #|");
+                Console.Write("\n \t \t |# A - Gesamtes Adressbuch anzeigen   #|");
+                Console.Write("\n \t \t |                                     #|");
+                Console.Write("\n \t \t |# G - heutige Geburtstage            #|");
+                Console.Write("\n \t \t |                                     #|");
+                Console.Write("\n \t \t |# M - Einträge verwalten             #|");
+                Console.Write("\n \t \t |                                     #|");
+                Console.Write("\n \t \t |# S - Such-Menü anzeigen             #|");
+                Console.Write("\n \t \t |                                     #|");
+                Console.Write("\n \t \t |# E - Export-Menü anzeigen           #|");
+                Console.Write("\n \t \t |                                     #|");
+                Console.Write("\n \t \t |# I - Import-Menü anzeigen           #|");
+                Console.Write("\n \t \t |                                     #|");
                 Console.Write("\n \t \t |# B - Programm Beenden               #|");
                 Console.Write("\n \t \t |######################################|");
-                Console.WriteLine("\n \t \t ----------------------------------------");
-
+                Console.WriteLine("\n \t \t ----------------------------------------\n");
 
                 string input = Console.ReadLine();
 
@@ -90,6 +96,7 @@ namespace AddressBook
         }
     }
 
+
     class ExportMenu
     {
         static public void ShowExportMenu()
@@ -98,8 +105,10 @@ namespace AddressBook
             {
                 Console.WriteLine("\n\n\t \t      Was möchtest du tun? \n\n \t \t -----------------------------");
                 Console.Write("\n \t \t |#########################################|");
-                Console.Write("\n \t \t |# C - Ein Kontakt als CSV exportieren   #|  \t");
-                Console.Write("\n \t \t |# A - Gesamtes Adressbuch exportieren   #|  \t");
+                Console.Write("\n \t \t |# C - Ein Kontakt als CSV exportieren   #|");
+                Console.Write("\n \t \t |                                        #|");
+                Console.Write("\n \t \t |# A - Gesamtes Adressbuch exportieren   #|");
+                Console.Write("\n \t \t |                                        #|");
                 Console.Write("\n \t \t |# Z - Zurück zum Hauptmenü              #|");
                 Console.Write("\n \t \t |#########################################|");
                 Console.WriteLine("\n \t \t -----------------------------");
@@ -130,6 +139,7 @@ namespace AddressBook
         }
     }
 
+
     class SubMenu
     {
         static public void ShowSubMenu()
@@ -138,12 +148,17 @@ namespace AddressBook
             {
                 Console.WriteLine("\n\n\t \t      Was möchtest du tun? \n\n \t \t -----------------------------");
                 Console.Write("\n \t \t |#############################|");
-                Console.Write("\n \t \t |# B - Eintrag bearbeiten   #|  \t");
-                Console.Write("\n \t \t |# L - Eintrag löschen      #|  \t");
-                Console.Write("\n \t \t |# F - Duplikate anzeigen   #|  \t");
-                Console.Write("\n \t \t |# D - Duplikate entfernen  #|  \t");
-                Console.Write("\n \t \t |# X - Alles Löschen        #|  \t");
-                Console.Write("\n \t \t |# Z - Zurück zum Hauptmenü #|");
+                Console.Write("\n \t \t |# B - Eintrag bearbeiten     #|");
+                Console.Write("\n \t \t |                             #|");
+                Console.Write("\n \t \t |# L - Eintrag löschen        #|");
+                Console.Write("\n \t \t |                             #|");
+                Console.Write("\n \t \t |# F - Duplikate anzeigen     #|");
+                Console.Write("\n \t \t |                             #|");
+                Console.Write("\n \t \t |# D - Duplikate entfernen    #|");
+                Console.Write("\n \t \t |                             #|");
+                Console.Write("\n \t \t |# X - Alles Löschen          #|");
+                Console.Write("\n \t \t |                             #|");
+                Console.Write("\n \t \t |# Z - Zurück zum Hauptmenü   #|");
                 Console.Write("\n \t \t |#############################|");
                 Console.WriteLine("\n \t \t -----------------------------");
 
@@ -181,14 +196,17 @@ namespace AddressBook
         }
     }
 
-    class ImportMenu { 
+
+    class ImportMenu
+    {
         static public void ShowImportMenu()
         {
             while (true)
             {
                 Console.WriteLine("\n\n\t \t      Was möchtest du tun? \n\n \t \t -----------------------------");
                 Console.Write("\n \t \t |#########################################|");
-                Console.Write("\n \t \t |# I - Aus einer CSV Datei Importieren   #|  \t");
+                Console.Write("\n \t \t |# I - Aus einer CSV Datei Importieren   #|");
+                Console.Write("\n \t \t |                                        #|");
                 Console.Write("\n \t \t |# Z - Zurück zum Hauptmenü              #|");
                 Console.Write("\n \t \t |#########################################|");
                 Console.WriteLine("\n \t \t -----------------------------");
@@ -214,6 +232,7 @@ namespace AddressBook
         }
     }
 
+
     class SearchMenu
     {
         static public void ShowSearchMenu()
@@ -222,11 +241,16 @@ namespace AddressBook
             {
                 Console.WriteLine("\n\n\t \t      Was möchtest du tun? \n\n \t \t -----------------------------");
                 Console.Write("\n \t \t |#########################################|");
-                Console.Write("\n \t \t |# N - Nach Namen suchen                 #|  \t");
-                Console.Write("\n \t \t |# T - Nach Telefonnummer suchen         #|  \t");
-                Console.Write("\n \t \t |# E - Nach E-Mail suchen                #|  \t");
-                Console.Write("\n \t \t |# A - Nach Adresse suchen               #|  \t");
-                Console.Write("\n \t \t |# F - Nach Firma suchen                 #|  \t");
+                Console.Write("\n \t \t |# N - Nach Namen suchen                 #|");
+                Console.Write("\n \t \t |                                        #|");
+                Console.Write("\n \t \t |# T - Nach Telefonnummer suchen         #|");
+                Console.Write("\n \t \t |                                        #|");
+                Console.Write("\n \t \t |# E - Nach E-Mail suchen                #|");
+                Console.Write("\n \t \t |                                        #|");
+                Console.Write("\n \t \t |# A - Nach Adresse suchen               #|");
+                Console.Write("\n \t \t |                                        #|");
+                Console.Write("\n \t \t |# F - Nach Firma suchen                 #|");
+                Console.Write("\n \t \t |                                        #|");
                 Console.Write("\n \t \t |# Z - Zurück zum Hauptmenü              #|");
                 Console.Write("\n \t \t |#########################################|");
                 Console.WriteLine("\n \t \t -----------------------------");
@@ -282,6 +306,7 @@ namespace AddressBook
         }
     }
 
+
     static class Addressbook
     {
 
@@ -294,6 +319,21 @@ namespace AddressBook
             string name = Console.ReadLine();
             Console.Write("Nachname: ");
             string nachname = Console.ReadLine();
+
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                Console.WriteLine("Fehler: Vorname darf nicht leer sein!");
+                Console.WriteLine("Kehre zurück ins Hauptmenü!");
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(nachname))
+            {
+                Console.WriteLine("Fehler: Nachname darf nicht leer sein!");
+                Console.WriteLine("Kehre zurück ins Hauptmenü!");
+                return;
+            }
+
             Console.Write("Adresse: ");
             string address = Console.ReadLine();
             Console.Write("Postleitzahl: ");
@@ -310,70 +350,24 @@ namespace AddressBook
             string company = Console.ReadLine();
 
             // Verwende Standardwerte für fehlende Felder
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                name = "-";
-            }
-
-            if (string.IsNullOrWhiteSpace(nachname))
-            {
-                nachname = "-";
-            }
-
-            if (string.IsNullOrWhiteSpace(address))
-            {
-                address = "-";
-            }
-
-            if (string.IsNullOrWhiteSpace(zip))
-            {
-                zip = "-";
-            }
-
-            if (string.IsNullOrWhiteSpace(city))
-            {
-                city = "-";
-            }
-
-            if (string.IsNullOrWhiteSpace(phone))
-            {
-                phone = "-";
-            }
-
-            if (string.IsNullOrWhiteSpace(birthday))
-            {
-                birthday = "-";
-            }
-
-            if (string.IsNullOrWhiteSpace(email))
-            {
-                email = "-";
-            }
-
-            if (string.IsNullOrWhiteSpace(company))
-            {
-                company = "-";
-            }
+            address = string.IsNullOrWhiteSpace(address) ? "-" : address;
+            zip = string.IsNullOrWhiteSpace(zip) ? "-" : zip;
+            city = string.IsNullOrWhiteSpace(city) ? "-" : city;
+            phone = string.IsNullOrWhiteSpace(phone) ? "-" : phone;
+            birthday = string.IsNullOrWhiteSpace(birthday) ? "-" : birthday;
+            email = string.IsNullOrWhiteSpace(email) ? "-" : email;
+            company = string.IsNullOrWhiteSpace(company) ? "-" : company;
 
             string entry = $"{name},{nachname},{address},{zip},{city},{phone},{birthday},{email},{company}";
 
-            string forbiddenentry = "-,-,-,-,-,-,-,-,-";
-
-            if (entry.Equals(forbiddenentry))
+            using (StreamWriter writer = File.AppendText("addressbook.txt"))
             {
-                Console.WriteLine("Fehler: Alle Felder eingetragenen Felder sind leer!");
-                Console.WriteLine("Kehre zurück ins Hauptmenü!");
+                writer.WriteLine(entry);
             }
-            else
-            {
-                using (StreamWriter writer = File.AppendText("addressbook.txt"))
-                {
-                    writer.WriteLine(entry);
-                }
 
-                Console.WriteLine("Eintrag hinzugefügt!");
-            }
+            Console.WriteLine("Eintrag hinzugefügt!");
         }
+
 
         // Zeigt das Adressbuch an
         static public void ShowAddressBook()
@@ -400,17 +394,18 @@ namespace AddressBook
 
                         if (fields.Length == 9)
                         {
-                            Console.WriteLine(i + ":");
-                            Console.WriteLine($"Name: {fields[0]}");
-                            Console.WriteLine($"Nachname: {fields[1]}");
-                            Console.WriteLine($"Adresse: {fields[2]}");
-                            Console.WriteLine($"Postleitzahl: {fields[3]}");
-                            Console.WriteLine($"Stadt: {fields[4]}");
-                            Console.WriteLine($"Telefonnummer: {fields[5]}");
-                            Console.WriteLine($"Geburtstag: {fields[6]}");
-                            Console.WriteLine($"Email: {fields[7]}");
-                            Console.WriteLine($"Firma: {fields[8]}");
-                            Console.WriteLine();
+                            Console.WriteLine($"{i}:");
+                            Console.WriteLine($"Name          : {fields[0]}");
+                            Console.WriteLine($"Nachname      : {fields[1]}");
+                            Console.WriteLine($"Adresse       : {fields[2]}");
+                            Console.WriteLine($"Postleitzahl  : {fields[3]}");
+                            Console.WriteLine($"Stadt         : {fields[4]}");
+                            Console.WriteLine($"Telefonnummer : {fields[5]}");
+                            Console.WriteLine($"Geburtstag    : {fields[6]}");
+                            Console.WriteLine($"Email         : {fields[7]}");
+                            Console.WriteLine($"Firma         : {fields[8]}");
+                            Console.WriteLine(new string('-', 40));
+
                             i++;
                         }
                     }
@@ -441,14 +436,17 @@ namespace AddressBook
                         entryFound = true;
 
                         Console.WriteLine($"Aktueller Eintrag:");
-                        Console.WriteLine($"Name: {fields[0]} {fields[1]}");
-                        Console.WriteLine($"Adresse: {fields[2]}");
-                        Console.WriteLine($"Postleitzahl: {fields[3]}");
-                        Console.WriteLine($"Stadt: {fields[4]}");
-                        Console.WriteLine($"Telefonnummer: {fields[5]}");
-                        Console.WriteLine($"Geburtstag: {fields[6]}");
-                        Console.WriteLine($"Email: {fields[7]}");
-                        Console.WriteLine($"Firma: {fields[8]}");
+                        Console.WriteLine($"Name          : {fields[0]}");
+                        Console.WriteLine($"Nachname      : {fields[1]}");
+                        Console.WriteLine($"Adresse       : {fields[2]}");
+                        Console.WriteLine($"Postleitzahl  : {fields[3]}");
+                        Console.WriteLine($"Stadt         : {fields[4]}");
+                        Console.WriteLine($"Telefonnummer : {fields[5]}");
+                        Console.WriteLine($"Geburtstag    : {fields[6]}");
+                        Console.WriteLine($"Email         : {fields[7]}");
+                        Console.WriteLine($"Firma         : {fields[8]}");
+                        Console.WriteLine(new string('-', 40));
+
 
                         Console.Write("Neuer Vorname (leer lassen, um unverändert zu lassen): ");
                         string newName = Console.ReadLine();
@@ -536,23 +534,27 @@ namespace AddressBook
         // Eintrag löschen
         static public void DeleteEntry()
         {
-            Console.Write("Welchen Eintrag möchten Sie löschen? Bitte geben Sie den Nachnamen an: ");
-            string name = Console.ReadLine();
+            Console.Write("Welchen Eintrag möchten Sie löschen? Bitte geben Sie den Vornamen an: ");
+            string firstName = Console.ReadLine();
+            Console.Write("Bitte geben Sie den Nachnamen an: ");
+            string lastName = Console.ReadLine();
 
             string tempFile = Path.GetTempFileName();
             using (StreamReader reader = new StreamReader("addressbook.txt"))
             using (StreamWriter writer = new StreamWriter(tempFile))
             {
                 bool entryFound = false;
+                List<string> matchingEntries = new List<string>();
 
                 while (!reader.EndOfStream)
                 {
                     string entry = reader.ReadLine();
                     string[] fields = entry.Split(',');
 
-                    if (fields[1] == name)
+                    if (fields[0] == firstName && fields[1] == lastName)
                     {
                         entryFound = true;
+                        matchingEntries.Add(entry);
                     }
                     else
                     {
@@ -564,13 +566,54 @@ namespace AddressBook
                 {
                     Console.WriteLine("Eintrag nicht gefunden!");
                 }
+                else
+                {
+                    string entryToDelete = "";
+
+                    if (matchingEntries.Count > 1)
+                    {
+                        Console.WriteLine("Es wurden mehrere Einträge gefunden:");
+                        for (int i = 0; i < matchingEntries.Count; i++)
+                        {
+                            Console.WriteLine($"{i + 1}. {matchingEntries[i]}");
+                        }
+
+                        Console.Write("Bitte geben Sie die Nummer des Eintrags an, den Sie löschen möchten: ");
+                        if (int.TryParse(Console.ReadLine(), out int indexToDelete) && indexToDelete > 0 && indexToDelete <= matchingEntries.Count)
+                        {
+                            entryToDelete = matchingEntries[indexToDelete - 1];
+                        }
+                        else
+                        {
+                            Console.WriteLine("Ungültige Eingabe. Kein Eintrag wurde gelöscht.");
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        entryToDelete = matchingEntries[0];
+                    }
+
+                    Console.WriteLine($"Eintrag zum Löschen: {entryToDelete}");
+                    Console.Write("Möchten Sie diesen Eintrag wirklich löschen? (j/n): ");
+                    string confirmation = Console.ReadLine();
+
+                    if (confirmation.ToLower() == "j")
+                    {
+                        writer.WriteLine(entryToDelete);
+                        Console.WriteLine("Eintrag gelöscht!");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Löschvorgang abgebrochen.");
+                    }
+                }
             }
 
             File.Delete("addressbook.txt");
             File.Move(tempFile, "addressbook.txt");
-
-            Console.WriteLine("Eintrag gelöscht!");
         }
+
     }
 
     // Diese Klasse enthält die Methoden, die für die Suche nach Einträgen zuständig sind.
@@ -610,14 +653,16 @@ namespace AddressBook
                             Console.ResetColor();
                             Console.WriteLine();
 
-                            Console.WriteLine($"Name: {fields[0]} {fields[1]}");
-                            Console.WriteLine($"Adresse: {fields[2]}");
-                            Console.WriteLine($"Postleitzahl: {fields[3]}");
-                            Console.WriteLine($"Stadt: {fields[4]}");
-                            Console.WriteLine($"Telefonnummer: {fields[5]}");
-                            Console.WriteLine($"Geburtstag: {fields[6]}");
-                            Console.WriteLine($"Email: {fields[7]}");
-                            Console.WriteLine($"Firma: {fields[8]}");
+                            Console.WriteLine($"Name          : {fields[0]}");
+                            Console.WriteLine($"Nachname      : {fields[1]}");
+                            Console.WriteLine($"Adresse       : {fields[2]}");
+                            Console.WriteLine($"Postleitzahl  : {fields[3]}");
+                            Console.WriteLine($"Stadt         : {fields[4]}");
+                            Console.WriteLine($"Telefonnummer : {fields[5]}");
+                            Console.WriteLine($"Geburtstag    : {fields[6]}");
+                            Console.WriteLine($"Email         : {fields[7]}");
+                            Console.WriteLine($"Firma         : {fields[8]}");
+                            Console.WriteLine(new string('-', 40));
                             Console.WriteLine();
                             foundnumber++;
                             found = true;
@@ -673,14 +718,16 @@ namespace AddressBook
                             Console.WriteLine("Gefundener Eintrag Nr." + foundnumber + ":");
                             Console.ResetColor();
                             Console.WriteLine();
-                            Console.WriteLine($"Name: {fields[0]} {fields[1]}");
-                            Console.WriteLine($"Adresse: {fields[2]}");
-                            Console.WriteLine($"Postleitzahl: {fields[3]}");
-                            Console.WriteLine($"Stadt: {fields[4]}");
-                            Console.WriteLine($"Telefonnummer: {fields[5]}");
-                            Console.WriteLine($"Geburtstag: {fields[6]}");
-                            Console.WriteLine($"Email: {fields[7]}");
-                            Console.WriteLine($"Firma: {fields[8]}");
+                            Console.WriteLine($"Name          : {fields[0]}");
+                            Console.WriteLine($"Nachname      : {fields[1]}");
+                            Console.WriteLine($"Adresse       : {fields[2]}");
+                            Console.WriteLine($"Postleitzahl  : {fields[3]}");
+                            Console.WriteLine($"Stadt         : {fields[4]}");
+                            Console.WriteLine($"Telefonnummer : {fields[5]}");
+                            Console.WriteLine($"Geburtstag    : {fields[6]}");
+                            Console.WriteLine($"Email         : {fields[7]}");
+                            Console.WriteLine($"Firma         : {fields[8]}");
+                            Console.WriteLine(new string('-', 40));
                             Console.WriteLine();
                             foundnumber++;
                             found = true;
@@ -736,14 +783,16 @@ namespace AddressBook
                             Console.WriteLine("Gefundener Eintrag Nr." + foundnumber + ":");
                             Console.ResetColor();
                             Console.WriteLine();
-                            Console.WriteLine($"Name: {fields[0]} {fields[1]}");
-                            Console.WriteLine($"Adresse: {fields[2]}");
-                            Console.WriteLine($"Postleitzahl: {fields[3]}");
-                            Console.WriteLine($"Stadt: {fields[4]}");
-                            Console.WriteLine($"Telefonnummer: {fields[5]}");
-                            Console.WriteLine($"Geburtstag: {fields[6]}");
-                            Console.WriteLine($"Email: {fields[7]}");
-                            Console.WriteLine($"Firma: {fields[8]}");
+                            Console.WriteLine($"Name          : {fields[0]}");
+                            Console.WriteLine($"Nachname      : {fields[1]}");
+                            Console.WriteLine($"Adresse       : {fields[2]}");
+                            Console.WriteLine($"Postleitzahl  : {fields[3]}");
+                            Console.WriteLine($"Stadt         : {fields[4]}");
+                            Console.WriteLine($"Telefonnummer : {fields[5]}");
+                            Console.WriteLine($"Geburtstag    : {fields[6]}");
+                            Console.WriteLine($"Email         : {fields[7]}");
+                            Console.WriteLine($"Firma         : {fields[8]}");
+                            Console.WriteLine(new string('-', 40));
                             Console.WriteLine();
                             foundnumber++;
                             found = true;
@@ -799,14 +848,16 @@ namespace AddressBook
                             Console.WriteLine("Gefundener Eintrag Nr." + foundnumber + ":");
                             Console.ResetColor();
                             Console.WriteLine();
-                            Console.WriteLine($"Name: {fields[0]} {fields[1]}");
-                            Console.WriteLine($"Adresse: {fields[2]}");
-                            Console.WriteLine($"Postleitzahl: {fields[3]}");
-                            Console.WriteLine($"Stadt: {fields[4]}");
-                            Console.WriteLine($"Telefonnummer: {fields[5]}");
-                            Console.WriteLine($"Geburtstag: {fields[6]}");
-                            Console.WriteLine($"Email: {fields[7]}");
-                            Console.WriteLine($"Firma: {fields[8]}");
+                            Console.WriteLine($"Name          : {fields[0]}");
+                            Console.WriteLine($"Nachname      : {fields[1]}");
+                            Console.WriteLine($"Adresse       : {fields[2]}");
+                            Console.WriteLine($"Postleitzahl  : {fields[3]}");
+                            Console.WriteLine($"Stadt         : {fields[4]}");
+                            Console.WriteLine($"Telefonnummer : {fields[5]}");
+                            Console.WriteLine($"Geburtstag    : {fields[6]}");
+                            Console.WriteLine($"Email         : {fields[7]}");
+                            Console.WriteLine($"Firma         : {fields[8]}");
+                            Console.WriteLine(new string('-', 40));
                             Console.WriteLine();
                             foundnumber++;
                             found = true;
@@ -862,14 +913,16 @@ namespace AddressBook
                             Console.WriteLine("Gefundener Eintrag Nr." + foundnumber + ":");
                             Console.ResetColor();
                             Console.WriteLine();
-                            Console.WriteLine($"Name: {fields[0]} {fields[1]}");
-                            Console.WriteLine($"Adresse: {fields[2]}");
-                            Console.WriteLine($"Postleitzahl: {fields[3]}");
-                            Console.WriteLine($"Stadt: {fields[4]}");
-                            Console.WriteLine($"Telefonnummer: {fields[5]}");
-                            Console.WriteLine($"Geburtstag: {fields[6]}");
-                            Console.WriteLine($"Email: {fields[7]}");
-                            Console.WriteLine($"Firma: {fields[8]}");
+                            Console.WriteLine($"Name          : {fields[0]}");
+                            Console.WriteLine($"Nachname      : {fields[1]}");
+                            Console.WriteLine($"Adresse       : {fields[2]}");
+                            Console.WriteLine($"Postleitzahl  : {fields[3]}");
+                            Console.WriteLine($"Stadt         : {fields[4]}");
+                            Console.WriteLine($"Telefonnummer : {fields[5]}");
+                            Console.WriteLine($"Geburtstag    : {fields[6]}");
+                            Console.WriteLine($"Email         : {fields[7]}");
+                            Console.WriteLine($"Firma         : {fields[8]}");
+                            Console.WriteLine(new string('-', 40));
                             Console.WriteLine();
                             foundnumber++;
                             found = true;
@@ -898,25 +951,36 @@ namespace AddressBook
     {
         static public void ShowDuplicates()
         {
-            List<string> uniqueEntries = new List<string>();
+            List<string> entries = new List<string>();
             List<string> duplicateEntries = new List<string>();
 
-            // read all entries from file
+            // Read all entries from the file
             using (StreamReader reader = new StreamReader("addressbook.txt"))
             {
                 while (!reader.EndOfStream)
                 {
                     string entry = reader.ReadLine();
+                    entries.Add(entry);
+                }
+            }
 
-                    if (uniqueEntries.Contains(entry))
+            for (int i = 0; i < entries.Count; i++)
+            {
+                string[] fields1 = entries[i].Split(',');
+                for (int j = i + 1; j < entries.Count; j++)
+                {
+                    string[] fields2 = entries[j].Split(',');
+
+                    if (fields1[0] == fields2[0] && fields1[1] == fields2[1] || fields1[5] == fields2[5] || fields1[7] == fields2[7])
                     {
-                        // entry is already in list, so it's a duplicate
-                        duplicateEntries.Add(entry);
-                    }
-                    else
-                    {
-                        // entry is not in list, so add it to uniqueEntries
-                        uniqueEntries.Add(entry);
+                        if (!duplicateEntries.Contains(entries[i]))
+                        {
+                            duplicateEntries.Add(entries[i]);
+                        }
+                        if (!duplicateEntries.Contains(entries[j]))
+                        {
+                            duplicateEntries.Add(entries[j]);
+                        }
                     }
                 }
             }
@@ -934,73 +998,103 @@ namespace AddressBook
                 Console.WriteLine($"[{i}] {duplicateEntries[i]}");
             }
         }
+
+
+
 
         static public void RemoveDuplicates()
         {
-            List<string> uniqueEntries = new List<string>();
-            List<string> duplicateEntries = new List<string>();
+            Console.WriteLine("Suche nach Duplikaten...");
 
-            // read all entries from file
+            List<string> entries = new List<string>();
+            Dictionary<int, List<int>> duplicateIndices = new Dictionary<int, List<int>>();
+
+            // Read all entries from the file
             using (StreamReader reader = new StreamReader("addressbook.txt"))
             {
                 while (!reader.EndOfStream)
                 {
                     string entry = reader.ReadLine();
+                    entries.Add(entry);
+                }
+            }
 
-                    if (uniqueEntries.Contains(entry))
+            for (int i = 0; i < entries.Count; i++)
+            {
+                string[] fields1 = entries[i].Split(',');
+
+                for (int j = i + 1; j < entries.Count; j++)
+                {
+                    string[] fields2 = entries[j].Split(',');
+
+                    if (fields1[0] == fields2[0] && fields1[1] == fields2[1] || fields1[5] == fields2[5] || fields1[7] == fields2[7])
                     {
-                        // entry is already in list, so it's a duplicate
-                        duplicateEntries.Add(entry);
-                    }
-                    else
-                    {
-                        // entry is not in list, so add it to uniqueEntries
-                        uniqueEntries.Add(entry);
+                        if (!duplicateIndices.ContainsKey(i))
+                        {
+                            duplicateIndices[i] = new List<int>();
+                        }
+                        if (!duplicateIndices.ContainsKey(j))
+                        {
+                            duplicateIndices[j] = new List<int>();
+                        }
+                        duplicateIndices[i].Add(j);
+                        duplicateIndices[j].Add(i);
                     }
                 }
             }
 
-            if (duplicateEntries.Count == 0)
+            if (duplicateIndices.Count == 0)
             {
                 Console.WriteLine("Keine Duplikate gefunden.");
                 return;
             }
 
-            Console.WriteLine($"Es wurden {duplicateEntries.Count} Duplikate gefunden:");
+            Console.WriteLine($"Es wurden {duplicateIndices.Count} Duplikate gefunden:");
 
-            for (int i = 0; i < duplicateEntries.Count; i++)
+            foreach (var key in duplicateIndices.Keys)
             {
-                Console.WriteLine($"[{i}] {duplicateEntries[i]}");
+                Console.WriteLine($"[{key + 1}] {entries[key]}");
             }
 
-            Console.Write("Welches Duplikat möchten Sie entfernen? (Geben Sie eine Zahl ein): ");
-            string input = Console.ReadLine();
-
-            if (!int.TryParse(input, out int index) || index < 0 || index >= duplicateEntries.Count)
+            Console.Write("Bitte geben Sie die Nummer des Eintrags an, den Sie löschen möchten: ");
+            if (int.TryParse(Console.ReadLine(), out int indexToDelete) && duplicateIndices.ContainsKey(indexToDelete - 1))
             {
-                Console.WriteLine("Ungültige Eingabe.");
-                return;
-            }
+                string entryToDelete = entries[indexToDelete - 1];
+                Console.WriteLine($"Eintrag zum Löschen: {entryToDelete}");
+                Console.Write("Möchten Sie diesen Eintrag wirklich löschen? (j/n): ");
+                string confirmation = Console.ReadLine();
 
-            // remove selected duplicate from list
-            duplicateEntries.RemoveAt(index);
-
-            // overwrite file with unique entries and remaining duplicates
-            using (StreamWriter writer = new StreamWriter("addressbook.txt"))
-            {
-                foreach (string entry in uniqueEntries)
+                if (confirmation.ToLower() == "j")
                 {
-                    writer.WriteLine(entry);
+                    string tempFile = Path.GetTempFileName();
+                    using (StreamReader reader = new StreamReader("addressbook.txt"))
+                    using (StreamWriter writer = new StreamWriter(tempFile))
+                    {
+                        while (!reader.EndOfStream)
+                        {
+                            string entry = reader.ReadLine();
+                            if (entry != entryToDelete)
+                            {
+                                writer.WriteLine(entry);
+                            }
+                        }
+                    }
+                    File.Delete("addressbook.txt");
+                    File.Move(tempFile, "addressbook.txt");
+                    Console.WriteLine("Eintrag gelöscht!");
                 }
-
-                foreach (string duplicate in duplicateEntries)
+                else
                 {
-                    writer.WriteLine(duplicate);
+                    Console.WriteLine("Löschvorgang abgebrochen.");
                 }
             }
-
-            Console.WriteLine("Duplikat entfernt.");
+            else
+            {
+                Console.WriteLine("Ungültige Eingabe. Kein Eintrag wurde gelöscht.");
+            }
         }
+
+
     }
 
     // Class to give out todays Birthday of Adressbook.txt with age
@@ -1056,7 +1150,7 @@ namespace AddressBook
                 File.Delete("addressbook.txt");
                 Environment.Exit(0);
             }
-            else if(input == "Nein")
+            else if (input == "Nein")
             {
                 Console.WriteLine("Die Kontakte werden nicht gelöscht.");
             }
