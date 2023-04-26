@@ -26,18 +26,21 @@ namespace AddressBook
         {
             while (true)
             {
-                Console.WriteLine("\n\n\t \t      Was möchtest du tun? \n\n \t \t ----------------------------------------");
-                Console.Write("\n \t \t |######################################|");
-                Console.Write("\n \t \t |# N - Neuer Eintrag anlegen          #|  \t");
-                Console.Write("\n \t \t |# A - Gesamtes Adressbuch anzeigen   #|  \t");
-                Console.Write("\n \t \t |# G - heutige Geburtstage            #|  \t");
-                Console.Write("\n \t \t |# M - Einträge verwalten             #|  \t");
-                Console.Write("\n \t \t |# S - Such-Menü anzeigen             #|  \t");
-                Console.Write("\n \t \t |# E - Export-Menü anzeigen           #|  \t");
-                Console.Write("\n \t \t |# I - Import-Menü anzeigen           #|  \t");
-                Console.Write("\n \t \t |# B - Programm Beenden               #|");
-                Console.Write("\n \t \t |######################################|");
-                Console.WriteLine("\n \t \t ----------------------------------------\n");
+                Console.Clear();
+                Console.WriteLine("\n\n\t\t╔══════════════════════════════════════╗");
+                Console.WriteLine("\t\t║           Was möchtest du tun?       ║");
+                Console.WriteLine("\t\t╚══════════════════════════════════════╝\n");
+                Console.WriteLine("\t\t╔══════════════════════════════════════╗");
+                Console.WriteLine("\t\t║ N - Neuer Eintrag anlegen            ║");
+                Console.WriteLine("\t\t║ A - Gesamtes Adressbuch anzeigen     ║");
+                Console.WriteLine("\t\t║ G - heutige Geburtstage              ║");
+                Console.WriteLine("\t\t║ M - Einträge verwalten               ║");
+                Console.WriteLine("\t\t║ S - Such-Menü anzeigen               ║");
+                Console.WriteLine("\t\t║ E - Export-Menü anzeigen             ║");
+                Console.WriteLine("\t\t║ I - Import-Menü anzeigen             ║");
+                Console.WriteLine("\t\t║ P - PLZ-Menü                         ║");
+                Console.WriteLine("\t\t║ B - Programm Beenden                 ║");
+                Console.WriteLine("\t\t╚══════════════════════════════════════╝\n");
 
                 string input = Console.ReadLine();
 
@@ -50,8 +53,7 @@ namespace AddressBook
                     case "A":
                         Console.Clear();
                         Addressbook.ShowAddressBook();
-                        Console.WriteLine("");
-                        Console.WriteLine("Warte auf Eingabe um fortzufahren...");
+                        Console.WriteLine("\nWarte auf Eingabe um fortzufahren...");
                         Console.ReadLine();
                         break;
                     case "S":
@@ -68,8 +70,7 @@ namespace AddressBook
                     case "G":
                         Console.Clear();
                         Birthday.BirthdayToday();
-                        Console.WriteLine("");
-                        Console.WriteLine("Warte auf Eingabe um fortzufahren...");
+                        Console.WriteLine("\nWarte auf Eingabe um fortzufahren...");
                         Console.ReadLine();
                         break;
                     case "E":
@@ -93,19 +94,22 @@ namespace AddressBook
         }
     }
 
+
     class PLZMenu
     {
         static public void ShowPLZMenu()
         {
             while (true)
             {
-                Console.WriteLine("\n\n\t \t      Was möchtest du tun? \n\n \t \t -----------------------------");
-                Console.Write("\n \t \t |#########################################|");
-                Console.Write("\n \t \t |# P - PLZ eingeben                      #|  \t");
-                Console.Write("\n \t \t |# O - Ort eingeben                      #|  \t");
-                Console.Write("\n \t \t |# Z - Zurück zum Hauptmenü              #|");
-                Console.Write("\n \t \t |#########################################|");
-                Console.WriteLine("\n \t \t -----------------------------");
+                Console.Clear();
+                Console.WriteLine("\n\n\t\t╔══════════════════════════════════════╗");
+                Console.WriteLine("\t\t║           Was möchtest du tun?       ║");
+                Console.WriteLine("\t\t╚══════════════════════════════════════╝\n");
+                Console.WriteLine("\t\t╔══════════════════════════════════════╗");
+                Console.WriteLine("\t\t║ P - PLZ eingeben                     ║");
+                Console.WriteLine("\t\t║ O - Ort eingeben                     ║");
+                Console.WriteLine("\t\t║ Z - Zurück zum Hauptmenü             ║");
+                Console.WriteLine("\t\t╚══════════════════════════════════════╝\n");
 
                 string input = Console.ReadLine();
 
@@ -114,15 +118,13 @@ namespace AddressBook
                     case "P":
                         Console.Clear();
                         PLZHelper.PLZ_Finder();
-                        Console.WriteLine("");
-                        Console.WriteLine("Warte auf Eingabe um fortzufahren...");
+                        Console.WriteLine("\nWarte auf Eingabe um fortzufahren...");
                         Console.ReadLine();
                         break;
                     case "O":
                         Console.Clear();
                         PLZHelper.Ort_Finder();
-                        Console.WriteLine("");
-                        Console.WriteLine("Warte auf Eingabe um fortzufahren...");
+                        Console.WriteLine("\nWarte auf Eingabe um fortzufahren...");
                         Console.ReadLine();
                         break;
                     case "Z":
@@ -135,8 +137,8 @@ namespace AddressBook
                 }
             }
         }
-
     }
+
 
 
     class ExportMenu
@@ -145,15 +147,17 @@ namespace AddressBook
         {
             while (true)
             {
-                Console.WriteLine("\n\n\t \t      Was möchtest du tun? \n\n \t \t -----------------------------");
-                Console.Write("\n \t \t |#########################################|");
-                Console.Write("\n \t \t |# C - Ein Kontakt als CSV exportieren   #|");
-                Console.Write("\n \t \t |                                        #|");
-                Console.Write("\n \t \t |# A - Gesamtes Adressbuch exportieren   #|");
-                Console.Write("\n \t \t |                                        #|");
-                Console.Write("\n \t \t |# Z - Zurück zum Hauptmenü              #|");
-                Console.Write("\n \t \t |#########################################|");
-                Console.WriteLine("\n \t \t -----------------------------");
+                Console.Clear();
+                Console.WriteLine("\n\n\t\t╔══════════════════════════════════════╗");
+                Console.WriteLine("\t\t║           Was möchtest du tun?       ║");
+                Console.WriteLine("\t\t╚══════════════════════════════════════╝\n");
+                Console.WriteLine("\t\t╔══════════════════════════════════════╗");
+                Console.WriteLine("\t\t║ C - Ein Kontakt als CSV exportieren  ║");
+                Console.WriteLine("\t\t║                                      ║");
+                Console.WriteLine("\t\t║ A - Gesamtes Adressbuch exportieren  ║");
+                Console.WriteLine("\t\t║                                      ║");
+                Console.WriteLine("\t\t║ Z - Zurück zum Hauptmenü             ║");
+                Console.WriteLine("\t\t╚══════════════════════════════════════╝\n");
 
                 string input = Console.ReadLine();
 
@@ -182,27 +186,30 @@ namespace AddressBook
     }
 
 
+
     class SubMenu
     {
         static public void ShowSubMenu()
         {
             while (true)
             {
-                Console.WriteLine("\n\n\t \t      Was möchtest du tun? \n\n \t \t -----------------------------");
-                Console.Write("\n \t \t |#############################|");
-                Console.Write("\n \t \t |# B - Eintrag bearbeiten     #|");
-                Console.Write("\n \t \t |                             #|");
-                Console.Write("\n \t \t |# L - Eintrag löschen        #|");
-                Console.Write("\n \t \t |                             #|");
-                Console.Write("\n \t \t |# F - Duplikate anzeigen     #|");
-                Console.Write("\n \t \t |                             #|");
-                Console.Write("\n \t \t |# D - Duplikate entfernen    #|");
-                Console.Write("\n \t \t |                             #|");
-                Console.Write("\n \t \t |# X - Alles Löschen          #|");
-                Console.Write("\n \t \t |                             #|");
-                Console.Write("\n \t \t |# Z - Zurück zum Hauptmenü   #|");
-                Console.Write("\n \t \t |#############################|");
-                Console.WriteLine("\n \t \t -----------------------------");
+                Console.Clear();
+                Console.WriteLine("\n\n\t\t╔══════════════════════════════════╗");
+                Console.WriteLine("\t\t║        Was möchtest du tun?      ║");
+                Console.WriteLine("\t\t╚══════════════════════════════════╝\n");
+                Console.WriteLine("\t\t╔══════════════════════════════════╗");
+                Console.WriteLine("\t\t║ B - Eintrag bearbeiten           ║");
+                Console.WriteLine("\t\t║                                  ║");
+                Console.WriteLine("\t\t║ L - Eintrag löschen              ║");
+                Console.WriteLine("\t\t║                                  ║");
+                Console.WriteLine("\t\t║ F - Duplikate anzeigen           ║");
+                Console.WriteLine("\t\t║                                  ║");
+                Console.WriteLine("\t\t║ D - Duplikate entfernen          ║");
+                Console.WriteLine("\t\t║                                  ║");
+                Console.WriteLine("\t\t║ X - Alles Löschen                ║");
+                Console.WriteLine("\t\t║                                  ║");
+                Console.WriteLine("\t\t║ Z - Zurück zum Hauptmenü         ║");
+                Console.WriteLine("\t\t╚══════════════════════════════════╝\n");
 
                 string input = Console.ReadLine();
 
@@ -245,13 +252,15 @@ namespace AddressBook
         {
             while (true)
             {
-                Console.WriteLine("\n\n\t \t      Was möchtest du tun? \n\n \t \t -----------------------------");
-                Console.Write("\n \t \t |#########################################|");
-                Console.Write("\n \t \t |# I - Aus einer CSV Datei Importieren   #|");
-                Console.Write("\n \t \t |                                        #|");
-                Console.Write("\n \t \t |# Z - Zurück zum Hauptmenü              #|");
-                Console.Write("\n \t \t |#########################################|");
-                Console.WriteLine("\n \t \t -----------------------------");
+                Console.Clear();
+                Console.WriteLine("\n\n\t\t╔═════════════════════════════════════╗");
+                Console.WriteLine("\t\t║        Was möchtest du tun?         ║");
+                Console.WriteLine("\t\t╚═════════════════════════════════════╝\n");
+                Console.WriteLine("\t\t╔═════════════════════════════════════╗");
+                Console.WriteLine("\t\t║ I - Aus einer CSV Datei Importieren ║");
+                Console.WriteLine("\t\t║                                     ║");
+                Console.WriteLine("\t\t║ Z - Zurück zum Hauptmenü            ║");
+                Console.WriteLine("\t\t╚═════════════════════════════════════╝\n");
 
                 string input = Console.ReadLine();
 
@@ -275,27 +284,30 @@ namespace AddressBook
     }
 
 
+
     class SearchMenu
     {
         static public void ShowSearchMenu()
         {
             while (true)
             {
-                Console.WriteLine("\n\n\t \t      Was möchtest du tun? \n\n \t \t -----------------------------");
-                Console.Write("\n \t \t |#########################################|");
-                Console.Write("\n \t \t |# N - Nach Namen suchen                 #|");
-                Console.Write("\n \t \t |                                        #|");
-                Console.Write("\n \t \t |# T - Nach Telefonnummer suchen         #|");
-                Console.Write("\n \t \t |                                        #|");
-                Console.Write("\n \t \t |# E - Nach E-Mail suchen                #|");
-                Console.Write("\n \t \t |                                        #|");
-                Console.Write("\n \t \t |# A - Nach Adresse suchen               #|");
-                Console.Write("\n \t \t |                                        #|");
-                Console.Write("\n \t \t |# F - Nach Firma suchen                 #|");
-                Console.Write("\n \t \t |                                        #|");
-                Console.Write("\n \t \t |# Z - Zurück zum Hauptmenü              #|");
-                Console.Write("\n \t \t |#########################################|");
-                Console.WriteLine("\n \t \t -----------------------------");
+                Console.Clear();
+                Console.WriteLine("\n\n\t\t╔════════════════════════════════╗");
+                Console.WriteLine("\t\t║        Was möchtest du tun?    ║");
+                Console.WriteLine("\t\t╚════════════════════════════════╝\n");
+                Console.WriteLine("\t\t╔════════════════════════════════╗");
+                Console.WriteLine("\t\t║ N - Nach Namen suchen          ║");
+                Console.WriteLine("\t\t║                                ║");
+                Console.WriteLine("\t\t║ T - Nach Telefonnummer suchen  ║");
+                Console.WriteLine("\t\t║                                ║");
+                Console.WriteLine("\t\t║ E - Nach E-Mail suchen         ║");
+                Console.WriteLine("\t\t║                                ║");
+                Console.WriteLine("\t\t║ A - Nach Adresse suchen        ║");
+                Console.WriteLine("\t\t║                                ║");
+                Console.WriteLine("\t\t║ F - Nach Firma suchen          ║");
+                Console.WriteLine("\t\t║                                ║");
+                Console.WriteLine("\t\t║ Z - Zurück zum Hauptmenü       ║");
+                Console.WriteLine("\t\t╚════════════════════════════════╝\n");
 
                 string input = Console.ReadLine();
 
@@ -347,6 +359,7 @@ namespace AddressBook
             }
         }
     }
+
 
 
     static class Addressbook
@@ -988,7 +1001,7 @@ namespace AddressBook
         }
     }
 
-    // Diese Klasse kümmert sich um Duplicate.
+    // Diese Klasse kümmert sich um Duplikate.
     class Duplicates
     {
         static public void ShowDuplicates()
