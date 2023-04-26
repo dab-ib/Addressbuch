@@ -28,20 +28,13 @@ namespace AddressBook
             {
                 Console.WriteLine("\n\n\t \t      Was möchtest du tun? \n\n \t \t ----------------------------------------");
                 Console.Write("\n \t \t |######################################|");
-                Console.Write("\n \t \t |# N - Neuer Eintrag anlegen          #|");
-                Console.Write("\n \t \t |                                     #|");
-                Console.Write("\n \t \t |# A - Gesamtes Adressbuch anzeigen   #|");
-                Console.Write("\n \t \t |                                     #|");
-                Console.Write("\n \t \t |# G - heutige Geburtstage            #|");
-                Console.Write("\n \t \t |                                     #|");
-                Console.Write("\n \t \t |# M - Einträge verwalten             #|");
-                Console.Write("\n \t \t |                                     #|");
-                Console.Write("\n \t \t |# S - Such-Menü anzeigen             #|");
-                Console.Write("\n \t \t |                                     #|");
-                Console.Write("\n \t \t |# E - Export-Menü anzeigen           #|");
-                Console.Write("\n \t \t |                                     #|");
-                Console.Write("\n \t \t |# I - Import-Menü anzeigen           #|");
-                Console.Write("\n \t \t |                                     #|");
+                Console.Write("\n \t \t |# N - Neuer Eintrag anlegen          #|  \t");
+                Console.Write("\n \t \t |# A - Gesamtes Adressbuch anzeigen   #|  \t");
+                Console.Write("\n \t \t |# G - heutige Geburtstage            #|  \t");
+                Console.Write("\n \t \t |# M - Einträge verwalten             #|  \t");
+                Console.Write("\n \t \t |# S - Such-Menü anzeigen             #|  \t");
+                Console.Write("\n \t \t |# E - Export-Menü anzeigen           #|  \t");
+                Console.Write("\n \t \t |# I - Import-Menü anzeigen           #|  \t");
                 Console.Write("\n \t \t |# B - Programm Beenden               #|");
                 Console.Write("\n \t \t |######################################|");
                 Console.WriteLine("\n \t \t ----------------------------------------\n");
@@ -75,6 +68,9 @@ namespace AddressBook
                     case "G":
                         Console.Clear();
                         Birthday.BirthdayToday();
+                        Console.WriteLine("");
+                        Console.WriteLine("Warte auf Eingabe um fortzufahren...");
+                        Console.ReadLine();
                         break;
                     case "E":
                         Console.Clear();
@@ -84,8 +80,9 @@ namespace AddressBook
                         Console.Clear();
                         ImportMenu.ShowImportMenu();
                         break;
-                    case "T":
-                        PLZHelper.Einlesen();
+                    case "P":
+                        Console.Clear();
+                        PLZMenu.ShowPLZMenu();
                         break;
                     default:
                         Console.Clear();
@@ -94,6 +91,51 @@ namespace AddressBook
                 }
             }
         }
+    }
+
+    class PLZMenu
+    {
+        static public void ShowPLZMenu()
+        {
+            while (true)
+            {
+                Console.WriteLine("\n\n\t \t      Was möchtest du tun? \n\n \t \t -----------------------------");
+                Console.Write("\n \t \t |#########################################|");
+                Console.Write("\n \t \t |# P - PLZ eingeben                      #|  \t");
+                Console.Write("\n \t \t |# O - Ort eingeben                      #|  \t");
+                Console.Write("\n \t \t |# Z - Zurück zum Hauptmenü              #|");
+                Console.Write("\n \t \t |#########################################|");
+                Console.WriteLine("\n \t \t -----------------------------");
+
+                string input = Console.ReadLine();
+
+                switch (input.ToUpper())
+                {
+                    case "P":
+                        Console.Clear();
+                        PLZHelper.PLZ_Finder();
+                        Console.WriteLine("");
+                        Console.WriteLine("Warte auf Eingabe um fortzufahren...");
+                        Console.ReadLine();
+                        break;
+                    case "O":
+                        Console.Clear();
+                        PLZHelper.Ort_Finder();
+                        Console.WriteLine("");
+                        Console.WriteLine("Warte auf Eingabe um fortzufahren...");
+                        Console.ReadLine();
+                        break;
+                    case "Z":
+                        Console.Clear();
+                        return;
+                    default:
+                        Console.Clear();
+                        Console.WriteLine("Ungültige Eingabe!");
+                        break;
+                }
+            }
+        }
+
     }
 
 
@@ -1303,13 +1345,38 @@ namespace AddressBook
 
     class PLZHelper
     {
-        static public void Einlesen()
+        static public void PLZ_Finder()
         {
             Console.Write("Bitte PLZ eingeben: ");
             string input = Console.ReadLine();
 
             List<PlzData> results = ReadEmbeddedCsvFile("plz_de")
                 .Where(x => x.PLZ == input)
+                .ToList();
+
+            if (results.Count == 0)
+            {
+                Console.WriteLine("Keine Ergebnisse gefunden.");
+                return;
+            }
+
+            foreach (PlzData data in results)
+            {
+                Console.WriteLine($"Ort: {data.Ort}");
+                Console.WriteLine($"Zusatz: {data.Zusatz}");
+                Console.WriteLine($"PLZ: {data.PLZ}");
+                Console.WriteLine($"Vorwahl: {data.Vorwahl}");
+                Console.WriteLine($"Bundesland: {data.Bundesland}");
+            }
+        }
+
+        static public void Ort_Finder()
+        {
+            Console.Write("Bitte Ort eingeben: ");
+            string input = Console.ReadLine();
+
+            List<PlzData> results = ReadEmbeddedCsvFile("plz_de")
+                .Where(x => x.Ort == input)
                 .ToList();
 
             if (results.Count == 0)
@@ -1366,7 +1433,7 @@ namespace AddressBook
                         }
                         else
                         {
-                            Console.WriteLine($"Ungültige Zeile: {line}");
+                            //Console.WriteLine($"Ungültige Zeile: "+line);
                         }
                     }
                 }
