@@ -5,7 +5,6 @@ using System.Reflection;
 using System.Collections.Generic;
 using System.Formats.Asn1;
 using System.Linq;
-using System.Reflection;
 using System.Reflection.Emit;
 using AddressBook;
 
@@ -166,9 +165,9 @@ namespace AddressBook
                 {
                     case "C":
                         Console.Clear();
-                        Console.WriteLine("Name des zu exportierenden Kontakts:");
-                        string input1 = Console.ReadLine();
-                        CsvExporter.ExportToCsv(input1, "addressbook.txt", "Kontakt_" + input1 + ".csv");
+                        Console.WriteLine("Vorname und Nachname des zu exportierenden Kontakts:");
+                        string fullname = Console.ReadLine();
+                        CsvExporter.ExportToCsv(fullname, "addressbook.txt", "Kontakt_" + fullname + ".csv");
                         break;
                     case "A":
                         Console.Clear();
@@ -408,14 +407,45 @@ namespace AddressBook
             string group = Console.ReadLine();
 
             // Verwende Standardwerte für fehlende Felder
-            address = string.IsNullOrWhiteSpace(address) ? "-" : address;
-            zip = string.IsNullOrWhiteSpace(zip) ? "-" : zip;
-            city = string.IsNullOrWhiteSpace(city) ? "-" : city;
-            phone = string.IsNullOrWhiteSpace(phone) ? "-" : phone;
-            birthday = string.IsNullOrWhiteSpace(birthday) ? "-" : birthday;
-            email = string.IsNullOrWhiteSpace(email) ? "-" : email;
-            company = string.IsNullOrWhiteSpace(company) ? "-" : company;
-            group = string.IsNullOrWhiteSpace(group) ? "-" : group;
+            if (string.IsNullOrWhiteSpace(address))
+            {
+                address = "-";
+            }
+
+            if (string.IsNullOrWhiteSpace(zip))
+            {
+                zip = "-";
+            }
+
+            if (string.IsNullOrWhiteSpace(city))
+            {
+                city = "-";
+            }
+
+            if (string.IsNullOrWhiteSpace(phone))
+            {
+                phone = "-";
+            }
+
+            if (string.IsNullOrWhiteSpace(birthday))
+            {
+                birthday = "-";
+            }
+
+            if (string.IsNullOrWhiteSpace(email))
+            {
+                email = "-";
+            }
+
+            if (string.IsNullOrWhiteSpace(company))
+            {
+                company = "-";
+            }
+
+            if (string.IsNullOrWhiteSpace(group))
+            {
+                group = "-";
+            }
 
             string entry = $"{name},{nachname},{address},{zip},{city},{phone},{birthday},{email},{company},{group}";
 
@@ -434,7 +464,8 @@ namespace AddressBook
             int i = 1;
             if (!File.Exists("addressbook.txt"))
             {
-                Console.WriteLine("Das Adressbuch ist leer!");
+                Console.WriteLine("Die Datei 'addressbook.txt' wurde scheinbar gelöscht!");
+                Console.WriteLine("Erstelle eine neue im Ordner oder lege einfach einen Eintrag an");
                 return;
             }
             else
@@ -499,121 +530,139 @@ namespace AddressBook
             string name = Console.ReadLine();
 
             string tempFile = Path.GetTempFileName();
-            using (StreamReader reader = new StreamReader("addressbook.txt"))
-            using (StreamWriter writer = new StreamWriter(tempFile))
+            try
             {
-                bool entryFound = false;
-
-                while (!reader.EndOfStream)
+                using (StreamReader reader = new StreamReader("addressbook.txt"))
+                using (StreamWriter writer = new StreamWriter(tempFile))
                 {
-                    string entry = reader.ReadLine();
-                    string[] fields = entry.Split(',');
+                    bool entryFound = false;
 
-                    if (fields[0] == name)
+                    while (!reader.EndOfStream)
                     {
-                        entryFound = true;
+                        string entry = reader.ReadLine();
+                        string[] fields = entry.Split(',');
 
-                        Console.WriteLine($"Aktueller Eintrag:");
-                        Console.WriteLine($"Name          : {fields[0]}");
-                        Console.WriteLine($"Nachname      : {fields[1]}");
-                        Console.WriteLine($"Adresse       : {fields[2]}");
-                        Console.WriteLine($"Postleitzahl  : {fields[3]}");
-                        Console.WriteLine($"Stadt         : {fields[4]}");
-                        Console.WriteLine($"Telefonnummer : {fields[5]}");
-                        Console.WriteLine($"Geburtstag    : {fields[6]}");
-                        Console.WriteLine($"Email         : {fields[7]}");
-                        Console.WriteLine($"Firma         : {fields[8]}");
-                        Console.WriteLine($"Gruppe        : {fields[9]}");
-                        Console.WriteLine(new string('-', 40));
-
-
-                        Console.Write("Neuer Vorname (leer lassen, um unverändert zu lassen): ");
-                        string newName = Console.ReadLine();
-                        if (newName == "")
+                        if (fields[0] == name)
                         {
-                            newName = fields[0];
+                            entryFound = true;
+
+                            Console.WriteLine($"Aktueller Eintrag:");
+                            Console.WriteLine($"Name          : {fields[0]}");
+                            Console.WriteLine($"Nachname      : {fields[1]}");
+                            Console.WriteLine($"Adresse       : {fields[2]}");
+                            Console.WriteLine($"Postleitzahl  : {fields[3]}");
+                            Console.WriteLine($"Stadt         : {fields[4]}");
+                            Console.WriteLine($"Telefonnummer : {fields[5]}");
+                            Console.WriteLine($"Geburtstag    : {fields[6]}");
+                            Console.WriteLine($"Email         : {fields[7]}");
+                            Console.WriteLine($"Firma         : {fields[8]}");
+                            Console.WriteLine($"Gruppe        : {fields[9]}");
+                            Console.WriteLine(new string('-', 40));
+
+
+                            Console.Write("Neuer Vorname (leer lassen, um unverändert zu lassen): ");
+                            string newName = Console.ReadLine();
+                            if (newName == "")
+                            {
+                                newName = fields[0];
+                            }
+
+                            Console.Write("Neuer Nachname (leer lassen, um unverändert zu lassen): ");
+                            string newNachname = Console.ReadLine();
+                            if (newNachname == "")
+                            {
+                                newNachname = fields[1];
+                            }
+
+                            Console.Write("Neue Adresse (leer lassen, um unverändert zu lassen): ");
+                            string newAddress = Console.ReadLine();
+                            if (newAddress == "")
+                            {
+                                newAddress = fields[2];
+                            }
+
+                            Console.Write("Neue Postleitzahl (leer lassen, um unverändert zu lassen): ");
+                            string newZip = Console.ReadLine();
+                            if (newZip == "")
+                            {
+                                newZip = fields[3];
+                            }
+
+                            Console.Write("Neue Stadt (leer lassen, um unverändert zu lassen): ");
+                            string newCity = Console.ReadLine();
+                            if (newCity == "")
+                            {
+                                newCity = fields[4];
+                            }
+
+                            Console.Write("Neue Telefonnummer (leer lassen, um unverändert zu lassen): ");
+                            string newPhone = Console.ReadLine();
+                            if (newPhone == "")
+                            {
+                                newPhone = fields[5];
+                            }
+
+                            Console.Write("Neuer Geburtstag TT.MM.JJJJ (leer lassen, um unverändert zu lassen): ");
+                            string newBirthday = Console.ReadLine();
+                            if (newBirthday == "")
+                            {
+                                newBirthday = fields[6];
+                            }
+
+                            Console.Write("Neue E-Mail-Adresse (leer lassen, um unverändert zu lassen): ");
+                            string newEmail = Console.ReadLine();
+                            if (newEmail == "")
+                            {
+                                newEmail = fields[7];
+                            }
+
+                            Console.Write("Neue Firma (leer lassen, um unverändert zu lassen): ");
+                            string newCompany = Console.ReadLine();
+                            if (newCompany == "")
+                            {
+                                newCompany = fields[8];
+                            }
+
+                            Console.Write("Neue Gruppe (leer lassen, um unverändert zu lassen): ");
+                            string newGroup = Console.ReadLine();
+                            if (newGroup == "")
+                            {
+                                newGroup = fields[9];
+                            }
+
+                            entry =
+                                $"{newName},{newNachname},{newAddress},{newZip},{newCity},{newPhone},{newBirthday},{newEmail},{newCompany},{newGroup}";
                         }
 
-                        Console.Write("Neuer Nachname (leer lassen, um unverändert zu lassen): ");
-                        string newNachname = Console.ReadLine();
-                        if (newNachname == "")
-                        {
-                            newNachname = fields[1];
-                        }
-
-                        Console.Write("Neue Adresse (leer lassen, um unverändert zu lassen): ");
-                        string newAddress = Console.ReadLine();
-                        if (newAddress == "")
-                        {
-                            newAddress = fields[2];
-                        }
-
-                        Console.Write("Neue Postleitzahl (leer lassen, um unverändert zu lassen): ");
-                        string newZip = Console.ReadLine();
-                        if (newZip == "")
-                        {
-                            newZip = fields[3];
-                        }
-
-                        Console.Write("Neue Stadt (leer lassen, um unverändert zu lassen): ");
-                        string newCity = Console.ReadLine();
-                        if (newCity == "")
-                        {
-                            newCity = fields[4];
-                        }
-
-                        Console.Write("Neue Telefonnummer (leer lassen, um unverändert zu lassen): ");
-                        string newPhone = Console.ReadLine();
-                        if (newPhone == "")
-                        {
-                            newPhone = fields[5];
-                        }
-
-                        Console.Write("Neuer Geburtstag TT.MM.JJJJ (leer lassen, um unverändert zu lassen): ");
-                        string newBirthday = Console.ReadLine();
-                        if (newBirthday == "")
-                        {
-                            newBirthday = fields[6];
-                        }
-
-                        Console.Write("Neue E-Mail-Adresse (leer lassen, um unverändert zu lassen): ");
-                        string newEmail = Console.ReadLine();
-                        if (newEmail == "")
-                        {
-                            newEmail = fields[7];
-                        }
-
-                        Console.Write("Neue Firma (leer lassen, um unverändert zu lassen): ");
-                        string newCompany = Console.ReadLine();
-                        if (newCompany == "")
-                        {
-                            newCompany = fields[8];
-                        }
-
-                        Console.Write("Neue Gruppe (leer lassen, um unverändert zu lassen): ");
-                        string newGroup = Console.ReadLine();
-                        if (newGroup == "")
-                        {
-                            newGroup = fields[9];
-                        }
-
-                        entry =
-                            $"{newName},{newNachname},{newAddress},{newZip},{newCity},{newPhone},{newBirthday},{newEmail},{newCompany},{newGroup}";
+                        writer.WriteLine(entry);
                     }
 
-                    writer.WriteLine(entry);
+                    if (!entryFound)
+                    {
+                        Console.WriteLine("Eintrag nicht gefunden!");
+                    }
                 }
 
-                if (!entryFound)
-                {
-                    Console.WriteLine("Eintrag nicht gefunden!");
-                }
+                File.Delete("addressbook.txt");
+                File.Move(tempFile, "addressbook.txt");
+
+                Console.WriteLine("Eintrag bearbeitet!");
             }
+            catch (FileNotFoundException e)
+            {
+                Console.WriteLine("Fehler beim Lesen der addressbook.txt Datei: " + e.Message);
 
-            File.Delete("addressbook.txt");
-            File.Move(tempFile, "addressbook.txt");
-
-            Console.WriteLine("Eintrag bearbeitet!");
+                Console.WriteLine("");
+                Console.WriteLine("Warte auf Eingabe um fortzufahren...");
+                Console.ReadLine();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Es ist ein Fehler aufgetreten: " + e.Message);
+                Console.WriteLine("");
+                Console.WriteLine("Warte auf Eingabe um fortzufahren...");
+                Console.ReadLine();
+            }
         }
 
 
@@ -626,6 +675,8 @@ namespace AddressBook
             string lastName = Console.ReadLine();
 
             string tempFile = Path.GetTempFileName();
+
+            try{
             using (StreamReader reader = new StreamReader("addressbook.txt"))
             using (StreamWriter writer = new StreamWriter(tempFile))
             {
@@ -665,7 +716,8 @@ namespace AddressBook
                         }
 
                         Console.Write("Bitte geben Sie die Nummer des Eintrags an, den Sie löschen möchten: ");
-                        if (int.TryParse(Console.ReadLine(), out int indexToDelete) && indexToDelete > 0 && indexToDelete <= matchingEntries.Count)
+                        if (int.TryParse(Console.ReadLine(), out int indexToDelete) && indexToDelete > 0 &&
+                            indexToDelete <= matchingEntries.Count)
                         {
                             entryToDelete = matchingEntries[indexToDelete - 1];
                         }
@@ -698,6 +750,22 @@ namespace AddressBook
 
             File.Delete("addressbook.txt");
             File.Move(tempFile, "addressbook.txt");
+        }
+            catch (FileNotFoundException e)
+            {
+                Console.WriteLine("Fehler beim Lesen der addressbook.txt Datei: " + e.Message);
+
+                Console.WriteLine("");
+                Console.WriteLine("Warte auf Eingabe um fortzufahren...");
+                Console.ReadLine();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Es ist ein Fehler aufgetreten: " + e.Message);
+                Console.WriteLine("");
+                Console.WriteLine("Warte auf Eingabe um fortzufahren...");
+                Console.ReadLine();
+            }
         }
 
     }
@@ -1045,48 +1113,68 @@ namespace AddressBook
             List<string> entries = new List<string>();
             List<string> duplicateEntries = new List<string>();
 
-            // Read all entries from the file
-            using (StreamReader reader = new StreamReader("addressbook.txt"))
+            try
             {
-                while (!reader.EndOfStream)
+                // Read all entries from the file
+                using (StreamReader reader = new StreamReader("addressbook.txt"))
                 {
-                    string entry = reader.ReadLine();
-                    entries.Add(entry);
-                }
-            }
-
-            for (int i = 0; i < entries.Count; i++)
-            {
-                string[] fields1 = entries[i].Split(',');
-                for (int j = i + 1; j < entries.Count; j++)
-                {
-                    string[] fields2 = entries[j].Split(',');
-
-                    if (fields1[0] == fields2[0] && fields1[1] == fields2[1] || fields1[5] == fields2[5] || fields1[7] == fields2[7])
+                    while (!reader.EndOfStream)
                     {
-                        if (!duplicateEntries.Contains(entries[i]))
+                        string entry = reader.ReadLine();
+                        entries.Add(entry);
+                    }
+                }
+
+                for (int i = 0; i < entries.Count; i++)
+                {
+                    string[] fields1 = entries[i].Split(',');
+                    for (int j = i + 1; j < entries.Count; j++)
+                    {
+                        string[] fields2 = entries[j].Split(',');
+
+                        if (fields1[0] == fields2[0] && fields1[1] == fields2[1] || fields1[5] == fields2[5] ||
+                            fields1[7] == fields2[7])
                         {
-                            duplicateEntries.Add(entries[i]);
-                        }
-                        if (!duplicateEntries.Contains(entries[j]))
-                        {
-                            duplicateEntries.Add(entries[j]);
+                            if (!duplicateEntries.Contains(entries[i]))
+                            {
+                                duplicateEntries.Add(entries[i]);
+                            }
+
+                            if (!duplicateEntries.Contains(entries[j]))
+                            {
+                                duplicateEntries.Add(entries[j]);
+                            }
                         }
                     }
                 }
+
+                if (duplicateEntries.Count == 0)
+                {
+                    Console.WriteLine("Keine Duplikate gefunden.");
+                    return;
+                }
+
+                Console.WriteLine($"Es wurden {duplicateEntries.Count} Duplikate gefunden:");
+
+                for (int i = 0; i < duplicateEntries.Count; i++)
+                {
+                    Console.WriteLine($"[{i}] {duplicateEntries[i]}");
+                }
             }
-
-            if (duplicateEntries.Count == 0)
+            catch (FileNotFoundException e)
             {
-                Console.WriteLine("Keine Duplikate gefunden.");
-                return;
+                Console.WriteLine("Fehler beim Lesen der addressbook.txt Datei: " + e.Message);
+
+                Console.WriteLine("");
+                Console.WriteLine("Warte auf Eingabe um fortzufahren...");
+                Console.ReadLine();
             }
-
-            Console.WriteLine($"Es wurden {duplicateEntries.Count} Duplikate gefunden:");
-
-            for (int i = 0; i < duplicateEntries.Count; i++)
+            catch (Exception e)
             {
-                Console.WriteLine($"[{i}] {duplicateEntries[i]}");
+                Console.WriteLine("Es ist ein Fehler aufgetreten: " + e.Message);
+                Console.WriteLine("");
+                Console.WriteLine("Warte auf Eingabe um fortzufahren...");
+                Console.ReadLine();
             }
         }
 
@@ -1100,88 +1188,111 @@ namespace AddressBook
             List<string> entries = new List<string>();
             Dictionary<int, List<int>> duplicateIndices = new Dictionary<int, List<int>>();
 
-            // Read all entries from the file
-            using (StreamReader reader = new StreamReader("addressbook.txt"))
+            try
             {
-                while (!reader.EndOfStream)
+                // Read all entries from the file
+                using (StreamReader reader = new StreamReader("addressbook.txt"))
                 {
-                    string entry = reader.ReadLine();
-                    entries.Add(entry);
-                }
-            }
-
-            for (int i = 0; i < entries.Count; i++)
-            {
-                string[] fields1 = entries[i].Split(',');
-
-                for (int j = i + 1; j < entries.Count; j++)
-                {
-                    string[] fields2 = entries[j].Split(',');
-
-                    if (fields1[0] == fields2[0] && fields1[1] == fields2[1] || fields1[5] == fields2[5] || fields1[7] == fields2[7])
+                    while (!reader.EndOfStream)
                     {
-                        if (!duplicateIndices.ContainsKey(i))
-                        {
-                            duplicateIndices[i] = new List<int>();
-                        }
-                        if (!duplicateIndices.ContainsKey(j))
-                        {
-                            duplicateIndices[j] = new List<int>();
-                        }
-                        duplicateIndices[i].Add(j);
-                        duplicateIndices[j].Add(i);
+                        string entry = reader.ReadLine();
+                        entries.Add(entry);
                     }
                 }
-            }
 
-            if (duplicateIndices.Count == 0)
-            {
-                Console.WriteLine("Keine Duplikate gefunden.");
-                return;
-            }
-
-            Console.WriteLine($"Es wurden {duplicateIndices.Count} Duplikate gefunden:");
-
-            foreach (var key in duplicateIndices.Keys)
-            {
-                Console.WriteLine($"[{key + 1}] {entries[key]}");
-            }
-
-            Console.Write("Bitte geben Sie die Nummer des Eintrags an, den Sie löschen möchten: ");
-            if (int.TryParse(Console.ReadLine(), out int indexToDelete) && duplicateIndices.ContainsKey(indexToDelete - 1))
-            {
-                string entryToDelete = entries[indexToDelete - 1];
-                Console.WriteLine($"Eintrag zum Löschen: {entryToDelete}");
-                Console.Write("Möchten Sie diesen Eintrag wirklich löschen? (j/n): ");
-                string confirmation = Console.ReadLine();
-
-                if (confirmation.ToLower() == "j")
+                for (int i = 0; i < entries.Count; i++)
                 {
-                    string tempFile = Path.GetTempFileName();
-                    using (StreamReader reader = new StreamReader("addressbook.txt"))
-                    using (StreamWriter writer = new StreamWriter(tempFile))
+                    string[] fields1 = entries[i].Split(',');
+
+                    for (int j = i + 1; j < entries.Count; j++)
                     {
-                        while (!reader.EndOfStream)
+                        string[] fields2 = entries[j].Split(',');
+
+                        if (fields1[0] == fields2[0] && fields1[1] == fields2[1] || fields1[5] == fields2[5] ||
+                            fields1[7] == fields2[7])
                         {
-                            string entry = reader.ReadLine();
-                            if (entry != entryToDelete)
+                            if (!duplicateIndices.ContainsKey(i))
                             {
-                                writer.WriteLine(entry);
+                                duplicateIndices[i] = new List<int>();
+                            }
+
+                            if (!duplicateIndices.ContainsKey(j))
+                            {
+                                duplicateIndices[j] = new List<int>();
+                            }
+
+                            duplicateIndices[i].Add(j);
+                            duplicateIndices[j].Add(i);
+                        }
+                    }
+                }
+
+                if (duplicateIndices.Count == 0)
+                {
+                    Console.WriteLine("Keine Duplikate gefunden.");
+                    return;
+                }
+
+                Console.WriteLine($"Es wurden {duplicateIndices.Count} Duplikate gefunden:");
+
+                foreach (var key in duplicateIndices.Keys)
+                {
+                    Console.WriteLine($"[{key + 1}] {entries[key]}");
+                }
+
+                Console.Write("Bitte geben Sie die Nummer des Eintrags an, den Sie löschen möchten: ");
+                if (int.TryParse(Console.ReadLine(), out int indexToDelete) &&
+                    duplicateIndices.ContainsKey(indexToDelete - 1))
+                {
+                    string entryToDelete = entries[indexToDelete - 1];
+                    Console.WriteLine($"Eintrag zum Löschen: {entryToDelete}");
+                    Console.Write("Möchten Sie diesen Eintrag wirklich löschen? (j/n): ");
+                    string confirmation = Console.ReadLine();
+
+                    if (confirmation.ToLower() == "j")
+                    {
+                        string tempFile = Path.GetTempFileName();
+                        using (StreamReader reader = new StreamReader("addressbook.txt"))
+                        using (StreamWriter writer = new StreamWriter(tempFile))
+                        {
+                            while (!reader.EndOfStream)
+                            {
+                                string entry = reader.ReadLine();
+                                if (entry != entryToDelete)
+                                {
+                                    writer.WriteLine(entry);
+                                }
                             }
                         }
+
+                        File.Delete("addressbook.txt");
+                        File.Move(tempFile, "addressbook.txt");
+                        Console.WriteLine("Eintrag gelöscht!");
                     }
-                    File.Delete("addressbook.txt");
-                    File.Move(tempFile, "addressbook.txt");
-                    Console.WriteLine("Eintrag gelöscht!");
+                    else
+                    {
+                        Console.WriteLine("Löschvorgang abgebrochen.");
+                    }
                 }
                 else
                 {
-                    Console.WriteLine("Löschvorgang abgebrochen.");
+                    Console.WriteLine("Ungültige Eingabe. Kein Eintrag wurde gelöscht.");
                 }
             }
-            else
+            catch (FileNotFoundException e)
             {
-                Console.WriteLine("Ungültige Eingabe. Kein Eintrag wurde gelöscht.");
+                Console.WriteLine("Fehler beim Lesen der addressbook.txt Datei: " + e.Message);
+
+                Console.WriteLine("");
+                Console.WriteLine("Warte auf Eingabe um fortzufahren...");
+                Console.ReadLine();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Es ist ein Fehler aufgetreten: " + e.Message);
+                Console.WriteLine("");
+                Console.WriteLine("Warte auf Eingabe um fortzufahren...");
+                Console.ReadLine();
             }
         }
 
@@ -1193,41 +1304,53 @@ namespace AddressBook
     {
         public static void BirthdayToday()
         {
-            string[] lines = File.ReadAllLines("addressbook.txt");
-            string[] fields = new string[9];
-            string[] birthday = new string[3];
-            string[] today = new string[3];
-            int age = 0;
-            int todayDay = DateTime.Now.Day;
-            int todayMonth = DateTime.Now.Month;
-            int todayYear = DateTime.Now.Year;
-            int birthdayDay = 0;
-            int birthdayMonth = 0;
-            int birthdayYear = 0;
-            bool found = false;
-
-            foreach (string line in lines)
+            try
             {
-                fields = line.Split(',');
-                birthday = fields[6].Split('.');
-                birthdayDay = Convert.ToInt32(birthday[0]);
-                birthdayMonth = Convert.ToInt32(birthday[1]);
-                birthdayYear = Convert.ToInt32(birthday[2]);
+                string[] lines = File.ReadAllLines("addressbook.txt");
+                string[] fields = new string[9];
+                string[] birthday = new string[3];
+                string[] today = new string[3];
+                int age = 0;
+                int todayDay = DateTime.Now.Day;
+                int todayMonth = DateTime.Now.Month;
+                int todayYear = DateTime.Now.Year;
+                int birthdayDay = 0;
+                int birthdayMonth = 0;
+                int birthdayYear = 0;
+                bool found = false;
 
-                if (todayDay == birthdayDay && todayMonth == birthdayMonth)
+                foreach (string line in lines)
                 {
-                    age = todayYear - birthdayYear;
-                    Console.WriteLine($"Heute hat {fields[0]} {fields[1]} Geburtstag und wird {age} Jahre alt.");
-                    found = true;
+                    fields = line.Split(',');
+                    birthday = fields[6].Split('.');
+                    birthdayDay = Convert.ToInt32(birthday[0]);
+                    birthdayMonth = Convert.ToInt32(birthday[1]);
+                    birthdayYear = Convert.ToInt32(birthday[2]);
+
+                    if (todayDay == birthdayDay && todayMonth == birthdayMonth)
+                    {
+                        age = todayYear - birthdayYear;
+                        Console.WriteLine($"Heute hat {fields[0]} {fields[1]} Geburtstag und wird {age} Jahre alt.");
+                        found = true;
+                    }
+                }
+
+                if (!found)
+                {
+                    Console.WriteLine("Heute hat niemand Geburtstag.");
                 }
             }
-
-            if (!found)
+            catch (FileNotFoundException e)
             {
-                Console.WriteLine("Heute hat niemand Geburtstag.");
+                Console.WriteLine("Fehler beim Lesen der addressbook.txt Datei: " + e.Message);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Es ist ein Fehler aufgetreten: " + e.Message);
             }
         }
     }
+
 
     public static class DeleteAll
     {
@@ -1239,159 +1362,230 @@ namespace AddressBook
             {
                 Console.WriteLine("Alle Kontakte werden nun gelöscht. Und das Programm wird geschlossen.");
                 File.Delete("addressbook.txt");
+
+                Console.WriteLine("\nWarte auf Eingabe um das Programm zu beenden...");
+                Console.ReadLine();
                 Environment.Exit(0);
             }
             else if (input == "Nein")
             {
                 Console.WriteLine("Die Kontakte werden nicht gelöscht.");
+                Console.WriteLine("");
+                Console.WriteLine("\nWarte auf Eingabe um fortzufahren...");
+                Console.ReadLine();
             }
             else
             {
                 Console.WriteLine("Falsche Eingabe.");
+
+                Console.WriteLine("");
+                Console.WriteLine("\nWarte auf Eingabe um fortzufahren...");
+                Console.ReadLine();
             }
         }
     }
 
     public static class AllcsvExporter
     {
-
         static public void ExportContactsToCsv(string filePath)
         {
-            // Lese die Daten aus der Textdatei in eine Liste
-            List<string> lines = File.ReadAllLines("addressbook.txt").ToList();
-
-            // Erstelle eine leere Liste, um alle Kontakte zu speichern
-            List<string[]> contacts = new List<string[]>();
-
-            // Gehe durch jede Zeile und teile sie in Felder auf
-            foreach (string line in lines)
+            try
             {
-                string[] fields = line.Split(',');
+                // Lese die Daten aus der Textdatei in eine Liste
+                List<string> lines = File.ReadAllLines("addressbook.txt").ToList();
 
-                // Überprüfe, ob alle Felder vorhanden sind
-                if (fields.Length == 10)
+                // Erstelle eine leere Liste, um alle Kontakte zu speichern
+                List<string[]> contacts = new List<string[]>();
+
+                // Gehe durch jede Zeile und teile sie in Felder auf
+                foreach (string line in lines)
                 {
-                    // Füge den Kontakt zur Liste der Kontakte hinzu
-                    contacts.Add(fields);
-                }
-                else
-                {
-                    Console.WriteLine("Ungültige Zeile: {0}", line);
-                }
-            }
-
-            // Erstelle eine CSV-Datei und schreibe die Kontakte
-            using (StreamWriter writer = new StreamWriter(filePath))
-            {
-                // Schreibe die Spaltenüberschriften
-                writer.WriteLine("Vorname,Nachname,Strasse privat ,Postleitzahl privat,Ort privat,Telefon (privat), Geburtstag, E-mail-Adresse, Firma, Gruppe");
-
-                // Schreibe jeden Kontakt in eine neue Zeile
-                foreach (string[] contact in contacts)
-                {
-                    writer.WriteLine("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9}",
-                        contact[0], contact[1], contact[2], contact[3], contact[4],
-                        contact[5], contact[6], contact[7], contact[8], contact[9]);
-                }
-            }
-        }
-
-    }
-
-    public static class CsvExporter
-    {
-        public static void ExportToCsv(string name, string pathToAddressBook, string pathToExportCsv)
-        {
-            // Die addressbuch.txt-Datei auslesen und alle Zeilen in ein Array laden
-            string[] lines = File.ReadAllLines(pathToAddressBook);
-
-            // Alle Kontakte aus der addressbuch.txt-Datei filtern, die den angegebenen Namen haben
-            var contacts = from line in lines
-                           let fields = line.Split(',')
-                           where fields[0].Equals(name, StringComparison.OrdinalIgnoreCase)
-                           select new
-                           {
-                               Name = fields[0],
-                               Nachname = fields[1],
-                               Address = fields[2],
-                               Zip = fields[3],
-                               City = fields[4],
-                               Phone = fields[5],
-                               Birthday = fields[6],
-                               Email = fields[7],
-                               Company = fields[8]
-                           };
-
-            if (contacts.Any())
-            {
-                // Die CSV-Datei erstellen
-                using (var writer = new StreamWriter(pathToExportCsv))
-                {
-                    // Header schreiben
-                    writer.WriteLine("Vorname,Nachname,E-mail-Adresse,Telefon (privat),Strasse privat,Postleitzahl privat, Ort privat, Geburtstag, Firma");
-
-                    foreach (var contact in contacts)
-                    {
-                        // Jeden Kontakt in das CSV-Format konvertieren und in die Datei schreiben
-                        string csvLine = $"\"{contact.Name}\",\"{contact.Nachname}\",\"{contact.Email}\",\"{contact.Phone}\",\"{contact.Address}, {contact.Zip} {contact.City}\",\"{contact.Birthday} {contact.Company}\"";
-                        writer.WriteLine(csvLine);
-                    }
-                }
-
-                Console.WriteLine($"CSV-Datei wurde erfolgreich unter {pathToExportCsv} erstellt.");
-            }
-            else
-            {
-                Console.WriteLine($"Keine Kontakte gefunden, die den Namen \"{name}\" enthalten.");
-            }
-        }
-    }
-
-    class CsvToAddressbookConverter
-    {
-        public static void ConvertCsvToAddressbook(string filePath)
-        {
-            // Die CSV-Datei als Stream öffnen
-            using (StreamReader reader = new StreamReader(filePath))
-            {
-                // Die erste Zeile, welche den Header enthält, einlesen und ignorieren
-                string header = reader.ReadLine();
-
-                // Die Kontaktdaten einlesen und in die addressbook.txt schreiben
-                while (!reader.EndOfStream)
-                {
-                    string line = reader.ReadLine();
                     string[] fields = line.Split(',');
 
-                    if (fields.Length == 9)
+                    // Überprüfe, ob alle Felder vorhanden sind
+                    if (fields.Length == 10)
                     {
-                        string name = fields[0];
-                        string nachname = fields[1];
-                        string address = fields[2];
-                        string zip = fields[3];
-                        string city = fields[4];
-                        string phone = fields[5];
-                        string birthday = fields[6];
-                        string email = fields[7];
-                        string company = fields[8];
-                        string group = fields[9];
-
-                        // Den Kontakt in die addressbook.txt schreiben
-                        using (StreamWriter writer = new StreamWriter("addressbook.txt", true))
-                        {
-                            writer.WriteLine("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9}", name, nachname, address, zip, city, phone, birthday, email, company, group);
-                        }
+                        // Füge den Kontakt zur Liste der Kontakte hinzu
+                        contacts.Add(fields);
                     }
                     else
                     {
                         Console.WriteLine("Ungültige Zeile: {0}", line);
                     }
                 }
-            }
 
-            Console.WriteLine("CSV-Datei wurde erfolgreich in das Adressbuch importiert.");
+                // Erstelle eine CSV-Datei und schreibe die Kontakte
+                using (StreamWriter writer = new StreamWriter(filePath))
+                {
+                    // Schreibe die Spaltenüberschriften
+                    writer.WriteLine("Vorname,Nachname,Strasse privat ,Postleitzahl privat,Ort privat,Telefon (privat), Geburtstag, E-mail-Adresse, Firma, Gruppe");
+
+                    // Schreibe jeden Kontakt in eine neue Zeile
+                    foreach (string[] contact in contacts)
+                    {
+                        writer.WriteLine("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9}",
+                            contact[0], contact[1], contact[2], contact[3], contact[4],
+                            contact[5], contact[6], contact[7], contact[8], contact[9]);
+                    }
+
+                    Console.WriteLine($"Alle Kontakte wurden exportiert in den Pfad:{filePath}");
+                    Console.WriteLine("");
+                    Console.WriteLine("\nWarte auf Eingabe um fortzufahren...");
+                    Console.ReadLine();
+                }
+            }
+            catch (FileNotFoundException)
+            {
+                Console.WriteLine("Die Datei \"addressbook.txt\" konnte nicht gefunden werden.");
+                Console.WriteLine("\nWarte auf Eingabe um fortzufahren...");
+                Console.ReadLine();
+            }
         }
     }
+
+
+    public static class CsvExporter
+    {
+        public static void ExportToCsv(string name, string pathToAddressBook, string pathToExportCsv)
+        {
+            // Split name into first and last name
+            var nameParts = name.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            string firstName = nameParts.Length > 0 ? nameParts[0] : "";
+            string lastName = nameParts.Length > 1 ? nameParts[1] : "";
+
+            try
+            {
+                // Die addressbuch.txt-Datei auslesen und alle Zeilen in ein Array laden
+                string[] lines = File.ReadAllLines(pathToAddressBook);
+
+                // Alle Kontakte aus der addressbuch.txt-Datei filtern, die den angegebenen Namen haben
+                var contacts = from line in lines
+                    let fields = line.Split(',')
+                    where fields[0].Equals(firstName, StringComparison.OrdinalIgnoreCase)
+                          && fields[1].Equals(lastName, StringComparison.OrdinalIgnoreCase)
+                    select new
+                    {
+                        Name = fields[0],
+                        Nachname = fields[1],
+                        Address = fields[2],
+                        Zip = fields[3],
+                        City = fields[4],
+                        Phone = fields[5],
+                        Birthday = fields[6],
+                        Email = fields[7],
+                        Company = fields[8]
+                    };
+
+                if (contacts.Any())
+                {
+                    // Die CSV-Datei erstellen
+                    using (var writer = new StreamWriter(pathToExportCsv))
+                    {
+                        // Header schreiben
+                        writer.WriteLine(
+                            "Vorname,Nachname,E-mail-Adresse,Telefon (privat),Strasse privat,Postleitzahl privat, Ort privat, Geburtstag, Firma");
+
+                        foreach (var contact in contacts)
+                        {
+                            // Jeden Kontakt in das CSV-Format konvertieren und in die Datei schreiben
+                            string csvLine =
+                                $"\"{contact.Name}\",\"{contact.Nachname}\",\"{contact.Email}\",\"{contact.Phone}\",\"{contact.Address}, {contact.Zip} {contact.City}\",\"{contact.Birthday} {contact.Company}\"";
+                            writer.WriteLine(csvLine);
+                        }
+                    }
+
+                    Console.WriteLine($"CSV-Datei wurde erfolgreich unter {pathToExportCsv} erstellt.");
+                    Console.WriteLine("\nWarte auf Eingabe um fortzufahren...");
+                    Console.ReadLine();
+                }
+                else
+                {
+                    Console.WriteLine($"Keine Kontakte gefunden, die den Namen \"{name}\" enthalten.");
+                    Console.WriteLine("\nWarte auf Eingabe um fortzufahren...");
+                    Console.ReadLine();
+                }
+            }
+            catch (FileNotFoundException)
+            {
+                Console.WriteLine($"Die Datei {pathToAddressBook} konnte nicht gefunden werden.");
+                Console.WriteLine("\nWarte auf Eingabe um fortzufahren...");
+                Console.ReadLine();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ein Fehler ist aufgetreten: {ex.Message}");
+                Console.WriteLine("\nWarte auf Eingabe um fortzufahren...");
+                Console.ReadLine();
+            }
+        }
+    }
+
+
+    class CsvToAddressbookConverter
+    {
+        public static void ConvertCsvToAddressbook(string filePath)
+        {
+            try
+            {
+                // Die CSV-Datei als Stream öffnen
+                using (StreamReader reader = new StreamReader(filePath))
+                {
+                    // Die erste Zeile, welche den Header enthält, einlesen und ignorieren
+                    string header = reader.ReadLine();
+
+                    // Die Kontaktdaten einlesen und in die addressbook.txt schreiben
+                    while (!reader.EndOfStream)
+                    {
+                        string line = reader.ReadLine();
+                        string[] fields = line.Split(',');
+
+                        if (fields.Length == 9)
+                        {
+                            string name = fields[0];
+                            string nachname = fields[1];
+                            string address = fields[2];
+                            string zip = fields[3];
+                            string city = fields[4];
+                            string phone = fields[5];
+                            string birthday = fields[6];
+                            string email = fields[7];
+                            string company = fields[8];
+                            string group = fields[9];
+
+                            // Den Kontakt in die addressbook.txt schreiben
+                            using (StreamWriter writer = new StreamWriter("addressbook.txt", true))
+                            {
+                                writer.WriteLine("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9}", name, nachname, address, zip, city, phone, birthday, email, company, group);
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Ungültige Zeile: {0}", line);
+                            Console.WriteLine("\nWarte auf Eingabe um fortzufahren...");
+                            Console.ReadLine();
+                        }
+                    }
+                }
+
+                Console.WriteLine("CSV-Datei wurde erfolgreich in das Adressbuch importiert.");
+                Console.WriteLine("\nWarte auf Eingabe um fortzufahren...");
+                Console.ReadLine();
+            }
+            catch (FileNotFoundException ex)
+            {
+                Console.WriteLine($"Die Datei {filePath} wurde nicht gefunden.");
+                Console.WriteLine("\nWarte auf Eingabe um fortzufahren...");
+                Console.ReadLine();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Fehler beim Lesen der CSV-Datei: {ex.Message}");
+                Console.WriteLine("\nWarte auf Eingabe um fortzufahren...");
+                Console.ReadLine();
+            }
+        }
+    }
+
 
     class PLZHelper
     {
@@ -1417,6 +1611,9 @@ namespace AddressBook
                 Console.WriteLine($"PLZ: {data.PLZ}");
                 Console.WriteLine($"Vorwahl: {data.Vorwahl}");
                 Console.WriteLine($"Bundesland: {data.Bundesland}");
+                Console.WriteLine("");
+                Console.WriteLine("\nWarte auf Eingabe um fortzufahren...");
+                Console.ReadLine();
             }
         }
 
@@ -1442,6 +1639,9 @@ namespace AddressBook
                 Console.WriteLine($"PLZ: {data.PLZ}");
                 Console.WriteLine($"Vorwahl: {data.Vorwahl}");
                 Console.WriteLine($"Bundesland: {data.Bundesland}");
+                Console.WriteLine("");
+                Console.WriteLine("\nWarte auf Eingabe um fortzufahren...");
+                Console.ReadLine();
             }
         }
 
@@ -1495,11 +1695,11 @@ namespace AddressBook
 
     class PlzData
     {
-        public string Ort { get; set; }
-        public string Zusatz { get; set; }
-        public string PLZ { get; set; }
-        public string Vorwahl { get; set; }
-        public string Bundesland { get; set; }
+        public string? Ort { get; set; }
+        public string? Zusatz { get; set; }
+        public string? PLZ { get; set; }
+        public string? Vorwahl { get; set; }
+        public string? Bundesland { get; set; }
     }
 
 }
