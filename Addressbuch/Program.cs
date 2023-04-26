@@ -3,6 +3,7 @@ using System.Text;
 using System.IO;
 using System.Reflection;
 using System.Collections.Generic;
+using System.Formats.Asn1;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -403,6 +404,8 @@ namespace AddressBook
             string email = Console.ReadLine();
             Console.Write("Firma: ");
             string company = Console.ReadLine();
+            Console.Write("Gruppe: ");
+            string group = Console.ReadLine();
 
             // Verwende Standardwerte für fehlende Felder
             address = string.IsNullOrWhiteSpace(address) ? "-" : address;
@@ -412,8 +415,9 @@ namespace AddressBook
             birthday = string.IsNullOrWhiteSpace(birthday) ? "-" : birthday;
             email = string.IsNullOrWhiteSpace(email) ? "-" : email;
             company = string.IsNullOrWhiteSpace(company) ? "-" : company;
+            group = string.IsNullOrWhiteSpace(group) ? "-" : group;
 
-            string entry = $"{name},{nachname},{address},{zip},{city},{phone},{birthday},{email},{company}";
+            string entry = $"{name},{nachname},{address},{zip},{city},{phone},{birthday},{email},{company},{group}";
 
             using (StreamWriter writer = File.AppendText("addressbook.txt"))
             {
@@ -440,6 +444,8 @@ namespace AddressBook
                 Console.ResetColor();
                 Console.WriteLine("");
 
+                Dictionary<string, List<string[]>> groups = new Dictionary<string, List<string[]>>();
+
                 using (StreamReader reader = new StreamReader("addressbook.txt"))
                 {
                     while (!reader.EndOfStream)
@@ -447,27 +453,44 @@ namespace AddressBook
                         string entry = reader.ReadLine();
                         string[] fields = entry.Split(',');
 
-                        if (fields.Length == 9)
+                        if (fields.Length == 10)
                         {
-                            Console.WriteLine($"{i}:");
-                            Console.WriteLine($"Name          : {fields[0]}");
-                            Console.WriteLine($"Nachname      : {fields[1]}");
-                            Console.WriteLine($"Adresse       : {fields[2]}");
-                            Console.WriteLine($"Postleitzahl  : {fields[3]}");
-                            Console.WriteLine($"Stadt         : {fields[4]}");
-                            Console.WriteLine($"Telefonnummer : {fields[5]}");
-                            Console.WriteLine($"Geburtstag    : {fields[6]}");
-                            Console.WriteLine($"Email         : {fields[7]}");
-                            Console.WriteLine($"Firma         : {fields[8]}");
-                            Console.WriteLine(new string('-', 40));
-
-                            i++;
+                            string groupName = fields[9];
+                            if (!groups.ContainsKey(groupName))
+                            {
+                                groups[groupName] = new List<string[]>();
+                            }
+                            groups[groupName].Add(fields);
                         }
                     }
+                }
 
+                foreach (var groupName in groups.Keys.OrderBy(x => x))
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine($"Gruppe: {groupName}");
+                    Console.ResetColor();
+
+                    foreach (string[] fields in groups[groupName])
+                    {
+                        Console.WriteLine($"{i}:");
+                        Console.WriteLine($"Name          : {fields[0]}");
+                        Console.WriteLine($"Nachname      : {fields[1]}");
+                        Console.WriteLine($"Adresse       : {fields[2]}");
+                        Console.WriteLine($"Postleitzahl  : {fields[3]}");
+                        Console.WriteLine($"Stadt         : {fields[4]}");
+                        Console.WriteLine($"Telefonnummer : {fields[5]}");
+                        Console.WriteLine($"Geburtstag    : {fields[6]}");
+                        Console.WriteLine($"Email         : {fields[7]}");
+                        Console.WriteLine($"Firma         : {fields[8]}");
+                        Console.WriteLine(new string('-', 40));
+
+                        i++;
+                    }
                 }
             }
         }
+
 
         // Methode um Einträge zu editieren.
         static public void EditEntry()
@@ -500,6 +523,7 @@ namespace AddressBook
                         Console.WriteLine($"Geburtstag    : {fields[6]}");
                         Console.WriteLine($"Email         : {fields[7]}");
                         Console.WriteLine($"Firma         : {fields[8]}");
+                        Console.WriteLine($"Gruppe        : {fields[9]}");
                         Console.WriteLine(new string('-', 40));
 
 
@@ -566,8 +590,15 @@ namespace AddressBook
                             newCompany = fields[8];
                         }
 
+                        Console.Write("Neue Gruppe (leer lassen, um unverändert zu lassen): ");
+                        string newGroup = Console.ReadLine();
+                        if (newGroup == "")
+                        {
+                            newGroup = fields[9];
+                        }
+
                         entry =
-                            $"{newName},{newNachname},{newAddress},{newZip},{newCity},{newPhone},{newBirthday},{newEmail},{newCompany}";
+                            $"{newName},{newNachname},{newAddress},{newZip},{newCity},{newPhone},{newBirthday},{newEmail},{newCompany},{newGroup}";
                     }
 
                     writer.WriteLine(entry);
@@ -717,6 +748,7 @@ namespace AddressBook
                             Console.WriteLine($"Geburtstag    : {fields[6]}");
                             Console.WriteLine($"Email         : {fields[7]}");
                             Console.WriteLine($"Firma         : {fields[8]}");
+                            Console.WriteLine($"Gruppe        : {fields[9]}");
                             Console.WriteLine(new string('-', 40));
                             Console.WriteLine();
                             foundnumber++;
@@ -782,6 +814,7 @@ namespace AddressBook
                             Console.WriteLine($"Geburtstag    : {fields[6]}");
                             Console.WriteLine($"Email         : {fields[7]}");
                             Console.WriteLine($"Firma         : {fields[8]}");
+                            Console.WriteLine($"Gruppe        : {fields[9]}");
                             Console.WriteLine(new string('-', 40));
                             Console.WriteLine();
                             foundnumber++;
@@ -847,6 +880,7 @@ namespace AddressBook
                             Console.WriteLine($"Geburtstag    : {fields[6]}");
                             Console.WriteLine($"Email         : {fields[7]}");
                             Console.WriteLine($"Firma         : {fields[8]}");
+                            Console.WriteLine($"Gruppe        : {fields[9]}");
                             Console.WriteLine(new string('-', 40));
                             Console.WriteLine();
                             foundnumber++;
@@ -912,6 +946,7 @@ namespace AddressBook
                             Console.WriteLine($"Geburtstag    : {fields[6]}");
                             Console.WriteLine($"Email         : {fields[7]}");
                             Console.WriteLine($"Firma         : {fields[8]}");
+                            Console.WriteLine($"Gruppe        : {fields[9]}");
                             Console.WriteLine(new string('-', 40));
                             Console.WriteLine();
                             foundnumber++;
@@ -977,6 +1012,7 @@ namespace AddressBook
                             Console.WriteLine($"Geburtstag    : {fields[6]}");
                             Console.WriteLine($"Email         : {fields[7]}");
                             Console.WriteLine($"Firma         : {fields[8]}");
+                            Console.WriteLine($"Gruppe        : {fields[9]}");
                             Console.WriteLine(new string('-', 40));
                             Console.WriteLine();
                             foundnumber++;
@@ -1233,7 +1269,7 @@ namespace AddressBook
                 string[] fields = line.Split(',');
 
                 // Überprüfe, ob alle Felder vorhanden sind
-                if (fields.Length == 9)
+                if (fields.Length == 10)
                 {
                     // Füge den Kontakt zur Liste der Kontakte hinzu
                     contacts.Add(fields);
@@ -1248,14 +1284,14 @@ namespace AddressBook
             using (StreamWriter writer = new StreamWriter(filePath))
             {
                 // Schreibe die Spaltenüberschriften
-                writer.WriteLine("Vorname,Nachname,Strasse privat ,Postleitzahl privat,Ort privat,Telefon (privat), Geburtstag, E-mail-Adresse, Firma");
+                writer.WriteLine("Vorname,Nachname,Strasse privat ,Postleitzahl privat,Ort privat,Telefon (privat), Geburtstag, E-mail-Adresse, Firma, Gruppe");
 
                 // Schreibe jeden Kontakt in eine neue Zeile
                 foreach (string[] contact in contacts)
                 {
-                    writer.WriteLine("{0},{1},{2},{3},{4},{5},{6},{7},{8}",
+                    writer.WriteLine("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9}",
                         contact[0], contact[1], contact[2], contact[3], contact[4],
-                        contact[5], contact[6], contact[7], contact[8]);
+                        contact[5], contact[6], contact[7], contact[8], contact[9]);
                 }
             }
         }
@@ -1338,11 +1374,12 @@ namespace AddressBook
                         string birthday = fields[6];
                         string email = fields[7];
                         string company = fields[8];
+                        string group = fields[9];
 
                         // Den Kontakt in die addressbook.txt schreiben
                         using (StreamWriter writer = new StreamWriter("addressbook.txt", true))
                         {
-                            writer.WriteLine("{0},{1},{2},{3},{4},{5},{6},{7},{8}", name, nachname, address, zip, city, phone, birthday, email, company);
+                            writer.WriteLine("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9}", name, nachname, address, zip, city, phone, birthday, email, company, group);
                         }
                     }
                     else
