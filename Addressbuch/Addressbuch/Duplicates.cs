@@ -52,6 +52,8 @@ namespace Addressbuch
                 if (duplicateEntries.Count == 0)
                 {
                     Console.WriteLine("Keine Duplikate gefunden.");
+                    Console.WriteLine("\n Drücke eine Taste um fortzufahren...");
+                    Console.ReadLine();
                     return;
                 }
 
@@ -131,6 +133,8 @@ namespace Addressbuch
                 if (duplicateIndices.Count == 0)
                 {
                     Console.WriteLine("Keine Duplikate gefunden.");
+                    Console.WriteLine("\n Drücke eine Taste um fortzufahren...");
+                    Console.ReadLine();
                     return;
                 }
 
@@ -169,15 +173,21 @@ namespace Addressbuch
                         File.Delete("addressbook.txt");
                         File.Move(tempFile, "addressbook.txt");
                         Console.WriteLine("Eintrag gelöscht!");
+                        Console.WriteLine("\n Drücke eine Taste um fortzufahren...");
+                        Console.ReadLine();
                     }
                     else
                     {
                         Console.WriteLine("Löschvorgang abgebrochen.");
+                        Console.WriteLine("\n Drücke eine Taste um fortzufahren...");
+                        Console.ReadLine();
                     }
                 }
                 else
                 {
                     Console.WriteLine("Ungültige Eingabe. Kein Eintrag wurde gelöscht.");
+                    Console.WriteLine("\n Drücke eine Taste um fortzufahren...");
+                    Console.ReadLine();
                 }
             }
             catch (FileNotFoundException e)
