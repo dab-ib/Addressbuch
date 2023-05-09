@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Addressbuch
 {
-    class PLZMenu
+    class PLZMenu : Menu
     {
-        static public void ShowPLZMenu()
+        static public new void ShowPLZMenu()
         {
             while (true)
             {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Addressbuch
 {
-    internal class Menu
+    abstract class Menu
     {
         public static void Hauptmenu()
         {
