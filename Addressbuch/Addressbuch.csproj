@@ -8,17 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="plz_de.csv" />
+    <Compile Remove="Docs\**" />
+    <EmbeddedResource Remove="Docs\**" />
+    <None Remove="Docs\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Docs\.obsidian\app.json" />
-    <Content Include="Docs\.obsidian\appearance.json" />
-    <Content Include="Docs\.obsidian\core-plugins-migration.json" />
-    <Content Include="Docs\.obsidian\core-plugins.json" />
-    <Content Include="Docs\.obsidian\graph.json" />
-    <Content Include="Docs\.obsidian\hotkeys.json" />
-    <Content Include="Docs\.obsidian\workspace.json" />
+    <None Remove="plz_de.csv" />
   </ItemGroup>
 
   <ItemGroup>
