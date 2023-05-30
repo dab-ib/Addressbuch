@@ -10,7 +10,7 @@
 
 ## Grundvoraussetzungen
 
-![[Pasted image 20230529214739.png]]
+![Statistics](Statistics.png)
 Die Statistik-Auswertung wurde in der Entwicklungsumgebung Jetbrains Rider mit dem [Statistic-Plugin](https://plugins.jetbrains.com/plugin/4509-statistic) durchgeführt. Dazu wurde nur die Dateiendung .cs betrachtet und alle Ordner außerhalb des P2P2PP-Projekts ausgeschlossen. Auch das UnitTest-Projekt wurde ausgeschlossen.
 
 Die Voraussetzung von 20 Klassen wurde mit 21 Klassen übertroffen und die Vorraussetzung mit 2000 Zeilen Code wurde nicht erfüllt, da es nur 1643 sind.
@@ -93,13 +93,13 @@ Clean Architecture ist ein Softwarearchitekturstil, der darauf abzielt, die Abh�
 
 ##### Positiv-Beispiel
 
-![[Dependency_Pos.png]]
+![Dependency_Pos](Dependency_Pos.png)
 
 - Die Klasse `SearchEntryName` hängt von der Klasse `Addressbook` ab, da sie eine Instanz davon im Konstruktor erhält. Sie verwendet das `Addressbook`, um die Suche nach Namen durchzuführen.
 
 ##### Negativ-Beispiel
 
-![[Dependency_Neg.png]]
+![Dependency_Neg](Dependency_Neg.png)
 
 Analyse der Abhängigkeiten:
 
@@ -121,7 +121,7 @@ Einordnung in Clean-Architecture: Diese Klasse gehört zur Data-Layer, da sie si
 
 UML-Diagramm:
 
-![[Schichten1.png]]
+![Schichten1](Schichten1.png)
 
 ##### Schicht 1: Adapters
 
@@ -133,7 +133,7 @@ Einordnung in Clean-Architecture: Diese Klasse gehört zur Presentation-Layer, d
 
 UML-Diagramm:
 
-![[Schichten2.png]]
+![Schichten2](Schichten2.png)
 
 
 ---
@@ -146,7 +146,7 @@ UML-Diagramm:
 
 ##### Positiv-Beispiel
 
-![[Solid_pos.png]]
+![Solid_pos](Solid_pos.png)
 
 Die Klasse "CsvExporter" ist ein gutes Beispiel für SRP. Sie ist dafür zuständig, Daten aus dem Adressbuch in ein CSV-Format zu exportieren und abzuspeichern. Die Klasse hat nur eine Verantwortlichkeit, nämlich das Exportieren von Daten, und alle ihre Methoden und Eigenschaften sind darauf ausgerichtet.
 Die Klasse "CsvExporter" dient zur Umwandlung von Daten aus dem Adressbuch in ein CSV-Format, das einfach von anderen Programmen importiert und gelesen werden kann. Die Methode "ExportToCsv" akzeptiert eine Liste von Adressen und gibt eine CSV-Datei zurück, die die Daten enthält.
@@ -154,7 +154,7 @@ Die Klasse "CsvExporter" dient zur Umwandlung von Daten aus dem Adressbuch in ei
 
 ##### Negativ-Beispiel
 
-![[Solid_neg.png]]
+![Solid_neg](Solid_neg.png)
 Die Klasse "Addressbook" ist ein negatives Beispiel für SRP, da sie zu viele Verantwortlichkeiten hat. Die Klasse ist sowohl für das Hinzufügen, Bearbeiten, Löschen als auch für das Anzeigen von Adressbuchdaten zuständig. Dies führt dazu, dass die Klasse viele Methoden enthält, die nicht miteinander zusammenhängen und unabhängig voneinander sind.
 Die Klasse "Addressbook" ist dafür zuständig, Adressbuchdaten zu speichern und zu verwalten. Es ist jedoch kein gutes Beispiel für SRP, da es zu viele Verantwortlichkeiten hat. Die Klasse sollte aufgeteilt werden, um jede Verantwortlichkeit separat zu handhaben. Eine mögliche Lösung wäre, die Methoden in separate Klassen aufzuteilen, z.B. eine Klasse für das Hinzufügen von Einträgen, eine Klasse für das Bearbeiten von Einträgen usw.
 
@@ -163,7 +163,7 @@ Ein möglicher Lösungsweg für das Negativ-Beispiel wäre die Aufteilung der `C
 
 Hier ist eine mögliche UML-Darstellung der neuen Struktur:
 
-![[SRP_Lös.png]]
+![SRP_Lös](SRP_Lös.png)
 
 Die `CsvReader` Klasse liest die CSV-Datei und gibt die Daten zurück, während die `CsvToAddressbookConverter` Klasse die Daten in das Addressbuch-Format konvertiert. Die `Program` oder `Menu` Klasse ist nun nur noch für das Starten des Programms und die Steuerung des Hauptmenüs verantwortlich.
 
@@ -175,7 +175,7 @@ Die `CsvReader` Klasse liest die CSV-Datei und gibt die Daten zurück, während 
 
 ##### Positiv-Beispiel
 
-![[Solid_pos.png]]
+![Solid_pos](Solid_pos.png)
 
 Die Klasse CsvExporter aus dem Namespace "Addressbuch" ist ein positives Beispiel für das OCP. Die Klasse ist für das Exportieren von Adressbuchdaten in eine CSV-Datei verantwortlich. Die Klasse selbst ist für die Datenverarbeitung zuständig und bietet eine Methode zum Exportieren von Adressbuchdaten. Die Klasse selbst ist offen für Erweiterungen, da neue Exportfunktionen einfach hinzugefügt werden können, ohne die bestehende Funktionalität zu verändern.
 
@@ -183,7 +183,7 @@ Analyse:
 Die Klasse CsvExporter ist für das Exportieren von Adressbuchdaten verantwortlich und bietet eine Methode zum Exportieren von Einträgen in eine CSV-Datei. Die Klasse ist für die Datenverarbeitung zuständig und bietet eine klare und einfache Schnittstelle für die Verwendung durch andere Klassen. Die Klasse selbst ist offen für Erweiterungen, da neue Exportfunktionen einfach hinzugefügt werden können, ohne die bestehende Funktionalität zu verändern. Das OCP wird hier erfüllt, da neue Exportfunktionen einfach hinzugefügt werden können, ohne dass die bestehende Funktionalität verändert werden muss.
 
 ##### Negativ-Beispiel
-![[OCP_neg.png]]
+![OCP_neg](OCP_neg.png)
 Die Klasse Birthday aus dem Namespace "Addressbuch" ist ein negatives Beispiel für das OCP. Die Klasse ist für die Verarbeitung von Geburtstagen verantwortlich und bietet eine Methode zum Überprüfen, ob heute ein Geburtstag stattfindet. Die Klasse selbst ist jedoch für die Datenverarbeitung zuständig und verletzt damit das OCP. Wenn beispielsweise ein neues Feature hinzugefügt werden soll, das Geburtstagsdaten in ein anderes Format exportiert, müsste die Klasse Birthday geändert werden, um dies zu ermöglichen. Dies bedeutet, dass die Klasse für Änderungen geschlossen ist und nicht für Erweiterungen offen ist.
 Die Klasse Birthday ist für die Verarbeitung von Geburtstagen verantwortlich und bietet eine Methode zum Überprüfen, ob heute ein Geburtstag stattfindet. Die Klasse selbst ist jedoch für die Datenverarbeitung zuständig und verletzt damit das OCP. Wenn beispielsweise ein neues Feature hinzugefügt werden soll, das Geburtstagsdaten in ein anderes Format exportiert, müsste die Klasse Birthday geändert werden, um dies zu ermöglichen. Dies bedeutet, dass die Klasse für Änderungen geschlossen ist und nicht für Erweiterungen offen ist. Um das OCP zu erfüllen, könnte eine separate Klasse für das Exportieren von Geburtstagsdaten erstellt werden, die von der Klasse Birthday unabhängig ist. Dadurch könnte das Feature hinzugefügt werden, ohne dass die Klasse Birthday geändert werden muss.
 
@@ -193,7 +193,7 @@ Für das negative Beispiel könnte man das OCP durch Anwendung des Strategy-Patt
 
 Im Falle des gegebenen Beispiels könnte man eine abstrakte Klasse `ExportStrategy` definieren, die eine Methode `Export` definiert. Anschließend könnte man konkrete Implementierungen wie `CsvExportStrategy` oder `XmlExportStrategy` erstellen, die die `Export`-Methode auf ihre jeweilige Art und Weise implementieren. In der `ExportMenu`-Klasse könnte man dann statt der expliziten Erstellung von `CsvExporter` oder `XmlExporter` eine Referenz auf eine `ExportStrategy`-Instanz halten und diese für den Export verwenden. Auf diese Weise kann man jederzeit neue Export-Strategien hinzufügen, ohne Änderungen an der bestehenden Implementierung vornehmen zu müssen.
 
-![[OCP_Lös.png]]
+![OCP_Lös](OCP_Lös.png)
 
 Hier haben wir eine abstrakte Klasse `IImportService`, die eine Methode `ReadFromFile()` und eine Methode `ReadFromWebService()` definiert. Diese Methoden müssen von allen konkreten Implementierungen dieser Klasse implementiert werden.
 
@@ -208,7 +208,7 @@ Durch diese Struktur können wir problemlos weitere Implementierungen von `IImpo
 > _jeweils eine Klasse als positives und negatives Beispiel für entweder LSP oder ISP oder DIP;  jeweils UML und Begründung, warum hier das Prinzip erfüllt/nicht erfüllt wird; beim Negativ-Beispiel UML einer möglichen Lösung hinzufügen_ _Anm.: es darf nur ein Prinzip ausgewählt werden; es darf NICHT z.B. ein positives Beispiel für LSP und ein negatives Beispiel für ISP genommen werden_
 
 ##### Positiv-Beispiel ISP
-![[ISP.png]]
+![OCP](ISP.png)
 
 Analyse der Abhängigkeiten:
 - Von wem hängt die Klasse `PLZMenu` ab: Die Klasse `PLZMenu` hängt von der Klasse `Menu` ab, da sie das Interface `Menu` implementiert und die Methode `ShowPLZMenu()` überschreibt.
@@ -220,7 +220,7 @@ Begründung:
 In diesem Fall erfüllt die Klasse `PLZMenu` das ISP, da sie nur die erforderlichen Methoden implementiert und dadurch eine hohe Kohäsion aufweist.
 
 ##### Negativ-Beispiel ISP
-![[ISP_neg.png]]
+![ISP_neg](ISP_neg.png)
 Klasse: CsvToAddressbookConverter
 
 Aufgabe: Diese Klasse konvertiert eine CSV-Datei in eine Liste von Einträgen im Adressbuch.
@@ -228,7 +228,7 @@ Aufgabe: Diese Klasse konvertiert eine CSV-Datei in eine Liste von Einträgen im
 Begründung: Die Klasse CsvToAddressbookConverter verletzt das ISP, da sie eine Methode hat, die mehr tut, als sie benötigt, und somit eine unnötige Abhängigkeit von anderen Klassen schafft. Um dieses Problem zu lösen, könnte man das Interface-Segregation-Prinzip anwenden und die ConvertToAddressbook-Methode in kleinere und spezifischere Methoden aufteilen, die nur die benötigten Funktionen ausführen. Dadurch könnten die Abhängigkeiten reduziert und das System flexibler gestaltet werden.
 
 #### Mögliche Lösung
-![[ISP_LÖS.png]]
+![ISP_LÖS](ISP_LÖS.png)
 Hier wird die Methode LoadCsvEntries() hinzugefügt, die nur die CSV-Datei lädt, ohne sie in Einträge umzuwandeln. Durch diese Änderung wird die CsvToAddressbookConverter-Klasse aufgeteilt und die Abhängigkeiten werden reduziert.
 
 ---
@@ -239,7 +239,7 @@ Hier wird die Methode LoadCsvEntries() hinzugefügt, die nur die CSV-Datei lädt
 
 > _eine **bis jetzt noch nicht behandelte** Klasse als positives Beispiel geringer Kopplung; UML mit zusammenspielenden Klassen, Aufgabenbeschreibung der Klasse und Begründung, warum hier eine geringe Kopplung vorliegt_
 
-![[Koppl.png]]
+![Koppl](Koppl.png)
 
 Aufgabenbeschreibung der Klasse:
 Die Klasse `PlzData` enthält verschiedene Eigenschaften, die Informationen zu einer Postleitzahl repräsentieren, wie den Ort, einen Zusatz, die PLZ selbst, die Vorwahl und das Bundesland.
@@ -256,7 +256,7 @@ Die geringe Kopplung ermöglicht es, Objekte der Klasse `PlzData` in verschieden
 
 > _eine Klasse als positives Beispiel entweder von Polymorphismus oder von Pure Fabrication; UML Diagramm und Begründung, warum es hier zum Einsatz kommt_
 
-![[SearchEntryAddress 1.png]]
+![SearchEntryAddress 1](SearchEntryAddress 1.png)
 Die Klasse `SearchEntryAddress` kann als positives Beispiel für Polymorphismus betrachtet werden. Sie ist verantwortlich für die Suche nach Einträgen im Adressbuch anhand einer Adresse.
 
 Begründung für den Einsatz von Polymorphismus:
@@ -446,22 +446,22 @@ Somit gibt es in den gegebenen Klassen keine geeigneten Anwendungen für Value O
 
 ##### Code Smell: Duplicated Code
 
-![[Pasted image 20230530200133.png]]
+![DuplicatedCode1](DuplicatedCode1.png)
 Quelle: Addressbook.cs Line 207
 
 ##### Lösung
-![[Pasted image 20230530200253.png]]
+![DuplicatedCode1_Lös](DuplicatedCode1_Lös.png)
 
 Für den Code Smell "Duplicated Code" könnte eine Funktion `GetInputValue` erstellt werden, um die Duplikation bei der Eingabe von Werten zu reduzieren. Statt den Code mehrfach zu schreiben, kann die Funktion `GetInputValue` verwendet werden, um den Wert einzulesen und einen Standardwert zurückzugeben, wenn die Eingabe leer ist.
 
 
 ##### Code Smell: Long Method
 
-![[Pasted image 20230530200325.png]]
+![LongMethod1](LongMethod1.png)
 Quelle: Addressbook.cs Line 143
 
 ##### Lösung
-![[Pasted image 20230530200349.png]]
+![LongMethod1_Lös](LongMethod1_Lös.png)
 
 Für den Code Smell "Long Method" könnte die Methode `ShowAddressBook` in mehrere kleinere Methoden aufgeteilt werden. Die Methode `PrintGroupHeader` druckt den Header einer Gruppe aus, während `PrintGroupEntries` die Einträge einer Gruppe druckt. Zusätzlich wurde die Methode `PrintEntry` erstellt, um den Code zum Drucken eines einzelnen Eintrags zu extrahieren. Durch diese Aufteilung wäre der Code übersichtlicher und leichter zu verstehen.
 
