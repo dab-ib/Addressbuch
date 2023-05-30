@@ -35,7 +35,7 @@ Das Adressbuch-Projekt ist eine Anwendung, die es dem Benutzer ermöglicht, Kont
 
 ##### Starten der Applikation
 
-Die notwendigen Dateien in ein gemeinsames Verzeichnis legen:
+Die notwendigen Dateien in ein gemeinsames Verzeichnis legen: [Hier zu finden](https://github.com/dab-ib/Addressbuch/tree/3efa66d4c8429cc099646e0da681ca7a870fdcdc/Release)
 - Addressbuch.dll
 - Addressbuch.runtimeconfig.json
 
